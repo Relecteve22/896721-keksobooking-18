@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Илья Филонов](https://up.htmlacademy.ru/javascript/18/user/896721).
-* Наставник: `Неизвестно`.
+* Наставник: [Константин Цуканов](https://htmlacademy.ru/profile/id769011).
 
 ---
 
