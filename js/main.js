@@ -4,6 +4,7 @@ var TYPE_HOUSE = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKIN_HOUSE = ['12:00', '13:00', '14:00'];
 var CHECKOUT_HOUSE = ['12:00', '13:00', '14:00'];
 var FEATURES_HOUSE = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var title_house = ['Полуразволившейся сарай', 'Шикарный пентхаус на крыше пятиэтажки', 'Квартира для праздников'];
 var photos = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"]
 var map = document.querySelector('.map');
 var fragment = document.createDocumentFragment();
@@ -18,13 +19,13 @@ var getRandomInt = function (min, max) {
 var getRandomElements = function (array) {
   return array[getRandomInt(0, array.length - 1)];
 };
-var getHouse = function (index) {
+var createRandomAd = function (index) {
   var infoHouse = {
     author: {
       avatar: 'img/avatars/user0' + (index + 1) + '.png'
     },
     offer: {
-      title: 'Название',
+      title: getRandomElements(title_house),
       address: location.x + ' ' + location.y,
       price: getRandomInt(1000, 1000000),
       type: getRandomElements(TYPE_HOUSE),
@@ -42,12 +43,11 @@ var getHouse = function (index) {
   };
   return infoHouse;
 };
-console.log(getHouse());
 
-var createArray = function () {
+var createRandomAds = function () {
   var houses = [];
   for (var i = 0; i < 3; i++) {
-    houses[i] = getHouse(i);
+    houses[i] = createRandomAd(i);
   }
   return houses;
 };
@@ -61,13 +61,13 @@ var renderPinHouse = function (house, index) {
   return housePinElement;
 };
 
-var renderHouses = function () {
-  for (var i = 0; i < 3; i++) {
-    fragment.appendChild(renderPinHouse(createArray(), i));
+var renderAds = function (array) {
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(renderPinHouse(createRandomAds(), i));
   }
-  return fragment;
+  return map.appendChild(fragment);;
 };
 
-map.appendChild(renderHouses());
+renderAds(title_house);
 
 map.classList.remove('map--faded');
