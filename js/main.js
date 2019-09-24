@@ -56,7 +56,7 @@ var renderHouse = function (house, index) {
   houseElement.querySelector('.popup__avatar').textContent = house[index];
   houseElement.querySelector('.popup__photo').src = house[index].offer.photos;
   // houseElement.querySelector('.wizard-eyes').style.fill = wizard[index].eyesColor;
-
+// какой-то комментарий
   return houseElement;
 };
 
