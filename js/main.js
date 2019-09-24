@@ -26,22 +26,23 @@ var getHouse = function (index) {
     offer: {
       title: 'Название',
       address: location.x + ' ' + location.y,
-      price: 573,
+      price: getRandomInt(1000, 1000000),
       type: getRandomElements(TYPE_HOUSE),
-      rooms: 5,
-      guests: 6,
+      rooms: getRandomInt(1, 10),
+      guests: getRandomInt(1, 10),
       checkin: getRandomElements(CHECKIN_HOUSE),
       checkout: getRandomElements(CHECKOUT_HOUSE),
       features: getRandomElements(FEATURES_HOUSE),
       photos: photos[index],
     },
     location: {
-      x: getRandomInt(0, 560),
+      x: getRandomInt(10, 1140),
       y: getRandomInt(130, 630)
     }
   };
   return infoHouse;
 };
+console.log(getHouse());
 
 var createArray = function () {
   var houses = [];
