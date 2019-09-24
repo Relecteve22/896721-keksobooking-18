@@ -8,6 +8,7 @@ var photos = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.g
 var map = document.querySelector('.map');
 var fragment = document.createDocumentFragment();
 var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 var getRandomInt = function (min, max) {
   min = Math.ceil(min);
@@ -50,19 +51,18 @@ var createArray = function () {
   return houses;
 };
 
-var renderHouse = function (house, index) {
-  var houseElement = similarHouseTemplate.cloneNode(true);
+var renderPinHouse = function (house, index) {
+  var housePinElement = similarPinTemplate.cloneNode(true);
 
-  houseElement.querySelector('.popup__avatar').textContent = house[index];
-  houseElement.querySelector('.popup__photo').src = house[index].offer.photos;
-  // houseElement.querySelector('.wizard-eyes').style.fill = wizard[index].eyesColor;
-// какой-то комментарий
-  return houseElement;
+  housePinElement.querySelector('img').src = house[index].author.avatar;
+  housePinElement.querySelector('img').alt = house[index].offer.title;
+  housePinElement.style = ('left: ' + house[index].location.x + 'px; top: ' + house[index].location.y + 'px;');
+  return housePinElement;
 };
 
 var renderHouses = function () {
   for (var i = 0; i < 3; i++) {
-    fragment.appendChild(renderHouse(createArray(), i));
+    fragment.appendChild(renderPinHouse(createArray(), i));
   }
   return fragment;
 };
