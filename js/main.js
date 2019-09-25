@@ -4,11 +4,10 @@ var TYPE_HOUSE = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKIN_HOUSE = ['12:00', '13:00', '14:00'];
 var CHECKOUT_HOUSE = ['12:00', '13:00', '14:00'];
 var FEATURES_HOUSE = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var title_house = ['Полуразволившейся сарай', 'Шикарный пентхаус на крыше пятиэтажки', 'Квартира для праздников'];
-var photos = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"]
+var TITLE_HOUSE = ['Полуразволившейся сарай', 'Шикарный пентхаус на крыше пятиэтажки', 'Квартира для праздников'];
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var map = document.querySelector('.map');
-var fragment = document.createDocumentFragment();
-var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
+// var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 var getRandomInt = function (min, max) {
@@ -16,32 +15,35 @@ var getRandomInt = function (min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-var getRandomElements = function (array) {
-  return array[getRandomInt(0, array.length - 1)];
+var getRandomElement = function (elements) {
+  return elements[getRandomInt(0, elements.length - 1)];
 };
 var createRandomAd = function (index) {
-  var infoHouse = {
+  var location = {
+    x: getRandomInt(10, 1140),
+    y: getRandomInt(130, 630)
+  };
+  return {
     author: {
       avatar: 'img/avatars/user0' + (index + 1) + '.png'
     },
+    location: {
+      x: location.x,
+      y: location.y
+    },
     offer: {
-      title: getRandomElements(title_house),
-      address: location.x + ' ' + location.y,
+      title: getRandomElement(TITLE_HOUSE),
+      address: location.x + ', ' + location.y,
       price: getRandomInt(1000, 1000000),
-      type: getRandomElements(TYPE_HOUSE),
+      type: getRandomElement(TYPE_HOUSE),
       rooms: getRandomInt(1, 10),
       guests: getRandomInt(1, 10),
-      checkin: getRandomElements(CHECKIN_HOUSE),
-      checkout: getRandomElements(CHECKOUT_HOUSE),
-      features: getRandomElements(FEATURES_HOUSE),
-      photos: photos[index],
-    },
-    location: {
-      x: getRandomInt(10, 1140),
-      y: getRandomInt(130, 630)
+      checkin: getRandomElement(CHECKIN_HOUSE),
+      checkout: getRandomElement(CHECKOUT_HOUSE),
+      features: getRandomElement(FEATURES_HOUSE),
+      photos: PHOTOS[index],
     }
   };
-  return infoHouse;
 };
 
 var createRandomAds = function () {
@@ -52,22 +54,23 @@ var createRandomAds = function () {
   return houses;
 };
 
-var renderPinHouse = function (house, index) {
+var renderPinHouse = function (house) {
   var housePinElement = similarPinTemplate.cloneNode(true);
 
-  housePinElement.querySelector('img').src = house[index].author.avatar;
-  housePinElement.querySelector('img').alt = house[index].offer.title;
-  housePinElement.style = ('left: ' + house[index].location.x + 'px; top: ' + house[index].location.y + 'px;');
+  housePinElement.querySelector('img').src = house.author.avatar;
+  housePinElement.querySelector('img').alt = house.offer.title;
+  housePinElement.style = ('left: ' + house.location.x + 'px; top: ' + house.location.y + 'px;');
   return housePinElement;
 };
 
-var renderAds = function (array) {
-  for (var i = 0; i < array.length; i++) {
-    fragment.appendChild(renderPinHouse(createRandomAds(), i));
+var renderAds = function (ads) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < ads.length; i++) {
+    fragment.appendChild(renderPinHouse(ads[i]));
   }
-  return map.appendChild(fragment);;
+  return map.appendChild(fragment);
 };
 
-renderAds(title_house);
+renderAds(createRandomAds());
 
 map.classList.remove('map--faded');
