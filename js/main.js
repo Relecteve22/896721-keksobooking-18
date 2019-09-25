@@ -7,7 +7,7 @@ var FEATURES_HOUSE = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'co
 var TITLE_HOUSE = ['Полуразволившейся сарай', 'Шикарный пентхаус на крыше пятиэтажки', 'Квартира для праздников'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var map = document.querySelector('.map');
-// var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
+// var similarHouseTemplate = document.querySelector("#card").content.querySelector(".map__card");
 var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 var getRandomInt = function (min, max) {
