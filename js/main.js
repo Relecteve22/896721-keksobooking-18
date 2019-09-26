@@ -18,9 +18,9 @@ var MIN_Y_PIN = 130;
 var MAX_Y_PIN = 630;
 var MIN_X_PIN = 10;
 var MAX_X_PIN = 1120;
-var PHOTOS = ['/assets/images/tokyo/hotel1.jpg', '/assets/images/tokyo/hotel2.jpg', '/assets/images/tokyo/hotel3.jpg'];
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var map = document.querySelector('.map');
-// var similarHouseTemplate = document.querySelector("#card").content.querySelector(".map__card");
+var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 var getRandomInt = function (min, max) {
@@ -30,6 +30,9 @@ var getRandomInt = function (min, max) {
 };
 var getRandomElement = function (elements) {
   return elements[getRandomInt(0, elements.length - 1)];
+};
+var getRandomZizeArray = function (elements) {
+  return getRandomInt(0, elements.length);
 };
 var createRandomAd = function (index) {
   var location = {
@@ -54,7 +57,8 @@ var createRandomAd = function (index) {
       checkin: getRandomElement(CHECKIN_HOUSE),
       checkout: getRandomElement(CHECKOUT_HOUSE),
       features: getRandomElement(FEATURES_HOUSE),
-      photos: PHOTOS[index],
+      photos: getRandomZizeArray(PHOTOS),
+      description: 'Великолепная квартира-студия в центре Токио. Подходит как туристам, так и бизнесменам. Квартира полностью укомплектована и недавно отремонтирована.'
     }
   };
 };
@@ -76,6 +80,49 @@ var renderPinHouse = function (house) {
   housePinElement.style.top = house.location.y + PIN_HEIGHT + 'px';
   return housePinElement;
 };
+
+var getLangTypeHouse = function () {
+  var LangHouse = [];
+  for (var i = 0; i < TYPE_HOUSE.length; i++) {
+    if (TYPE_HOUSE[i] === 'flat') {
+      LangHouse[i] = 'Квартира';
+    }
+    if (TYPE_HOUSE[i] === 'bungalo') {
+      LangHouse[i] = 'Бунгало';
+    }
+    if (TYPE_HOUSE[i] === 'house') {
+      LangHouse[i] = 'Дом';
+    }
+    if (TYPE_HOUSE[i] === 'palace') {
+      LangHouse[i] = 'Дворец';
+    }
+  }
+  return LangHouse;
+};
+
+
+var rendrePromoHouse = function (house) {
+  var housePromoElement = similarHouseTemplate.cloneNode(true);
+
+  housePromoElement.querySelector('.popup__title').textContent = house.offer.title;
+  housePromoElement.querySelector('.popup__text--address').textContent = house.location.x + ', ' + house.location.y;
+  housePromoElement.querySelector('.popup__text--price').textContent = house.offer.price + '₽/ночь.';
+  housePromoElement.querySelector('.popup__type').textContent = getRandomElement(getLangTypeHouse());
+  housePromoElement.querySelector('.popup__text--capacity').textContent = house.offer.rooms + ' комнаты для ' + house.offer.guests + ' гостей.';
+  housePromoElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + house.offer.checkin + ', выезд до ' + house.offer.checkout;
+  housePromoElement.querySelector('.popup__description ').textContent = house.offer.description;
+  housePromoElement.querySelector('.popup__avatar').src = house.author.avatar;
+  return housePromoElement;
+};
+
+var renderAdsHouse = function (ads) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < ads.length; i++) {
+    fragment.appendChild(rendrePromoHouse(ads[i]));
+  }
+  return map.appendChild(fragment);
+};
+renderAdsHouse(createRandomAds());
 
 var renderAds = function (ads) {
   var fragment = document.createDocumentFragment();
