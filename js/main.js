@@ -34,7 +34,7 @@ var getRandomElement = function (elements) {
 var getRandomZizeArray = function (elements) {
   return getRandomInt(0, elements.length);
 };
-var createRandomAd = function (index) {
+var renderHouse = function (index) {
   var location = {
     x: getRandomInt(MIN_X_PIN, MAX_X_PIN),
     y: getRandomInt(MIN_Y_PIN, MAX_Y_PIN)
@@ -63,10 +63,10 @@ var createRandomAd = function (index) {
   };
 };
 
-var createRandomAds = function () {
+var renderHouses = function () {
   var houses = [];
   for (var i = 0; i < PINS; i++) {
-    houses[i] = createRandomAd(i);
+    houses[i] = renderHouse(i);
   }
   return houses;
 };
@@ -122,7 +122,7 @@ var renderAdsHouse = function (ads) {
   }
   return map.appendChild(fragment);
 };
-renderAdsHouse(createRandomAds());
+renderAdsHouse(renderHouses());
 
 var renderAds = function (ads) {
   var fragment = document.createDocumentFragment();
@@ -132,6 +132,6 @@ var renderAds = function (ads) {
   return map.appendChild(fragment);
 };
 
-renderAds(createRandomAds());
+renderAds(renderHouses());
 
 map.classList.remove('map--faded');
