@@ -131,6 +131,7 @@ var renderAds = function (ads) {
   }
   return map.appendChild(fragment);
 };
+// комментарий
 
 renderAds(renderHouses());
 
