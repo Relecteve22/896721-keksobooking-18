@@ -34,7 +34,7 @@ var getRandomElement = function (elements) {
 var getRandomZizeArray = function (elements) {
   return getRandomInt(0, elements.length);
 };
-var renderHouse = function (index) {
+var createHouse = function (index) {
   var location = {
     x: getRandomInt(MIN_X_PIN, MAX_X_PIN),
     y: getRandomInt(MIN_Y_PIN, MAX_Y_PIN)
@@ -63,10 +63,10 @@ var renderHouse = function (index) {
   };
 };
 
-var renderHouses = function () {
+var createHouses = function () {
   var houses = [];
   for (var i = 0; i < PINS; i++) {
-    houses[i] = renderHouse(i);
+    houses[i] = createHouse(i);
   }
   return houses;
 };
@@ -115,24 +115,23 @@ var rendrePromoHouse = function (house) {
   return housePromoElement;
 };
 
-var renderAdsHouse = function (ads) {
+var renderHouse = function (ads) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
     fragment.appendChild(rendrePromoHouse(ads[i]));
   }
   return map.appendChild(fragment);
 };
-renderAdsHouse(renderHouses());
+renderHouse(createHouses());
 
-var renderAds = function (ads) {
+var renderHouses = function (ads) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
     fragment.appendChild(renderPinHouse(ads[i]));
   }
   return map.appendChild(fragment);
 };
-// комментарий
 
-renderAds(renderHouses());
+renderHouses(createHouses());
 
 map.classList.remove('map--faded');
