@@ -135,4 +135,4 @@ var renderHouses = function (ads) {
 renderHouses(createHouses());
 
 map.classList.remove('map--faded');
-// коммент
+// коммент новый
