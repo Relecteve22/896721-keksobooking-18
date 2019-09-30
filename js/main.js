@@ -70,3 +70,4 @@ var renderHouses = function () {
 map.appendChild(renderHouses());
 
 map.classList.remove('map--faded');
+// коммент
