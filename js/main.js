@@ -144,6 +144,9 @@ var renderHouses = function (ads) {
 var toogleForm = function (type) {
   var inputs = adForm.querySelectorAll('input');
   var selects = adForm.querySelectorAll('select');
+  var textarea = adForm.querySelector('#description');
+  var submitButtonForm = document.querySelector('.ad-form__submit');
+  var resetButtonForm = document.querySelector('.ad-form__reset');
   if (type === false) {
     for (var i = 0; i < inputs.length; i++) {
       inputs[i].disabled = true;
@@ -151,6 +154,9 @@ var toogleForm = function (type) {
     for (var j = 0; j < selects.length; j++) {
       selects[j].disabled = true;
     }
+    textarea.disabled = true;
+    submitButtonForm.disabled = true;
+    resetButtonForm.disabled = true;
   }
   if (type === true) {
     for (var g = 0; g < inputs.length; g++) {
@@ -159,6 +165,9 @@ var toogleForm = function (type) {
     for (var n = 0; n < selects.length; n++) {
       selects[n].disabled = false;
     }
+    textarea.disabled = false;
+    submitButtonForm.disabled = false;
+    resetButtonForm.disabled = false;
   }
 };
 
