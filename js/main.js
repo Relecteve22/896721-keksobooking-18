@@ -222,12 +222,12 @@ var timeHouseDoValidity = function () {
   var timeInPeoples = timeInSelect.querySelectorAll('option');
   var timeOutSelect = document.querySelector('#timeout');
   var timeOutPeoples = timeOutSelect.querySelectorAll('option');
-  for (var i = 0; timeInPeoples.length; i++) {
+  // for (var i = 0; timeInPeoples.length; i++) {
     // timeInPeoples[i].value = (timeOutPeoples[i].value);
-    timeInPeoples[i].addEventListener('checking', function () {
-      console.log('ляля');
-    });
-  }
+    // timeInPeoples[i].addEventListener('checking', function () {
+      // console.log('ляля');
+    // });
+  // }
 };
 
 // var cordinatesPinInput = function () {
