@@ -231,12 +231,9 @@ var timeHouseDoValidity = function () {
   var timeInPeoples = timeInSelect.querySelectorAll('option');
   var timeOutSelect = document.querySelector('#timeout');
   var timeOutPeoples = timeOutSelect.querySelectorAll('option');
-  // for (var i = 0; timeInPeoples.length; i++) {
-    // timeInPeoples[i].value = (timeOutPeoples[i].value);
-    // timeInPeoples[i].addEventListener('checking', function () {
-      // console.log('ляля');
-    // });
-  // }
+  for (var i = 0; timeInPeoples.length; i++) {
+    timeInPeoples[i].value = timeOutPeoples[i].value;
+  }
 };
 
 // var cordinatesPinInput = function () {
@@ -248,17 +245,26 @@ cordinatesPinInputStart();
 houseTypeDoValidity(minPriceHouses);
 timeHouseDoValidity();
 
-myPin.addEventListener('mousedown', function () {
+var buttonPinStartMenu = function () {
   overPageHandler();
   renderHouse(createHouses());
   renderHouses(createHouses());
   // cordinatesPinInput();
-});
+  myPin.removeEventListener('mousedown', buttonPinStartMenu);
+  myPin.removeEventListener('keydown', buttonPinStartMenu);
+};
+
+myPin.addEventListener('mousedown', buttonPinStartMenu);
 myPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    renderHouse(createHouses());
-    renderHouses(createHouses());
-    overPageHandler();
-    // cordinatesPinInput();
+    buttonPinStartMenu();
   }
 });
+
+// не работает поле, когда переташкиваешь метку на карте
+// при открытий страницы через enter баг на бесконечное нажатие остался
+// нужно синхронизировать время заезда и выезда
+// И поле количество комнат синхронизировать с полем количество мест
+
+// Как в js сделать делегирование
+
