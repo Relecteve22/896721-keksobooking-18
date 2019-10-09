@@ -1,5 +1,7 @@
 'use strict';
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var TYPE_HOUSE = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKIN_HOUSE = ['12:00', '13:00', '14:00'];
 var CHECKOUT_HOUSE = ['12:00', '13:00', '14:00'];
@@ -19,9 +21,17 @@ var MAX_Y_PIN = 630;
 var MIN_X_PIN = 10;
 var MAX_X_PIN = 1120;
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var START_PIN_LEFT = 570;
+var START_PIN_TOP = 375;
 var map = document.querySelector('.map');
+var myPin = document.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var mapFiltersForm = document.querySelector('.map__filters');
+var titleMyHouse = document.querySelector('#title');
+var priceForNigntInput = document.querySelector('#price');
 var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var inputCordenatios = document.querySelector('#address');
 
 var getRandomInt = function (min, max) {
   min = Math.ceil(min);
@@ -62,7 +72,12 @@ var createHouse = function (index) {
     }
   };
 };
-
+var minPriceHouses = {
+  bungalo: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+};
 var createHouses = function () {
   var houses = [];
   for (var i = 0; i < PINS; i++) {
@@ -70,7 +85,6 @@ var createHouses = function () {
   }
   return houses;
 };
-
 var renderPinHouse = function (house) {
   var housePinElement = similarPinTemplate.cloneNode(true);
 
@@ -80,7 +94,6 @@ var renderPinHouse = function (house) {
   housePinElement.style.top = house.location.y + PIN_HEIGHT + 'px';
   return housePinElement;
 };
-
 var getLangTypeHouse = function () {
   var LangHouse = [];
   for (var i = 0; i < TYPE_HOUSE.length; i++) {
@@ -99,8 +112,6 @@ var getLangTypeHouse = function () {
   }
   return LangHouse;
 };
-
-
 var rendrePromoHouse = function (house) {
   var housePromoElement = similarHouseTemplate.cloneNode(true);
 
@@ -114,7 +125,6 @@ var rendrePromoHouse = function (house) {
   housePromoElement.querySelector('.popup__avatar').src = house.author.avatar;
   return housePromoElement;
 };
-
 var renderHouse = function (ads) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
@@ -122,7 +132,6 @@ var renderHouse = function (ads) {
   }
   return map.appendChild(fragment);
 };
-renderHouse(createHouses());
 
 var renderHouses = function (ads) {
   var fragment = document.createDocumentFragment();
@@ -132,6 +141,115 @@ var renderHouses = function (ads) {
   return map.appendChild(fragment);
 };
 
-renderHouses(createHouses());
+var toogleForm = function (type) {
+  var inputs = adForm.querySelectorAll('input');
+  var selects = adForm.querySelectorAll('select');
+  if (type === false) {
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].disabled = true;
+    }
+    for (var j = 0; j < selects.length; j++) {
+      selects[j].disabled = true;
+    }
+  }
+  if (type === true) {
+    for (var g = 0; g < inputs.length; g++) {
+      inputs[g].disabled = false;
+    }
+    for (var n = 0; n < selects.length; n++) {
+      selects[n].disabled = false;
+    }
+  }
+};
 
-map.classList.remove('map--faded');
+var toogleFormTop = function (type) {
+  var inputs = mapFiltersForm.querySelectorAll('input');
+  var selects = mapFiltersForm.querySelectorAll('select');
+  if (type === false) {
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].disabled = true;
+    }
+    for (var j = 0; j < selects.length; j++) {
+      selects[j].disabled = true;
+    }
+  }
+  if (type === true) {
+    for (var g = 0; g < inputs.length; g++) {
+      inputs[g].disabled = false;
+    }
+    for (var n = 0; n < selects.length; n++) {
+      selects[n].disabled = false;
+    }
+  }
+};
+
+toogleFormTop(false);
+toogleForm(false);
+
+var overPageHandler = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  toogleFormTop(true);
+  toogleForm(true);
+  inputCordenatios.disabled = true;
+};
+
+var cordinatesPinInputStart = function () {
+  inputCordenatios.value = (START_PIN_LEFT + PIN_WIDTH / 2) + ', ' + (START_PIN_TOP + PIN_HEIGHT / 2);
+};
+
+var houseTypeDoValidity = function (objectHouse) {
+  var selectTypeHouses = document.querySelector('#type');
+  var elementsTypeHouse = selectTypeHouses.querySelectorAll('option');
+  for (var i = 0; i < elementsTypeHouse.length; i++) {
+    if (elementsTypeHouse[i].value === 'bungalo') {
+      priceForNigntInput.min = objectHouse.bungalo;
+    }
+    if (elementsTypeHouse[i].value === 'flat') {
+      priceForNigntInput.min = objectHouse.flat;
+    }
+    if (elementsTypeHouse[i].value === 'house') {
+      priceForNigntInput.min = objectHouse.house;
+    }
+    if (elementsTypeHouse[i].value === 'palace') {
+      priceForNigntInput.min = objectHouse.palace;
+    }
+  }
+};
+
+var timeHouseDoValidity = function () {
+  var timeInSelect = document.querySelector('#timein');
+  var timeInPeoples = timeInSelect.querySelectorAll('option');
+  var timeOutSelect = document.querySelector('#timeout');
+  var timeOutPeoples = timeOutSelect.querySelectorAll('option');
+  for (var i = 0; timeInPeoples.length; i++) {
+    // timeInPeoples[i].value = (timeOutPeoples[i].value);
+    timeInPeoples[i].addEventListener('checking', function () {
+      console.log('ляля');
+    });
+  }
+};
+
+// var cordinatesPinInput = function () {
+// var coordinatesLeftPin = inputCordenatios.style.left;
+// console.log(coordinatesLeftPin);
+// };
+
+cordinatesPinInputStart();
+houseTypeDoValidity(minPriceHouses);
+timeHouseDoValidity();
+
+myPin.addEventListener('mousedown', function () {
+  overPageHandler();
+  renderHouse(createHouses());
+  renderHouses(createHouses());
+  // cordinatesPinInput();
+});
+myPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    renderHouse(createHouses());
+    renderHouses(createHouses());
+    overPageHandler();
+    // cordinatesPinInput();
+  }
+});
