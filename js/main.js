@@ -1,6 +1,6 @@
 'use strict';
 
-var ESC_KEYCODE = 27;
+// var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var TYPE_HOUSE = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKIN_HOUSE = ['12:00', '13:00', '14:00'];
@@ -27,11 +27,15 @@ var map = document.querySelector('.map');
 var myPin = document.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var mapFiltersForm = document.querySelector('.map__filters');
-var titleMyHouse = document.querySelector('#title');
 var priceForNigntInput = document.querySelector('#price');
 var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var inputCordenatios = document.querySelector('#address');
+var timeInSelect = document.querySelector('#timein');
+var timeOutSelect = document.querySelector('#timeout');
+var selectRoom = document.querySelector('#room_number');
+var selectGuets = document.querySelector('#capacity');
+var optionGuets = selectGuets.querySelectorAll('option');
 
 var getRandomInt = function (min, max) {
   min = Math.ceil(min);
@@ -42,7 +46,7 @@ var getRandomElement = function (elements) {
   return elements[getRandomInt(0, elements.length - 1)];
 };
 var getRandomZizeArray = function (elements) {
-  return getRandomInt(0, elements.length);
+  return getRandomInt(0, elements.length - 1);
 };
 var createHouse = function (index) {
   var location = {
@@ -123,6 +127,7 @@ var rendrePromoHouse = function (house) {
   housePromoElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + house.offer.checkin + ', выезд до ' + house.offer.checkout;
   housePromoElement.querySelector('.popup__description ').textContent = house.offer.description;
   housePromoElement.querySelector('.popup__avatar').src = house.author.avatar;
+  housePromoElement.querySelector('.popup__photo').src = PHOTOS[house.offer.photos];
   return housePromoElement;
 };
 var renderHouse = function (ads) {
@@ -141,65 +146,33 @@ var renderHouses = function (ads) {
   return map.appendChild(fragment);
 };
 
-var toogleForm = function (type) {
-  var inputs = adForm.querySelectorAll('input');
-  var selects = adForm.querySelectorAll('select');
-  var textarea = adForm.querySelector('#description');
-  var submitButtonForm = document.querySelector('.ad-form__submit');
-  var resetButtonForm = document.querySelector('.ad-form__reset');
-  if (type === false) {
-    for (var i = 0; i < inputs.length; i++) {
-      inputs[i].disabled = true;
-    }
-    for (var j = 0; j < selects.length; j++) {
-      selects[j].disabled = true;
-    }
-    textarea.disabled = true;
-    submitButtonForm.disabled = true;
-    resetButtonForm.disabled = true;
-  }
-  if (type === true) {
-    for (var g = 0; g < inputs.length; g++) {
-      inputs[g].disabled = false;
-    }
-    for (var n = 0; n < selects.length; n++) {
-      selects[n].disabled = false;
-    }
-    textarea.disabled = false;
-    submitButtonForm.disabled = false;
-    resetButtonForm.disabled = false;
+var toogleElements = function (elements, type) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].disabled = type;
   }
 };
 
-var toogleFormTop = function (type) {
-  var inputs = mapFiltersForm.querySelectorAll('input');
-  var selects = mapFiltersForm.querySelectorAll('select');
-  if (type === false) {
-    for (var i = 0; i < inputs.length; i++) {
-      inputs[i].disabled = true;
-    }
-    for (var j = 0; j < selects.length; j++) {
-      selects[j].disabled = true;
-    }
-  }
-  if (type === true) {
-    for (var g = 0; g < inputs.length; g++) {
-      inputs[g].disabled = false;
-    }
-    for (var n = 0; n < selects.length; n++) {
-      selects[n].disabled = false;
-    }
+var toogleForm = function (form, type) {
+  var dataToToogle = [
+    form.querySelectorAll('input'),
+    form.querySelectorAll('select'),
+    form.querySelectorAll('textarea'),
+    form.querySelectorAll('button')
+  ];
+
+  for (var i = 0; i < dataToToogle.length; i++) {
+    toogleElements(dataToToogle[i], type);
   }
 };
 
-toogleFormTop(false);
-toogleForm(false);
+toogleForm(adForm, true);
+toogleForm(mapFiltersForm, true);
 
 var overPageHandler = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  toogleFormTop(true);
-  toogleForm(true);
+  toogleForm(adForm, false);
+  toogleForm(mapFiltersForm, false);
   inputCordenatios.disabled = true;
 };
 
@@ -208,48 +181,28 @@ var cordinatesPinInputStart = function () {
 };
 
 var houseTypeDoValidity = function (objectHouse) {
-  var selectTypeHouses = document.querySelector('#type');
-  var elementsTypeHouse = selectTypeHouses.querySelectorAll('option');
-  for (var i = 0; i < elementsTypeHouse.length; i++) {
-    if (elementsTypeHouse[i].value === 'bungalo') {
-      priceForNigntInput.min = objectHouse.bungalo;
-    }
-    if (elementsTypeHouse[i].value === 'flat') {
-      priceForNigntInput.min = objectHouse.flat;
-    }
-    if (elementsTypeHouse[i].value === 'house') {
-      priceForNigntInput.min = objectHouse.house;
-    }
-    if (elementsTypeHouse[i].value === 'palace') {
-      priceForNigntInput.min = objectHouse.palace;
-    }
-  }
+  var houseTypeSelect = document.querySelector('#type');
+  priceForNigntInput.min = objectHouse[houseTypeSelect.value];
 };
 
-var timeHouseDoValidity = function () {
-  var timeInSelect = document.querySelector('#timein');
-  var timeInPeoples = timeInSelect.querySelectorAll('option');
-  var timeOutSelect = document.querySelector('#timeout');
-  var timeOutPeoples = timeOutSelect.querySelectorAll('option');
-  for (var i = 0; timeInPeoples.length; i++) {
-    timeInPeoples[i].value = timeOutPeoples[i].value;
-  }
+var syncTime = function (to, from) {
+  to.value = from.value;
 };
 
-// var cordinatesPinInput = function () {
-// var coordinatesLeftPin = inputCordenatios.style.left;
-// console.log(coordinatesLeftPin);
-// };
+timeInSelect.addEventListener('change', function () {
+  syncTime(timeOutSelect, timeInSelect);
+});
+timeOutSelect.addEventListener('change', function () {
+  syncTime(timeInSelect, timeOutSelect);
+});
 
 cordinatesPinInputStart();
 houseTypeDoValidity(minPriceHouses);
-timeHouseDoValidity();
 
 var buttonPinStartMenu = function () {
   overPageHandler();
   renderHouse(createHouses());
   renderHouses(createHouses());
-  // cordinatesPinInput();
   myPin.removeEventListener('mousedown', buttonPinStartMenu);
   myPin.removeEventListener('keydown', buttonPinStartMenu);
 };
@@ -261,10 +214,23 @@ myPin.addEventListener('keydown', function (evt) {
   }
 });
 
-// не работает поле, когда переташкиваешь метку на карте
-// при открытий страницы через enter баг на бесконечное нажатие остался
-// нужно синхронизировать время заезда и выезда
-// И поле количество комнат синхронизировать с полем количество мест
+var filterOptionRoom = function (numberOptionRooms, numberOptionGuestOne, numberOptionGuestTwo, numberOptionGuestThree) {
+  if (selectRoom.value === (numberOptionRooms + '')) {
+    for (var i = 0; i < optionGuets.length; i++) {
+      optionGuets[i].disabled = true;
+      optionGuets[i].disabled = false;
+      if (optionGuets[i].value !== (numberOptionGuestOne + '') && optionGuets[i].value !== (numberOptionGuestTwo + '') && optionGuets[i].value !== (numberOptionGuestThree + '')) {
+        optionGuets[i].disabled = true;
+      }
+    }
+  }
+};
 
-// Как в js сделать делегирование
+filterOptionRoom(1, 1);
 
+selectRoom.addEventListener('change', function () {
+  filterOptionRoom(1, 1);
+  filterOptionRoom(2, 1, 2);
+  filterOptionRoom(3, 1, 2, 3);
+  filterOptionRoom(100, 0);
+});
