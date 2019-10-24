@@ -36,6 +36,7 @@ var timeOutSelect = document.querySelector('#timeout');
 var selectRoom = document.querySelector('#room_number');
 var selectGuets = document.querySelector('#capacity');
 var optionGuets = selectGuets.querySelectorAll('option');
+var infoButtonClose = document.querySelector('.popup__close');
 
 var getRandomInt = function (min, max) {
   min = Math.ceil(min);
@@ -116,7 +117,7 @@ var getLangTypeHouse = function () {
   }
   return LangHouse;
 };
-var rendrePromoHouse = function (house) {
+var renderPromoHouse = function (house) {
   var housePromoElement = similarHouseTemplate.cloneNode(true);
 
   housePromoElement.querySelector('.popup__title').textContent = house.offer.title;
@@ -130,18 +131,25 @@ var rendrePromoHouse = function (house) {
   housePromoElement.querySelector('.popup__photo').src = PHOTOS[house.offer.photos];
   return housePromoElement;
 };
-var renderHouse = function (ads) {
+// var renderInfoAboutHouse = function (ads) {
+//   var fragment = document.createDocumentFragment();
+//   for (var i = 0; i < ads.length; i++) {
+//     fragment.appendChild(renderPromoHouse(ads[i]));
+//   }
+//   return map.appendChild(fragment);
+// };
+var onAdClick = function (evt) {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < ads.length; i++) {
-    fragment.appendChild(rendrePromoHouse(ads[i]));
-  }
-  return map.appendChild(fragment);
+  fragment.appendChild(renderPromoHouse(createHouses()[evt.target]));
+  return fragment;
 };
-
 var renderHouses = function (ads) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
     fragment.appendChild(renderPinHouse(ads[i]));
+    var adElement = renderPinHouse(ads[i]);
+    adElement.dataset.index = i;
+    adElement.addEventListener('click', onAdClick);
   }
   return map.appendChild(fragment);
 };
@@ -201,7 +209,7 @@ houseTypeDoValidity(minPriceHouses);
 
 var buttonPinStartMenu = function () {
   overPageHandler();
-  renderHouse(createHouses());
+  // renderInfoAboutHouse(createHouses());
   renderHouses(createHouses());
   myPin.removeEventListener('mousedown', buttonPinStartMenu);
   myPin.removeEventListener('keydown', buttonPinStartMenu);
@@ -217,10 +225,10 @@ myPin.addEventListener('keydown', function (evt) {
 var filterOptionRoom = function (numberOptionRooms, numberOptionGuestOne, numberOptionGuestTwo, numberOptionGuestThree) {
   if (selectRoom.value === (numberOptionRooms + '')) {
     for (var i = 0; i < optionGuets.length; i++) {
-      optionGuets[i].disabled = true;
-      optionGuets[i].disabled = false;
-      if (optionGuets[i].value !== (numberOptionGuestOne + '') && optionGuets[i].value !== (numberOptionGuestTwo + '') && optionGuets[i].value !== (numberOptionGuestThree + '')) {
-        optionGuets[i].disabled = true;
+      var option = optionGuets[i];
+      option.disabled = false;
+      if (option.value !== (numberOptionGuestOne + '') && option.value !== (numberOptionGuestTwo + '') && option.value !== (numberOptionGuestThree + '')) {
+        option.disabled = true;
       }
     }
   }
@@ -234,3 +242,5 @@ selectRoom.addEventListener('change', function () {
   filterOptionRoom(3, 1, 2, 3);
   filterOptionRoom(100, 0);
 });
+
+
