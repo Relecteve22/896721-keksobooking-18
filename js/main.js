@@ -245,14 +245,32 @@ selectRoom.addEventListener('change', function () {
 });
 
 submitAdForm.addEventListener('click', function () {
-  if (selectGuets.value > selectRoom.value) {
-    selectGuets.setCustomValidity('Неверно');
-  } else {
-    selectGuets.setCustomValidity('');
+  if (selectRoom.value === '1') {
+    if (selectGuets.value === '1') {
+      selectGuets.setCustomValidity('');
+    } else {
+      selectGuets.setCustomValidity('Неверно');
+    }
   }
-  if (selectGuets.value > '0') {
-    selectGuets.setCustomValidity('Неверно');
-  } else {
-    selectGuets.setCustomValidity('');
+  if (selectRoom.value === '100') {
+    if (selectGuets.value === '0') {
+      selectGuets.setCustomValidity('');
+    } else {
+      selectGuets.setCustomValidity('Неверно');
+    }
+  }
+  if (selectRoom.value === '2') {
+    if (selectGuets.value === '1' || selectGuets.value === '2') {
+      selectGuets.setCustomValidity('');
+    } else {
+      selectGuets.setCustomValidity('Неверно');
+    }
+  }
+  if (selectRoom.value === '3') {
+    if (selectGuets.value === '1' || selectGuets.value === '2' || selectGuets.value === '3') {
+      selectGuets.setCustomValidity('');
+    } else {
+      selectGuets.setCustomValidity('Неверно');
+    }
   }
 });
