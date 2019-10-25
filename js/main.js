@@ -36,7 +36,7 @@ var timeOutSelect = document.querySelector('#timeout');
 var selectRoom = document.querySelector('#room_number');
 var selectGuets = document.querySelector('#capacity');
 var optionGuets = selectGuets.querySelectorAll('option');
-var infoButtonClose = document.querySelector('.popup__close');
+// var infoButtonClose = document.querySelector('.popup__close');
 var submitAdForm = document.querySelector('.ad-form__submit');
 
 var getRandomInt = function (min, max) {
@@ -244,33 +244,19 @@ selectRoom.addEventListener('change', function () {
   filterOptionRoom(100, 0);
 });
 
+var validitySelectRoom = function (numberOptionRooms, numberOptionGuestOne, numberOptionGuestTwo, numberOptionGuestThree) {
+  if (selectRoom.value === numberOptionRooms + '') {
+    if (selectGuets.value === (numberOptionGuestOne + '') || selectGuets.value === (numberOptionGuestTwo + '') || selectGuets.value === (numberOptionGuestThree + '')) {
+      selectGuets.setCustomValidity('');
+    } else {
+      selectGuets.setCustomValidity('Неверно');
+    }
+  }
+};
+
 submitAdForm.addEventListener('click', function () {
-  if (selectRoom.value === '1') {
-    if (selectGuets.value === '1') {
-      selectGuets.setCustomValidity('');
-    } else {
-      selectGuets.setCustomValidity('Неверно');
-    }
-  }
-  if (selectRoom.value === '100') {
-    if (selectGuets.value === '0') {
-      selectGuets.setCustomValidity('');
-    } else {
-      selectGuets.setCustomValidity('Неверно');
-    }
-  }
-  if (selectRoom.value === '2') {
-    if (selectGuets.value === '1' || selectGuets.value === '2') {
-      selectGuets.setCustomValidity('');
-    } else {
-      selectGuets.setCustomValidity('Неверно');
-    }
-  }
-  if (selectRoom.value === '3') {
-    if (selectGuets.value === '1' || selectGuets.value === '2' || selectGuets.value === '3') {
-      selectGuets.setCustomValidity('');
-    } else {
-      selectGuets.setCustomValidity('Неверно');
-    }
-  }
+  validitySelectRoom(1, 1);
+  validitySelectRoom(2, 1, 2);
+  validitySelectRoom(3, 1, 2, 3);
+  validitySelectRoom(100, 0);
 });
