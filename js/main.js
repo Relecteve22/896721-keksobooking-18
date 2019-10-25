@@ -37,6 +37,7 @@ var selectRoom = document.querySelector('#room_number');
 var selectGuets = document.querySelector('#capacity');
 var optionGuets = selectGuets.querySelectorAll('option');
 var infoButtonClose = document.querySelector('.popup__close');
+var submitAdForm = document.querySelector('.ad-form__submit');
 
 var getRandomInt = function (min, max) {
   min = Math.ceil(min);
@@ -243,4 +244,15 @@ selectRoom.addEventListener('change', function () {
   filterOptionRoom(100, 0);
 });
 
-
+submitAdForm.addEventListener('click', function () {
+  if (selectGuets.value > selectRoom.value) {
+    selectGuets.setCustomValidity('Неверно');
+  } else {
+    selectGuets.setCustomValidity('');
+  }
+  if (selectGuets.value > '0') {
+    selectGuets.setCustomValidity('Неверно');
+  } else {
+    selectGuets.setCustomValidity('');
+  }
+});
