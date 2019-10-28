@@ -62,6 +62,10 @@
     FEATURES_HOUSE: FEATURES_HOUSE,
     TITLE_HOUSE: TITLE_HOUSE,
     PHOTOS: PHOTOS,
-    createHouses: createHouses
+    createHouses: createHouses,
+    MIN_Y_PIN: MIN_Y_PIN,
+    MAX_Y_PIN: MAX_Y_PIN,
+    MIN_X_PIN: MIN_X_PIN,
+    MAX_X_PIN: MAX_X_PIN
   };
 })();
