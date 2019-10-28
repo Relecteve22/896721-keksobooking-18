@@ -16,8 +16,8 @@
   var PINS = 8;
   var MIN_Y_PIN = 130;
   var MAX_Y_PIN = 630;
-  var MIN_X_PIN = 10;
-  var MAX_X_PIN = 1120;
+  var MIN_X_PIN = 0;
+  var MAX_X_PIN = 1200;
 
   var createHouse = function (index) {
     var location = {

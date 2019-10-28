@@ -87,7 +87,7 @@
 
   var buttonPinStartMenu = function () {
     overPageHandler();
-    renderInfoAboutHouse(window.pin.createHouses());
+    // renderInfoAboutHouse(window.pin.createHouses());
     renderHouses(window.pin.createHouses());
     myPin.removeEventListener('mousedown', buttonPinStartMenu);
     myPin.removeEventListener('keydown', buttonPinStartMenu);
@@ -127,6 +127,19 @@
       myPin.style.top = (myPin.offsetTop - shift.y) + 'px';
       myPin.style.left = (myPin.offsetLeft - shift.x) + 'px';
       inputCordenatios.value = ((myPin.offsetLeft - shift.x) + Math.round(MY_PIN_WIDTH / 2)) + ', ' + ((myPin.offsetTop - shift.y) + MY_PIN_HEIGHT);
+
+      if ((myPin.offsetTop - shift.y) < window.pin.MIN_Y_PIN) {
+        myPin.style.top = window.pin.MIN_Y_PIN + 'px';
+      }
+      if (((myPin.offsetTop - shift.y) + MY_PIN_HEIGHT) > window.pin.MAX_Y_PIN) {
+        myPin.style.top = (window.pin.MAX_Y_PIN - MY_PIN_HEIGHT) + 'px';
+      }
+      if ((myPin.offsetLeft - shift.x) < window.pin.MIN_X_PIN) {
+        myPin.style.left = window.pin.MIN_X_PIN + 'px';
+      }
+      if (((myPin.offsetLeft - shift.x) + MY_PIN_WIDTH) > window.pin.MAX_X_PIN) {
+        myPin.style.left = (window.pin.MAX_X_PIN - MY_PIN_WIDTH) + 'px';
+      }
     };
 
     var onMouseUp = function (upEvt) {
