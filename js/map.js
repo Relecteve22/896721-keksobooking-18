@@ -14,6 +14,8 @@
   // var infoButtonClose = document.querySelector('.popup__close');
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+  var MY_PIN_WIDTH = 65;
+  var MY_PIN_HEIGHT = 65;
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
@@ -96,6 +98,53 @@
     if (evt.keyCode === ENTER_KEYCODE) {
       buttonPinStartMenu();
     }
+  });
+
+  myPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var dragged = false;
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      myPin.style.top = (myPin.offsetTop - shift.y) + 'px';
+      myPin.style.left = (myPin.offsetLeft - shift.x) + 'px';
+      inputCordenatios.value = ((myPin.offsetLeft - shift.x) + Math.round(MY_PIN_WIDTH / 2)) + ', ' + ((myPin.offsetTop - shift.y) + MY_PIN_HEIGHT);
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function (evt) {
+          evt.preventDefault();
+          myPin.removeEventListener('click', onClickPreventDefault);
+        };
+        myPin.addEventListener('click', onClickPreventDefault);
+      }
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
 
   window.map = {

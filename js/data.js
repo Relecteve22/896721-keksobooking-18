@@ -9,12 +9,12 @@
   var getRandomElement = function (elements) {
     return elements[getRandomInt(0, elements.length - 1)];
   };
-  var getRandomZizeArray = function (elements) {
+  var getRandomSizeArray = function (elements) {
     return getRandomInt(0, elements.length - 1);
   };
   window.data = {
     getRandomInt: getRandomInt,
     getRandomElement: getRandomElement,
-    getRandomZizeArray: getRandomZizeArray
+    getRandomSizeArray: getRandomSizeArray
   };
 })();

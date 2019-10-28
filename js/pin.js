@@ -42,7 +42,7 @@
         checkin: window.data.getRandomElement(CHECKIN_HOUSE),
         checkout: window.data.getRandomElement(CHECKOUT_HOUSE),
         features: window.data.getRandomElement(FEATURES_HOUSE),
-        photos: window.data.getRandomZizeArray(PHOTOS),
+        photos: window.data.getRandomSizeArray(PHOTOS),
         description: 'Великолепная квартира-студия в центре Токио. Подходит как туристам, так и бизнесменам. Квартира полностью укомплектована и недавно отремонтирована.'
       }
     };
@@ -62,6 +62,10 @@
     FEATURES_HOUSE: FEATURES_HOUSE,
     TITLE_HOUSE: TITLE_HOUSE,
     PHOTOS: PHOTOS,
-    createHouses: createHouses
+    createHouses: createHouses,
+    MIN_Y_PIN: MIN_Y_PIN,
+    MAX_Y_PIN: MAX_Y_PIN,
+    MIN_X_PIN: MIN_X_PIN,
+    MAX_X_PIN: MAX_X_PIN
   };
 })();
