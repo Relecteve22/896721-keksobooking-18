@@ -16,6 +16,7 @@
   var PIN_HEIGHT = 70;
   var MY_PIN_WIDTH = 65;
   var MY_PIN_HEIGHT = 65;
+  var mapWidth = map.offsetWidth;
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
@@ -137,7 +138,7 @@
       if ((myPin.offsetLeft - shift.x) < window.pin.MIN_X_PIN) {
         myPin.style.left = window.pin.MIN_X_PIN + 'px';
       }
-      if (((myPin.offsetLeft - shift.x) + MY_PIN_WIDTH) > window.pin.MAX_X_PIN) {
+      if (((myPin.offsetLeft - shift.x) + MY_PIN_WIDTH) > mapWidth) {
         myPin.style.left = (window.pin.MAX_X_PIN - MY_PIN_WIDTH) + 'px';
       }
     };
@@ -161,6 +162,7 @@
   });
 
   window.map = {
-    getLangTypeHouse: getLangTypeHouse
+    getLangTypeHouse: getLangTypeHouse,
+    map: map
   };
 })();
