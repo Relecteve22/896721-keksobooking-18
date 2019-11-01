@@ -82,9 +82,10 @@
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < ads.length; i++) {
       var pinInfo = ads[i];
-      fragment.appendChild(renderPinHouse(ads[i]));
+      var pinElement = renderPinHouse(pinInfo);
+      fragment.appendChild(pinElement);
       var pinClickHandler = createClickPinHandler(i);
-      pinInfo.addEventListener('click', pinClickHandler);
+      pinElement.addEventListener('click', pinClickHandler);
     }
     return map.appendChild(fragment);
   };
