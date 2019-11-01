@@ -10,6 +10,7 @@
   var adForm = document.querySelector('.ad-form');
   var mapFiltersForm = document.querySelector('.map__filters');
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var errorTemplate = document.querySelector('#error');
   var inputCordenatios = document.querySelector('#address');
   // var infoButtonClose = document.querySelector('.popup__close');
   var PIN_WIDTH = 50;
@@ -17,6 +18,7 @@
   var MY_PIN_WIDTH = 65;
   var MY_PIN_HEIGHT = 65;
   var mapWidth = map.offsetWidth;
+  var main = document.querySelector('main');
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
@@ -30,16 +32,16 @@
   var getLangTypeHouse = function () {
     var LangHouse = [];
     for (var i = 0; i < window.pin.TYPE_HOUSE.length; i++) {
-      if (window.pin.TYPE_HOUSE[i] === 'flat') {
+      if (window.pin.TYPES_HOUSE[i] === 'flat') {
         LangHouse[i] = 'Квартира';
       }
-      if (window.pin.TYPE_HOUSE[i] === 'bungalo') {
+      if (window.pin.TYPES_HOUSE[i] === 'bungalo') {
         LangHouse[i] = 'Бунгало';
       }
-      if (window.pin.TYPE_HOUSE[i] === 'house') {
+      if (window.pin.TYPES_HOUSE[i] === 'house') {
         LangHouse[i] = 'Дом';
       }
-      if (window.pin.TYPE_HOUSE[i] === 'palace') {
+      if (window.pin.TYPES_HOUSE[i] === 'palace') {
         LangHouse[i] = 'Дворец';
       }
     }
@@ -57,17 +59,6 @@
   //   fragment.appendChild(renderPromoHouse(createHouses()[evt.target]));
   //   return fragment;
   // };
-  var renderHouses = function (ads) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < ads.length; i++) {
-      fragment.appendChild(renderPinHouse(ads[i]));
-      // var adElement = renderPinHouse(ads[i]);
-      // adElement.dataset.index = i;
-      // adElement.addEventListener('click', onAdClick);
-    }
-    return map.appendChild(fragment);
-  };
-
   var overPageHandler = function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -86,10 +77,29 @@
   cordinatesPinInputStart();
   window.form.houseTypeDoValidity(window.form.minPriceHouses);
 
+  var successHandler = function (ads) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < ads.length; i++) {
+      fragment.appendChild(renderPinHouse(ads[i]));
+      console.log(ads[i]);
+      // var adElement = renderPinHouse(ads[i]);
+      // adElement.dataset.index = i;
+      // adElement.addEventListener('click', onAdClick);
+    }
+    return map.appendChild(fragment);
+  };
+
+  var errorHandler = function () {
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(errorTemplate);
+    return main.appendChild(fragment);
+  };
+
   var buttonPinStartMenu = function () {
     overPageHandler();
     // renderInfoAboutHouse(window.pin.createHouses());
-    renderHouses(window.pin.createHouses());
+    // renderHouses(window.pin.createHouses());
+    window.load(window.backend.URL, successHandler, errorHandler);
     myPin.removeEventListener('mousedown', buttonPinStartMenu);
     myPin.removeEventListener('keydown', buttonPinStartMenu);
   };
@@ -125,22 +135,44 @@
         y: moveEvt.clientY
       };
 
-      myPin.style.top = (myPin.offsetTop - shift.y) + 'px';
-      myPin.style.left = (myPin.offsetLeft - shift.x) + 'px';
-      inputCordenatios.value = ((myPin.offsetLeft - shift.x) + Math.round(MY_PIN_WIDTH / 2)) + ', ' + ((myPin.offsetTop - shift.y) + MY_PIN_HEIGHT);
+      var coodXLeftMyPin = myPin.offsetLeft - shift.x;
+      var coodYTopMyPin = myPin.offsetTop - shift.y;
 
-      if ((myPin.offsetTop - shift.y) < window.pin.MIN_Y_PIN) {
-        myPin.style.top = window.pin.MIN_Y_PIN + 'px';
-      }
-      if (((myPin.offsetTop - shift.y) + MY_PIN_HEIGHT) > window.pin.MAX_Y_PIN) {
-        myPin.style.top = (window.pin.MAX_Y_PIN - MY_PIN_HEIGHT) + 'px';
-      }
-      if ((myPin.offsetLeft - shift.x) < window.pin.MIN_X_PIN) {
-        myPin.style.left = window.pin.MIN_X_PIN + 'px';
-      }
-      if (((myPin.offsetLeft - shift.x) + MY_PIN_WIDTH) > mapWidth) {
-        myPin.style.left = (window.pin.MAX_X_PIN - MY_PIN_WIDTH) + 'px';
-      }
+      var movePin = function (left, top) {
+        myPin.style.top = top + 'px';
+        myPin.style.left = left + 'px';
+      };
+
+      var updateAddress = function (left, top) {
+        inputCordenatios.value = (left + Math.round(MY_PIN_WIDTH / 2)) + ', ' + (top + MY_PIN_HEIGHT);
+      };
+
+      var getPinLeft = function (left) {
+        if (left < window.pin.MIN_X_PIN) {
+          myPin.style.left = window.pin.MIN_X_PIN + 'px';
+        } else if ((left + MY_PIN_WIDTH) > mapWidth) {
+          myPin.style.left = (window.pin.MAX_X_PIN - MY_PIN_WIDTH) + 'px';
+        } else {
+          return left;
+        }
+      };
+
+      var getPinTop = function (top) {
+        if (top < window.pin.MIN_Y_PIN) {
+          myPin.style.top = window.pin.MIN_Y_PIN + 'px';
+        } else if ((top + MY_PIN_HEIGHT) > window.pin.MAX_Y_PIN) {
+          myPin.style.top = (window.pin.MAX_Y_PIN - MY_PIN_HEIGHT) + 'px';
+        } else {
+          return top;
+        }
+      };
+
+      var left = getPinLeft(coodXLeftMyPin);
+      var top = getPinTop(coodYTopMyPin);
+
+      movePin(left, top);
+
+      updateAddress(left, top);
     };
 
     var onMouseUp = function (upEvt) {
@@ -150,8 +182,8 @@
       document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
-        var onClickPreventDefault = function (evt) {
-          evt.preventDefault();
+        var onClickPreventDefault = function (DefaultEvt) {
+          DefaultEvt.preventDefault();
           myPin.removeEventListener('click', onClickPreventDefault);
         };
         myPin.addEventListener('click', onClickPreventDefault);

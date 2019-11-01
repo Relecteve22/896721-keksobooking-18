@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var TYPE_HOUSE = ['palace', 'flat', 'house', 'bungalo'];
+  var TYPES_HOUSE = ['palace', 'flat', 'house', 'bungalo'];
   var CHECKIN_HOUSE = ['12:00', '13:00', '14:00'];
   var CHECKOUT_HOUSE = ['12:00', '13:00', '14:00'];
   var FEATURES_HOUSE = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -36,7 +36,7 @@
         title: window.data.getRandomElement(TITLE_HOUSE),
         address: location.x + ', ' + location.y,
         price: window.data.getRandomInt(MIN_PRICE, MAX_PRICE),
-        type: window.data.getRandomElement(TYPE_HOUSE),
+        type: window.data.getRandomElement(TYPES_HOUSE),
         rooms: window.data.getRandomInt(MIN_ROOMS, MAX_ROOMS),
         guests: window.data.getRandomInt(MIN_GUETS, MAX_GUETS),
         checkin: window.data.getRandomElement(CHECKIN_HOUSE),
@@ -56,7 +56,7 @@
   };
 
   window.pin = {
-    TYPE_HOUSE: TYPE_HOUSE,
+    TYPES_HOUSE: TYPES_HOUSE,
     CHECKIN_HOUSE: CHECKIN_HOUSE,
     CHECKOUT_HOUSE: CHECKOUT_HOUSE,
     FEATURES_HOUSE: FEATURES_HOUSE,
