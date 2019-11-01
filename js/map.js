@@ -54,6 +54,7 @@
     }
     return map.appendChild(fragment);
   };
+
   // var onAdClick = function (evt) {
   //   var fragment = document.createDocumentFragment();
   //   fragment.appendChild(renderPromoHouse(createHouses()[evt.target]));
@@ -80,13 +81,22 @@
   var successHandler = function (ads) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < ads.length; i++) {
+      var pinInfo = ads[i];
       fragment.appendChild(renderPinHouse(ads[i]));
-      console.log(ads[i]);
-      // var adElement = renderPinHouse(ads[i]);
-      // adElement.dataset.index = i;
-      // adElement.addEventListener('click', onAdClick);
+      var pinClickHandler = createClickPinHandler(i);
+      pinInfo.addEventListener('click', pinClickHandler);
     }
     return map.appendChild(fragment);
+  };
+
+  var pinsInfo = window.pin.createHouses();
+  var createClickPinHandler = function (index) {
+    var clickPinHandler = function () {
+      var fragment = document.createDocumentFragment();
+      fragment.appendChild(window.card.renderPromoHouse(pinsInfo[index]));
+      return map.appendChild(fragment);
+    };
+    return clickPinHandler;
   };
 
   var errorHandler = function () {

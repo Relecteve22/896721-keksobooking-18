@@ -9,7 +9,7 @@
     housePromoElement.querySelector('.popup__title').textContent = house.offer.title;
     housePromoElement.querySelector('.popup__text--address').textContent = house.location.x + ', ' + house.location.y;
     housePromoElement.querySelector('.popup__text--price').textContent = house.offer.price + '₽/ночь.';
-    housePromoElement.querySelector('.popup__type').textContent = window.data.getRandomElement(window.map.getLangTypeHouse());
+    // housePromoElement.querySelector('.popup__type').textContent = window.data.getRandomElement(window.map.getLangTypeHouse());
     housePromoElement.querySelector('.popup__text--capacity').textContent = house.offer.rooms + ' комнаты для ' + house.offer.guests + ' гостей.';
     housePromoElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + house.offer.checkin + ', выезд до ' + house.offer.checkout;
     housePromoElement.querySelector('.popup__description ').textContent = house.offer.description;
