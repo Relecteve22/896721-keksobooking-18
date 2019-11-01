@@ -55,11 +55,13 @@
     return map.appendChild(fragment);
   };
 
-  // var onAdClick = function (evt) {
-  //   var fragment = document.createDocumentFragment();
-  //   fragment.appendChild(renderPromoHouse(createHouses()[evt.target]));
-  //   return fragment;
-  // };
+  var renderHouses = function (ads) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < ads.length; i++) {
+      fragment.appendChild(renderPinHouse(ads[i]));
+    }
+    return map.appendChild(fragment);
+  };
   var overPageHandler = function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
