@@ -97,13 +97,6 @@
     }
   });
 
-  window.map.mapFiltersForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(window.map.mapFiltersForm), function () {
-      alert('fff');
-    });
-    evt.preventDefault();
-  });
-
   window.form = {
     minPriceHouses: minPriceHouses,
     toogleForm: toogleForm,
