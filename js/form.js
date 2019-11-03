@@ -8,6 +8,9 @@
   var selectRoom = document.querySelector('#room_number');
   var selectGuets = document.querySelector('#capacity');
   var optionGuets = selectGuets.querySelectorAll('option');
+  var resetButton = document.querySelector('.ad-form__reset');
+  var mapFilter = document.querySelector('.map__filters');
+  var selectMapFilter = mapFilter.querySelectorAll('select');
 
   var minPriceHouses = {
     bungalo: 0,
@@ -86,6 +89,19 @@
     validitySelectRoom(2, 1, 2);
     validitySelectRoom(3, 1, 2, 3);
     validitySelectRoom(100, 0);
+  });
+
+  resetButton.addEventListener('click', function (evt) {
+    for (var i = 0; i < selectMapFilter.length; i++) {
+      selectMapFilter[i].value = 'any';
+    }
+  });
+
+  window.map.mapFiltersForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(window.map.mapFiltersForm), function () {
+      alert('fff');
+    });
+    evt.preventDefault();
   });
 
   window.form = {
