@@ -19,6 +19,7 @@
   var MY_PIN_HEIGHT = 65;
   var mapWidth = map.offsetWidth;
   var main = document.querySelector('main');
+  var body = document.body;
 
   var isEsc = function (evt) {
     return evt.keyCode === ESC_KEYCODE;
@@ -109,10 +110,10 @@
   var errorHandler = function () {
     var showModal = function () {
       var errorTempaltePopup = errorTemplate.cloneNode(true);
-      var closeButton = errorTemplate.querySelector('.error__button');
+      var closeButton = errorTempaltePopup.querySelector('.error__button');
 
       var closeModal = function () {
-        main.removeChild(errorTempaltePopup);
+        body.removeChild(errorTempaltePopup);
         document.removeEventListener('keydown', onDocumentKeydown);
       };
 
