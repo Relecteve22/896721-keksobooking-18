@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  // var ESC_KEYCODE = 27;
+  var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
   var START_PIN_LEFT = 570;
   var START_PIN_TOP = 375;
@@ -10,7 +10,7 @@
   var adForm = document.querySelector('.ad-form');
   var mapFiltersForm = document.querySelector('.map__filters');
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-  var errorTemplate = document.querySelector('#error');
+  var errorTemplate = document.querySelector('#error').content;
   var inputCordenatios = document.querySelector('#address');
   // var infoButtonClose = document.querySelector('.popup__close');
   var PIN_WIDTH = 50;
@@ -19,6 +19,10 @@
   var MY_PIN_HEIGHT = 65;
   var mapWidth = map.offsetWidth;
   var main = document.querySelector('main');
+
+  var isEsc = function (evt) {
+    return evt.keyCode === ESC_KEYCODE;
+  };
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
@@ -86,26 +90,48 @@
       var pinInfo = ads[i];
       var pinElement = renderPinHouse(pinInfo);
       fragment.appendChild(pinElement);
-      var pinClickHandler = createClickPinHandler(i);
+      var pinClickHandler = createClickPinHandler(i, ads);
       pinElement.addEventListener('click', pinClickHandler);
     }
     return map.appendChild(fragment);
   };
 
-  var pinsInfo = window.pin.createHouses();
-  var createClickPinHandler = function (index) {
+  // var pinsInfo = window.pin.createHouses(advs);
+  var createClickPinHandler = function (index, advs) {
     var clickPinHandler = function () {
       var fragment = document.createDocumentFragment();
-      fragment.appendChild(window.card.renderPromoHouse(pinsInfo[index]));
+      fragment.appendChild(window.card.renderPromoHouse(window.pin.createHouses(advs)[index]));
       return map.appendChild(fragment);
     };
     return clickPinHandler;
   };
 
   var errorHandler = function () {
-    var fragment = document.createDocumentFragment();
-    fragment.appendChild(errorTemplate);
-    return main.appendChild(fragment);
+    var showModal = function () {
+      var errorTempaltePopup = errorTemplate.cloneNode(true);
+      var closeButton = errorTemplate.querySelector('.error__button');
+
+      var closeModal = function () {
+        main.removeChild(errorTempaltePopup);
+        document.removeEventListener('keydown', onDocumentKeydown);
+      };
+
+      var onDocumentKeydown = function (evt) {
+        if (!isEsc(evt)) {
+          return;
+        }
+        closeModal();
+      };
+
+      document.addEventListener('keydown', onDocumentKeydown);
+
+      closeButton.addEventListener('click', function () {
+        closeModal();
+      });
+
+      main.appendChild(errorTempaltePopup);
+    };
+    return showModal();
   };
 
   var buttonPinStartMenu = function () {

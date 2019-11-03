@@ -19,21 +19,21 @@
   var MIN_X_PIN = 0;
   var MAX_X_PIN = 1200;
 
-  var createHouse = function (index) {
+  var createHouse = function (adv, index) {
     var location = {
       x: window.data.getRandomInt(MIN_X_PIN, MAX_X_PIN),
       y: window.data.getRandomInt(MIN_Y_PIN, MAX_Y_PIN)
     };
     return {
       author: {
-        avatar: 'img/avatars/user0' + (index + 1) + '.png'
+        // avatar: adv[0].author.avatar
       },
       location: {
         x: location.x,
         y: location.y
       },
       offer: {
-        title: window.data.getRandomElement(TITLE_HOUSE),
+        // title: adv[index].offer.title,
         address: location.x + ', ' + location.y,
         price: window.data.getRandomInt(MIN_PRICE, MAX_PRICE),
         type: window.data.getRandomElement(TYPES_HOUSE),
