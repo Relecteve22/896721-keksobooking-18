@@ -26,7 +26,7 @@
     xhr.send();
   };
 
-  var upload = function (data, onLoad, onError) {
+  var save = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -44,6 +44,6 @@
 
   window.backend = {
     load: load,
-    upload: upload
+    save: save
   };
 })();

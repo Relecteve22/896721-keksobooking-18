@@ -9,7 +9,6 @@
   var MY_PIN_HEIGHT = 65;
   var map = document.querySelector('.map');
   var myPin = document.querySelector('.map__pin--main');
-  var adForm = document.querySelector('.ad-form');
   var mapFiltersForm = document.querySelector('.map__filters');
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -58,8 +57,8 @@
   };
   var activatePage = function () {
     map.classList.remove('map--faded');
-    adForm.classList.remove('ad-form--disabled');
-    window.form.toogleForm(adForm, false);
+    window.form.adForm.classList.remove('ad-form--disabled');
+    window.form.toogleForm(window.form.adForm, false);
     window.form.toogleForm(mapFiltersForm, false);
     inputCordenatios.disabled = true;
   };
@@ -68,7 +67,7 @@
     inputCordenatios.value = (START_PIN_LEFT + PIN_WIDTH / 2) + ', ' + (START_PIN_TOP + PIN_HEIGHT / 2);
   };
 
-  window.form.toogleForm(adForm, true);
+  window.form.toogleForm(window.form.adForm, true);
   window.form.toogleForm(mapFiltersForm, true);
 
   cordinatesPinInputStart();
