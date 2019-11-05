@@ -36,8 +36,7 @@
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < features.length; i++) {
       var element = document.createElement('li');
-      element.classList.add('popup__feature');
-      element.classList.add(FEATURES_CLASS[features[i]]);
+      element.classList.add('popup__feature', FEATURES_CLASS[features[i]]);
       fragment.appendChild(element);
     }
     parent.appendChild(fragment);
