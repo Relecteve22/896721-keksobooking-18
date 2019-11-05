@@ -93,9 +93,9 @@
   });
   adForm.addEventListener('submit', function (evt) {
     window.backend.save(new FormData(adForm), function () {
-      console.log('yy');
+      // console.log('yy');
     }, function () {
-      console.log('error');
+      // console.log('error');
     });
     evt.preventDefault();
   });
