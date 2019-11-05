@@ -24,7 +24,7 @@
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < photos.length; i++) {
       var element = document.createElement('img');
-      element.alt = alt[i];
+      element.alt = alt;
       element.src = photos[i];
       element.width = photoWidth + '';
       element.height = photoHeight + '';

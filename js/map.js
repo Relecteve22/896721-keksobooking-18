@@ -18,7 +18,8 @@
   var allAds = [];
   var currentPromo = null;
   var sharpMarkX = PIN_WIDTH / 2;
-  var MysharpMarkX = MY_PIN_WIDTH / 2;
+  var mysharpMarkX = MY_PIN_WIDTH / 2;
+  var MAX_NUMBER_PINS = 5;
 
   var pins = [];
 
@@ -26,14 +27,6 @@
   //   pins = data;
   //   window.render(pins);
   // };
-
-  var isEsc = function (evt) {
-    return evt.keyCode === window.util.ESC_KEYCODE;
-  };
-
-  var isEnter = function (evt) {
-    return evt.keyCode === window.util.ENTER_KEYCODE;
-  };
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
@@ -56,7 +49,7 @@
 
   var renderHouses = function (ads) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < ads.length; i++) {
+    for (var i = 0; i < MAX_NUMBER_PINS; i++) {
       var pinElement = renderPinHouse(ads[i]);
       var clickHandler = createClickPinHandler(i);
       pinElement.addEventListener('click', clickHandler);
@@ -104,7 +97,7 @@
     };
 
     var onDocumentKeydown = function (evt) {
-      if (!isEsc(evt)) {
+      if (!window.util.isEsc(evt)) {
         return;
       }
       closeModal();
@@ -135,7 +128,7 @@
   };
 
   var myPinKeydownHandler = function (evt) {
-    if (isEnter(evt)) {
+    if (window.util.isEnter(evt)) {
       activeAndLoad();
     }
   };
@@ -144,12 +137,12 @@
   myPin.addEventListener('keydown', myPinKeydownHandler);
 
   var getPinLeft = function (left) {
-    if (left < window.pin.MIN_X_PIN - MysharpMarkX) {
-      return window.pin.MIN_X_PIN - MysharpMarkX;
+    if (left < window.pin.MIN_X_PIN - mysharpMarkX) {
+      return window.pin.MIN_X_PIN - mysharpMarkX;
     }
 
-    if ((left + MY_PIN_WIDTH) > mapWidth + MysharpMarkX) {
-      return (mapWidth + MysharpMarkX) - MY_PIN_WIDTH;
+    if ((left + MY_PIN_WIDTH) > mapWidth + mysharpMarkX) {
+      return (mapWidth + mysharpMarkX) - MY_PIN_WIDTH;
     }
 
     return left;
@@ -200,7 +193,7 @@
       var coodYTopMyPin = myPin.offsetTop - shift.y;
 
       var updateAddress = function (left, top) {
-        inputCordenatios.value = (left + Math.round(MysharpMarkX)) + ', ' + (top + MY_PIN_HEIGHT);
+        inputCordenatios.value = (left + Math.round(mysharpMarkX)) + ', ' + (top + MY_PIN_HEIGHT);
       };
 
       var left = getPinLeft(coodXLeftMyPin);
