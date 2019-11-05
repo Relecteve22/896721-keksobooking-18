@@ -15,6 +15,7 @@
     HEIGHT: 82
   };
   var MAX_NUMBER_PINS = 5;
+  // рррррр
 
   var map = document.querySelector('.map');
   var myPin = document.querySelector('.map__pin--main');
