@@ -1,12 +1,21 @@
 'use strict';
 
 (function () {
-  var START_PIN_LEFT = 570;
-  var START_PIN_TOP = 375;
-  var PIN_WIDTH = 50;
-  var PIN_HEIGHT = 70;
-  var MY_PIN_WIDTH = 65;
-  var MY_PIN_HEIGHT = 65;
+  var StartPin = {
+    LEFT: 570,
+    TOP: 375
+  };
+  var Pin = {
+    WIDTH: 50,
+    HEIGHT: 70
+  };
+
+  var MyPin = {
+    WIDTH: 62,
+    HEIGHT: 82
+  };
+  var MAX_NUMBER_PINS = 5;
+
   var map = document.querySelector('.map');
   var myPin = document.querySelector('.map__pin--main');
   var mapFiltersForm = document.querySelector('.map__filters');
@@ -14,11 +23,11 @@
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var inputCordenatios = document.querySelector('#address');
   var main = document.querySelector('main');
+
   var mapWidth = map.offsetWidth;
   var allAds = [];
-  var sharpMarkX = PIN_WIDTH / 2;
-  var mysharpMarkX = MY_PIN_WIDTH / 2;
-  var MAX_NUMBER_PINS = 5;
+  var sharpMarkX = Pin.WIDTH / 2;
+  var mysharpMarkX = MyPin.WIDTH / 2;
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
@@ -26,7 +35,7 @@
     housePinElement.querySelector('img').src = house.author.avatar;
     housePinElement.querySelector('img').alt = house.offer.title;
     housePinElement.style.left = (house.location.x + sharpMarkX) + 'px';
-    housePinElement.style.top = house.location.y + PIN_HEIGHT + 'px';
+    housePinElement.style.top = house.location.y + Pin.HEIGHT + 'px';
     return housePinElement;
   };
 
@@ -50,7 +59,7 @@
   };
 
   var cordinatesPinInputStart = function () {
-    inputCordenatios.value = (START_PIN_LEFT + sharpMarkX) + ', ' + (START_PIN_TOP + PIN_HEIGHT / 2);
+    inputCordenatios.value = (StartPin.LEFT + sharpMarkX) + ', ' + (StartPin.TOP + Pin.HEIGHT / 2);
   };
 
   window.form.toogleForm(window.form.adForm, true);
@@ -110,7 +119,7 @@
     }
   };
 
-  myPin.addEventListener('mousedown', activeAndLoad);
+  myPin.addEventListener('mousedown', myPinMouseDownHanlder);
   myPin.addEventListener('keydown', myPinKeydownHandler);
 
   var getPinLeft = function (left) {
@@ -118,20 +127,20 @@
       return window.pin.MIN_X_PIN - mysharpMarkX;
     }
 
-    if ((left + MY_PIN_WIDTH) > mapWidth + mysharpMarkX) {
-      return (mapWidth + mysharpMarkX) - MY_PIN_WIDTH;
+    if ((left + MyPin.WIDTH) > mapWidth + mysharpMarkX) {
+      return (mapWidth + mysharpMarkX) - MyPin.WIDTH;
     }
 
     return left;
   };
 
   var getPinTop = function (top) {
-    if (top < window.pin.MIN_Y_PIN - MY_PIN_HEIGHT) {
-      return window.pin.MIN_Y_PIN - MY_PIN_HEIGHT;
+    if (top < window.pin.MIN_Y_PIN - MyPin.HEIGHT) {
+      return window.pin.MIN_Y_PIN - MyPin.HEIGHT;
     }
 
-    if ((top + MY_PIN_HEIGHT) > window.pin.MAX_Y_PIN) {
-      return window.pin.MAX_Y_PIN - MY_PIN_HEIGHT;
+    if ((top + MyPin.HEIGHT) > window.pin.MAX_Y_PIN) {
+      return window.pin.MAX_Y_PIN - MyPin.HEIGHT;
     }
 
     return top;
@@ -170,7 +179,7 @@
       var coodYTopMyPin = myPin.offsetTop - shift.y;
 
       var updateAddress = function (left, top) {
-        inputCordenatios.value = (left + Math.round(mysharpMarkX)) + ', ' + (top + MY_PIN_HEIGHT);
+        inputCordenatios.value = (left + Math.floor(mysharpMarkX)) + ', ' + (top + MyPin.HEIGHT);
       };
 
       var left = getPinLeft(coodXLeftMyPin);
