@@ -34,8 +34,8 @@
 
     housePinElement.querySelector('img').src = house.author.avatar;
     housePinElement.querySelector('img').alt = house.offer.title;
-    housePinElement.style.left = (house.location.x + sharpMarkX) + 'px';
-    housePinElement.style.top = house.location.y + Pin.HEIGHT + 'px';
+    housePinElement.style.left = (house.location.x - sharpMarkX) + 'px';
+    housePinElement.style.top = house.location.y - Pin.HEIGHT + 'px';
     return housePinElement;
   };
 
