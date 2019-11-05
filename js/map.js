@@ -15,7 +15,6 @@
     HEIGHT: 82
   };
   var MAX_NUMBER_PINS = 5;
-  // рррррр
 
   var map = document.querySelector('.map');
   var myPin = document.querySelector('.map__pin--main');
@@ -136,12 +135,12 @@
   };
 
   var getPinTop = function (top) {
-    if (top < window.pin.MIN_Y_PIN - MyPin.WIDTH) {
-      return window.pin.MIN_Y_PIN - MyPin.WIDTH;
+    if (top < window.pin.MIN_Y_PIN - MyPin.HEIGHT) {
+      return window.pin.MIN_Y_PIN - MyPin.HEIGHT;
     }
 
-    if ((top + MyPin.WIDTH) > window.pin.MAX_Y_PIN) {
-      return window.pin.MAX_Y_PIN - MyPin.WIDTH;
+    if ((top + MyPin.HEIGHT) > window.pin.MAX_Y_PIN) {
+      return window.pin.MAX_Y_PIN - MyPin.HEIGHT;
     }
 
     return top;
@@ -180,7 +179,7 @@
       var coodYTopMyPin = myPin.offsetTop - shift.y;
 
       var updateAddress = function (left, top) {
-        inputCordenatios.value = (left + Math.round(mysharpMarkX)) + ', ' + (top + MyPin.WIDTH);
+        inputCordenatios.value = (left + Math.floor(mysharpMarkX)) + ', ' + (top + MyPin.HEIGHT);
       };
 
       var left = getPinLeft(coodXLeftMyPin);
