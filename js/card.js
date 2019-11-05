@@ -15,6 +15,8 @@
     'elevator': 'popup__feature--elevator',
     'conditioner': 'popup__feature--conditioner'
   };
+  var photoWidth = 45;
+  var photoHeight = 40;
 
   var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -24,8 +26,8 @@
       var element = document.createElement('img');
       element.alt = alt[i];
       element.src = photos[i];
-      element.width = '45';
-      element.height = '40';
+      element.width = photoWidth + '';
+      element.height = photoHeight + '';
       element.classList.add('popup__photo');
       fragment.appendChild(element);
     }

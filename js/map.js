@@ -17,6 +17,8 @@
   var mapWidth = map.offsetWidth;
   var allAds = [];
   var currentPromo = null;
+  var sharpMarkX = PIN_WIDTH / 2;
+  var MysharpMarkX = MY_PIN_WIDTH / 2;
 
   var pins = [];
 
@@ -38,7 +40,7 @@
 
     housePinElement.querySelector('img').src = house.author.avatar;
     housePinElement.querySelector('img').alt = house.offer.title;
-    housePinElement.style.left = (house.location.x + PIN_WIDTH / 2) + 'px';
+    housePinElement.style.left = (house.location.x + sharpMarkX) + 'px';
     housePinElement.style.top = house.location.y + PIN_HEIGHT + 'px';
     return housePinElement;
   };
@@ -71,7 +73,7 @@
   };
 
   var cordinatesPinInputStart = function () {
-    inputCordenatios.value = (START_PIN_LEFT + PIN_WIDTH / 2) + ', ' + (START_PIN_TOP + PIN_HEIGHT / 2);
+    inputCordenatios.value = (START_PIN_LEFT + sharpMarkX) + ', ' + (START_PIN_TOP + PIN_HEIGHT / 2);
   };
 
   window.form.toogleForm(window.form.adForm, true);
@@ -142,12 +144,12 @@
   myPin.addEventListener('keydown', myPinKeydownHandler);
 
   var getPinLeft = function (left) {
-    if (left < window.pin.MIN_X_PIN - MY_PIN_WIDTH / 2) {
-      return window.pin.MIN_X_PIN - MY_PIN_WIDTH / 2;
+    if (left < window.pin.MIN_X_PIN - MysharpMarkX) {
+      return window.pin.MIN_X_PIN - MysharpMarkX;
     }
 
-    if ((left + MY_PIN_WIDTH) > mapWidth + MY_PIN_WIDTH / 2) {
-      return (mapWidth + MY_PIN_WIDTH / 2) - MY_PIN_WIDTH;
+    if ((left + MY_PIN_WIDTH) > mapWidth + MysharpMarkX) {
+      return (mapWidth + MysharpMarkX) - MY_PIN_WIDTH;
     }
 
     return left;
@@ -198,7 +200,7 @@
       var coodYTopMyPin = myPin.offsetTop - shift.y;
 
       var updateAddress = function (left, top) {
-        inputCordenatios.value = (left + Math.round(MY_PIN_WIDTH / 2)) + ', ' + (top + MY_PIN_HEIGHT);
+        inputCordenatios.value = (left + Math.round(MysharpMarkX)) + ', ' + (top + MY_PIN_HEIGHT);
       };
 
       var left = getPinLeft(coodXLeftMyPin);
