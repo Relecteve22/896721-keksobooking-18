@@ -16,17 +16,9 @@
   var main = document.querySelector('main');
   var mapWidth = map.offsetWidth;
   var allAds = [];
-  var currentPromo = null;
   var sharpMarkX = PIN_WIDTH / 2;
   var mysharpMarkX = MY_PIN_WIDTH / 2;
   var MAX_NUMBER_PINS = 5;
-
-  var pins = [];
-
-  // var successHandler = function (data) {
-  //   pins = data;
-  //   window.render(pins);
-  // };
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
@@ -37,21 +29,13 @@
     housePinElement.style.top = house.location.y + PIN_HEIGHT + 'px';
     return housePinElement;
   };
-  var renderInfoAboutHouse = function (ad) {
-    if (currentPromo) {
-      map.removeChild(currentPromo);
-    }
-
-    var promoElement = window.card.renderPromoHouse(ad);
-    currentPromo = promoElement;
-    return map.appendChild(promoElement);
-  };
 
   var renderHouses = function (ads) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < MAX_NUMBER_PINS; i++) {
-      var pinElement = renderPinHouse(ads[i]);
-      var clickHandler = createClickPinHandler(i);
+      var ad = ads[i];
+      var pinElement = renderPinHouse(ad);
+      var clickHandler = window.card.createClickPinHandler(ad);
       pinElement.addEventListener('click', clickHandler);
       fragment.appendChild(pinElement);
     }
@@ -78,13 +62,6 @@
   var successHandler = function (ads) {
     allAds = ads;
     renderHouses(allAds);
-  };
-
-  var createClickPinHandler = function (index) {
-    var clickPinHandler = function () {
-      renderInfoAboutHouse(allAds[index]);
-    };
-    return clickPinHandler;
   };
 
   var showModal = function () {
@@ -223,7 +200,7 @@
   });
 
   window.map = {
-    map: map,
+    element: map,
     mapFiltersForm: mapFiltersForm
   };
 })();
