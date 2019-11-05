@@ -18,6 +18,13 @@
   var allAds = [];
   var currentPromo = null;
 
+  var pins = [];
+
+  // var successHandler = function (data) {
+  //   pins = data;
+  //   window.render(pins);
+  // };
+
   var isEsc = function (evt) {
     return evt.keyCode === window.util.ESC_KEYCODE;
   };
@@ -135,12 +142,12 @@
   myPin.addEventListener('keydown', myPinKeydownHandler);
 
   var getPinLeft = function (left) {
-    if (left < window.pin.MIN_X_PIN) {
-      return window.pin.MIN_X_PIN;
+    if (left < window.pin.MIN_X_PIN - MY_PIN_WIDTH / 2) {
+      return window.pin.MIN_X_PIN - MY_PIN_WIDTH / 2;
     }
 
-    if ((left + MY_PIN_WIDTH) > mapWidth) {
-      return mapWidth - MY_PIN_WIDTH;
+    if ((left + MY_PIN_WIDTH) > mapWidth + MY_PIN_WIDTH / 2) {
+      return (mapWidth + MY_PIN_WIDTH / 2) - MY_PIN_WIDTH;
     }
 
     return left;

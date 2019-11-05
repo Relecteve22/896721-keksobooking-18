@@ -7,6 +7,14 @@
     palace: 'Дворец',
     house: 'Дом'
   };
+  var FEATURES_CLASS = {
+    'wifi': 'popup__feature--wifi',
+    'dishwasher': 'popup__feature--dishwasher',
+    'parking': 'popup__feature--parking',
+    'washer': 'popup__feature--washer',
+    'elevator': 'popup__feature--elevator',
+    'conditioner': 'popup__feature--conditioner'
+  };
 
   var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -24,9 +32,21 @@
     parent.appendChild(fragment);
   };
 
+  var renderFeatures = function (features, parent) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < features.length; i++) {
+      var element = document.createElement('li');
+      element.classList.add('popup__feature');
+      element.classList.add(FEATURES_CLASS[features[i]]);
+      fragment.appendChild(element);
+    }
+    parent.appendChild(fragment);
+  };
+
   var renderPromoHouse = function (house) {
     var housePromoElement = similarHouseTemplate.cloneNode(true);
     var popupPhotos = housePromoElement.querySelector('.popup__photos');
+    var popupFeatures = housePromoElement.querySelector('.popup__features');
 
     housePromoElement.querySelector('.popup__title').textContent = house.offer.title;
     housePromoElement.querySelector('.popup__text--address').textContent = house.location.x + ', ' + house.location.y;
@@ -36,6 +56,7 @@
     housePromoElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + house.offer.checkin + ', выезд до ' + house.offer.checkout;
     housePromoElement.querySelector('.popup__description ').textContent = house.offer.description;
     housePromoElement.querySelector('.popup__avatar').src = house.author.avatar;
+    renderFeatures(house.offer.features, popupFeatures);
     renderPhotos(house.offer.photos, house.offer.title, popupPhotos);
     return housePromoElement;
   };
