@@ -8,9 +8,7 @@
   var selectRoom = document.querySelector('#room_number');
   var selectGuets = document.querySelector('#capacity');
   var optionGuets = selectGuets.querySelectorAll('option');
-  var resetButton = document.querySelector('.ad-form__reset');
-  var mapFilter = document.querySelector('.map__filters');
-  var selectMapFilter = mapFilter.querySelectorAll('select');
+  // var resetButton = document.querySelector('.ad-form__reset');
   var adForm = document.querySelector('.ad-form');
 
   var minPriceHouses = {
@@ -98,12 +96,6 @@
       // console.log('error');
     });
     evt.preventDefault();
-  });
-
-  resetButton.addEventListener('click', function () {
-    for (var i = 0; i < selectMapFilter.length; i++) {
-      selectMapFilter[i].value = 'any';
-    }
   });
 
   window.form = {
