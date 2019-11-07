@@ -101,6 +101,10 @@
       closeModal();
     });
 
+    errorTempaltePopup.addEventListener('click', function () {
+      closeModal();
+    });
+
     main.appendChild(errorTempaltePopup);
   };
 
