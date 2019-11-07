@@ -67,7 +67,7 @@
 
   var successHandler = function (ads) {
     allAds = ads;
-    // renderHouses(allAds);
+    renderHouses(allAds);
   };
 
   selectFilterTypes.addEventListener('change', function () {
