@@ -19,6 +19,9 @@
   };
 
   var is = function (value, currentValue) {
+    console.log(value === currentValue);
+    console.log(value === currentValue && value === currentValue);
+    console.log(isAny(currentValue) || value === currentValue);
     return isAny(currentValue) || value === currentValue;
   };
 
@@ -27,6 +30,10 @@
     var arr = window.returnAllAds();
 
     var filteredPins = arr.filter(function (ad) {
+      // console.log('-------------------');
+      // console.log(currentFilter.type);
+      // console.log('ad.offer.type');
+      // console.log(ad.offer.type);
       return is(ad.offer.type, currentFilter.type) && is(ad.offer.room, currentFilter.room) && is(ad.offer.guest, currentFilter.guest);
     });
 

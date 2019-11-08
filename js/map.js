@@ -51,8 +51,6 @@
       return;
     }
 
-    // console.log('Нет он не пустой, стой это не повод думать, что здесь всё работает!');
-
     renderedPins.forEach(function (element) {
       // console.log('Здесь копируется элемент, под номером ' + element);
       similarPinTemplate.removeChild(element);
