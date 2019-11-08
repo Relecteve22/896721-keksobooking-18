@@ -47,10 +47,14 @@
 
   var destroyPins = function () {
     if (!(renderedPins && renderedPins.length)) {
+      // console.log('Да этот массив пустой');
       return;
     }
 
+    // console.log('Нет он не пустой, стой это не повод думать, что здесь всё работает!');
+
     renderedPins.forEach(function (element) {
+      // console.log('Здесь копируется элемент, под номером ' + element);
       similarPinTemplate.removeChild(element);
     });
 
@@ -59,7 +63,7 @@
 
   var renderPins = function (ads) {
     destroyPins();
-
+    // console.log(ads);
     var fragment = document.createDocumentFragment();
     ads.forEach(function (ad) {
       var element = ad;
