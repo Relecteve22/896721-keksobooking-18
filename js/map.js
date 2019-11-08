@@ -21,6 +21,7 @@
   var mapWidth = map.offsetWidth;
   var allAds = [];
   var sharpMarkX = Pin.WIDTH / 2;
+  var renderedPins = [];
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
@@ -44,6 +45,31 @@
     return map.appendChild(fragment);
   };
 
+  var destroyPins = function () {
+    if (!(renderedPins && renderedPins.length)) {
+      return;
+    }
+
+    renderedPins.forEach(function (element) {
+      similarPinTemplate.removeChild(element);
+    });
+
+    renderedPins = [];
+  };
+
+  var renderPins = function (ads) {
+    destroyPins();
+
+    var fragment = document.createDocumentFragment();
+    ads.forEach(function (ad) {
+      var element = ad;
+      renderedPins.push(element);
+      fragment.appendChild(element);
+    });
+
+    map.appendChild(fragment);
+  };
+
   var activatePage = function () {
     map.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
@@ -62,23 +88,13 @@
   cordinatesPinInputStart();
   window.form.houseTypeDoValidity(window.form.minPriceHouses);
 
-  var mapFilter = document.querySelector('.map__filters');
-  var selectFilterTypes = mapFilter.querySelector('#housing-type');
-
   var successHandler = function (ads) {
     allAds = ads;
+    window.returnAllAds = function () {
+      return allAds;
+    };
     renderHouses(allAds);
   };
-
-  selectFilterTypes.addEventListener('change', function () {
-    var filterMapForm = function () {
-      return allAds.filter(function (currentValue, index) {
-        return window.filter.isFilter(allAds[index]);
-      });
-    };
-    renderHouses(filterMapForm());
-  });
-
   var showModal = function () {
     var errorTempaltePopup = errorTemplate.cloneNode(true);
     var closeButton = errorTempaltePopup.querySelector('.error__button');
@@ -136,6 +152,8 @@
     element: map,
     mapFiltersForm: mapFiltersForm,
     mapWidth: mapWidth,
-    inputCordenatios: inputCordenatios
+    inputCordenatios: inputCordenatios,
+    allAds: allAds,
+    render: renderPins
   };
 })();
