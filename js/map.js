@@ -39,6 +39,7 @@
     for (var i = 0; i < MAX_NUMBER_PINS; i++) {
       var ad = ads[i];
       var pinElement = renderPinHouse(ad);
+      renderedPins.push(pinElement);
       var clickHandler = window.card.createClickPinHandler(ad);
       pinElement.addEventListener('click', clickHandler);
       fragment.appendChild(pinElement);
