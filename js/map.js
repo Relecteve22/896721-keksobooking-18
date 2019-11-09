@@ -25,6 +25,7 @@
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
+    console.log(house.author.avatar);
 
     housePinElement.querySelector('img').src = house.author.avatar;
     housePinElement.querySelector('img').alt = house.offer.title;
@@ -72,7 +73,6 @@
   var activatePage = function () {
     map.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
-    window.form.toogleForm(window.form.adForm, false);
     window.form.toogleForm(mapFiltersForm, false);
     inputCordenatios.disabled = true;
   };
@@ -90,6 +90,7 @@
   var successHandler = function (ads) {
     allAds = ads;
     renderHouses(allAds);
+    window.form.toogleForm(window.form.adForm, false);
   };
   var showModal = function () {
     var errorTempaltePopup = errorTemplate.cloneNode(true);
