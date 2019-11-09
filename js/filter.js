@@ -15,26 +15,38 @@
   };
 
   var isAny = function (value) {
+    // console.log(value);
     return value === 'any';
   };
 
   var is = function (value, currentValue) {
-    console.log(value === currentValue);
-    console.log(value === currentValue && value === currentValue);
-    console.log(isAny(currentValue) || value === currentValue);
+    console.log(value);
+    // console.log(value === currentValue);
+    // console.log(value === currentValue && value === currentValue);
+    // console.log(isAny(currentValue) || value === currentValue);
+    // console.log(value);
     return isAny(currentValue) || value === currentValue;
   };
 
   var onSelectFilterChange = function (evt) {
     currentFilter[evt.target.name] = evt.target.value;
+    // console.log(evt.target.name);
+    // console.log(evt.target.value);
     var arr = window.returnAllAds();
+
+    var ElementsFilterHousing = {
+      type: 'housing-type',
+      price: 'housing-price',
+      rooms: 'housing-rooms',
+      guests: 'housing-guests'
+    };
 
     var filteredPins = arr.filter(function (ad) {
       // console.log('-------------------');
-      // console.log(currentFilter.type);
       // console.log('ad.offer.type');
       // console.log(ad.offer.type);
-      return is(ad.offer.type, currentFilter.type) && is(ad.offer.room, currentFilter.room) && is(ad.offer.guest, currentFilter.guest);
+      // console.log(is(ad.offer.rooms, currentFilter[ElementsFilterHousing.rooms]));
+      return is(ad.offer.type, currentFilter[ElementsFilterHousing.type]) && is(ad.offer.rooms, currentFilter[ElementsFilterHousing.rooms]) && is(ad.offer.guests, currentFilter[ElementsFilterHousing.guests]);
     });
 
     console.log(filteredPins);
