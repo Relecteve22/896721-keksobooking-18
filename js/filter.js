@@ -46,6 +46,7 @@
       // console.log('ad.offer.type');
       // console.log(ad.offer.type);
       // console.log(is(ad.offer.rooms, currentFilter[ElementsFilterHousing.rooms]));
+      // return is(ad.offer.type, currentFilter[ElementsFilterHousing.type]);
       return is(ad.offer.type, currentFilter[ElementsFilterHousing.type]) && is(ad.offer.rooms, currentFilter[ElementsFilterHousing.rooms]) && is(ad.offer.guests, currentFilter[ElementsFilterHousing.guests]);
     });
 
