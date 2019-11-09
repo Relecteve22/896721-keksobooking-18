@@ -73,6 +73,7 @@
   var activatePage = function () {
     map.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
+    window.form.toogleForm(window.form.adForm, false);
     window.form.toogleForm(mapFiltersForm, false);
     inputCordenatios.disabled = true;
   };
@@ -81,7 +82,6 @@
     inputCordenatios.value = (StartPin.LEFT + sharpMarkX) + ', ' + (StartPin.TOP + Pin.HEIGHT / 2);
   };
 
-  window.form.toogleForm(window.form.adForm, true);
   window.form.toogleForm(mapFiltersForm, true);
 
   cordinatesPinInputStart();
@@ -90,7 +90,7 @@
   var successHandler = function (ads) {
     allAds = ads;
     renderHouses(allAds);
-    window.form.toogleForm(window.form.adForm, false);
+    window.form.toogleForm(window.form.adForm, true);
   };
   var showModal = function () {
     var errorTempaltePopup = errorTemplate.cloneNode(true);
