@@ -38,7 +38,6 @@
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < MAX_NUMBER_PINS; i++) {
       var ad = ads[i];
-      console.log(ad);
       var pinElement = renderPinHouse(ad);
       var clickHandler = window.card.createClickPinHandler(ad);
       pinElement.addEventListener('click', clickHandler);
@@ -62,9 +61,8 @@
   // var renderPins = function (ads) {
   //   var fragment = document.createDocumentFragment();
   //   ads.forEach(function (ad) {
-  //     var element = ad;
-  //     renderedPins.push(element);
-  //     fragment.appendChild(element);
+  //     renderedPins.push(ad);
+  //     fragment.appendChild(ad);
   //   });
 
   //   map.appendChild(fragment);
