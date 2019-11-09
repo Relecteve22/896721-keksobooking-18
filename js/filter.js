@@ -8,92 +8,55 @@
   var selectFilterGuets = mapFilter.querySelector('#housing-guests');
 
   var currentFilter = {
-    type: 'any',
-    price: 'any',
-    room: 'any',
-    guest: 'any'
+    'housing-type': 'any',
+    'housing-price': 'any',
+    'housing-rooms': 'any',
+    'housing-guests': 'any'
   };
 
   var isAny = function (value) {
-    // console.log(value);
     return value === 'any';
   };
 
   var is = function (value, currentValue) {
-    console.log(value);
-    // console.log(value === currentValue);
-    // console.log(value === currentValue && value === currentValue);
-    // console.log(isAny(currentValue) || value === currentValue);
-    // console.log(value);
-    return isAny(currentValue) || value === currentValue;
+    return isAny(currentValue) || value.toString() === currentValue;
+  };
+
+  var isPrice = function (value, currentValue) {
+    var minPrice = 10000;
+    var maxPrice = 50000;
+    if (isAny(currentValue)) {
+      return true;
+    }
+    switch (currentValue) {
+      case 'middle': {
+        return value >= minPrice && value <= maxPrice;
+      }
+      case 'low': {
+        return value <= minPrice;
+      }
+      case 'high': {
+        return value >= minPrice;
+      }
+    }
+    return false;
   };
 
   var onSelectFilterChange = function (evt) {
     currentFilter[evt.target.name] = evt.target.value;
-    // console.log(evt.target.name);
-    // console.log(evt.target.value);
-    var arr = window.returnAllAds();
-
-    var ElementsFilterHousing = {
-      type: 'housing-type',
-      price: 'housing-price',
-      rooms: 'housing-rooms',
-      guests: 'housing-guests'
-    };
-
+    var arr = window.map.returnAllAds();
     var filteredPins = arr.filter(function (ad) {
-      // console.log('-------------------');
-      // console.log('ad.offer.type');
-      // console.log(ad.offer.type);
-      // console.log(is(ad.offer.rooms, currentFilter[ElementsFilterHousing.rooms]));
-      // return is(ad.offer.type, currentFilter[ElementsFilterHousing.type]);
-      return is(ad.offer.type, currentFilter[ElementsFilterHousing.type]) && is(ad.offer.rooms, currentFilter[ElementsFilterHousing.rooms]) && is(ad.offer.guests, currentFilter[ElementsFilterHousing.guests]);
+      return is(ad.offer.type, currentFilter['housing-type'])
+        && is(ad.offer.rooms, currentFilter['housing-rooms'])
+        && is(ad.offer.guests, currentFilter['housing-guests'])
+        && isPrice(ad.offer.price, currentFilter['housing-price']);
     });
 
-    console.log(filteredPins);
-
-    window.map.render(filteredPins);
+    window.map.renderHouses(filteredPins);
   };
 
   selectFilterTypes.addEventListener('change', onSelectFilterChange);
   selectFilterRooms.addEventListener('change', onSelectFilterChange);
   selectFilterGuets.addEventListener('change', onSelectFilterChange);
-
-  // var isHouseType = function (ad) {
-  //   if (selectFilterTypes.value === 'any') {
-  //     return true;
-  //   }
-  //   if (selectFilterTypes.value === ad.offer.type) {
-  //     return true;
-  //   }
-  //   return false;
-  // };
-
-  // var isHouseRooms = function (ad) {
-  //   if (selectFilterRooms.value === 'any') {
-  //     return true;
-  //   }
-  //   if (selectFilterRooms.value === ad.offer.rooms) {
-  //     return true;
-  //   }
-  //   return false;
-  // };
-
-  // var isHouseGuests = function (ad) {
-  //   if (selectFilterGuets.value === 'any') {
-  //     return true;
-  //   }
-  //   if (selectFilterGuets.value === ad.offer.guests) {
-  //     return true;
-  //   }
-  //   return false;
-  // };
-
-  // var isFilter = function (ad) {
-  //   return isHouseType(ad) && isHouseRooms(ad) && isHouseGuests(ad);
-  // };
-
-  // window.filter = {
-  //   isFilter: isFilter
-  // };
+  selectFilterPrices.addEventListener('change', onSelectFilterChange);
 })();

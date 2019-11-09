@@ -34,9 +34,11 @@
   };
 
   var renderHouses = function (ads) {
+    destroyPins();
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < MAX_NUMBER_PINS; i++) {
       var ad = ads[i];
+      console.log(ad);
       var pinElement = renderPinHouse(ad);
       var clickHandler = window.card.createClickPinHandler(ad);
       pinElement.addEventListener('click', clickHandler);
@@ -47,30 +49,26 @@
 
   var destroyPins = function () {
     if (!(renderedPins && renderedPins.length)) {
-      // console.log('Да этот массив пустой');
       return;
     }
 
     renderedPins.forEach(function (element) {
-      // console.log('Здесь копируется элемент, под номером ' + element);
-      similarPinTemplate.removeChild(element);
+      map.removeChild(element);
     });
 
     renderedPins = [];
   };
 
-  var renderPins = function (ads) {
-    destroyPins();
-    // console.log(ads);
-    var fragment = document.createDocumentFragment();
-    ads.forEach(function (ad) {
-      var element = ad;
-      renderedPins.push(element);
-      fragment.appendChild(element);
-    });
+  // var renderPins = function (ads) {
+  //   var fragment = document.createDocumentFragment();
+  //   ads.forEach(function (ad) {
+  //     var element = ad;
+  //     renderedPins.push(element);
+  //     fragment.appendChild(element);
+  //   });
 
-    map.appendChild(fragment);
-  };
+  //   map.appendChild(fragment);
+  // };
 
   var activatePage = function () {
     map.classList.remove('map--faded');
@@ -92,9 +90,6 @@
 
   var successHandler = function (ads) {
     allAds = ads;
-    window.returnAllAds = function () {
-      return allAds;
-    };
     renderHouses(allAds);
   };
   var showModal = function () {
@@ -150,12 +145,16 @@
   window.pin.myPin.addEventListener('mousedown', myPinMouseDownHanlder);
   window.pin.myPin.addEventListener('keydown', myPinKeydownHandler);
 
+  var returnAllAds = function () {
+    return allAds;
+  };
+
   window.map = {
     element: map,
     mapFiltersForm: mapFiltersForm,
     mapWidth: mapWidth,
     inputCordenatios: inputCordenatios,
-    allAds: allAds,
-    render: renderPins
+    returnAllAds: returnAllAds,
+    renderHouses: renderHouses
   };
 })();
