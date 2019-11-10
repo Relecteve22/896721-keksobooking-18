@@ -62,17 +62,6 @@
 
     renderedPins = [];
   };
-
-  // var renderPins = function (ads) {
-  //   var fragment = document.createDocumentFragment();
-  //   ads.forEach(function (ad) {
-  //     renderedPins.push(ad);
-  //     fragment.appendChild(ad);
-  //   });
-
-  //   map.appendChild(fragment);
-  // };
-
   var activatePage = function () {
     map.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
