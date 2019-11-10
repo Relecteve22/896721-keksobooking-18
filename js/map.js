@@ -25,7 +25,6 @@
 
   var renderPinHouse = function (house) {
     var housePinElement = similarPinTemplate.cloneNode(true);
-    console.log(house.author.avatar);
 
     housePinElement.querySelector('img').src = house.author.avatar;
     housePinElement.querySelector('img').alt = house.offer.title;
@@ -36,8 +35,12 @@
 
   var renderHouses = function (ads) {
     destroyPins();
+    var adsCopy = ads.slice();
+    if ((ads.length + 1) > MAX_NUMBER_PINS) {
+      adsCopy.length = MAX_NUMBER_PINS;
+    }
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < MAX_NUMBER_PINS; i++) {
+    for (var i = 0; i < adsCopy.length; i++) {
       var ad = ads[i];
       var pinElement = renderPinHouse(ad);
       renderedPins.push(pinElement);
@@ -74,7 +77,6 @@
     map.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
     window.form.toogleForm(window.form.adForm, false);
-    window.form.toogleForm(mapFiltersForm, false);
     inputCordenatios.disabled = true;
   };
 
@@ -82,6 +84,7 @@
     inputCordenatios.value = (StartPin.LEFT + sharpMarkX) + ', ' + (StartPin.TOP + Pin.HEIGHT / 2);
   };
 
+  window.form.toogleForm(window.form.adForm, true);
   window.form.toogleForm(mapFiltersForm, true);
 
   cordinatesPinInputStart();
@@ -90,7 +93,7 @@
   var successHandler = function (ads) {
     allAds = ads;
     renderHouses(allAds);
-    window.form.toogleForm(window.form.adForm, true);
+    window.form.toogleForm(mapFiltersForm, false);
   };
   var showModal = function () {
     var errorTempaltePopup = errorTemplate.cloneNode(true);

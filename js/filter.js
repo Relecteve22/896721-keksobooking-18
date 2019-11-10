@@ -22,6 +22,17 @@
     return isAny(currentValue) || value.toString() === currentValue;
   };
 
+  // var isCheckbox = function (value, currentValue) {
+  //   if (!value) {
+  //     return false;
+  //   }
+  //   for (var i = 0; i < value.length; i++) {
+  //     if (value[i] === currentValue) {
+  //       return true;
+  //     }
+  //   }
+  // };
+
   var isPrice = function (value, currentValue) {
     var minPrice = 10000;
     var maxPrice = 50000;
@@ -36,13 +47,17 @@
         return value <= minPrice;
       }
       case 'high': {
-        return value >= minPrice;
+        return value >= maxPrice;
       }
     }
     return false;
   };
 
-  var onSelectFilterChange = function (evt) {
+  // var checkboxsFilterChangeHandler = function (evt) {
+
+  // };
+
+  var selectFilterChangeHandler = function (evt) {
     currentFilter[evt.target.name] = evt.target.value;
     var arr = window.map.returnAllAds();
     var filteredPins = arr.filter(function (ad) {
@@ -55,8 +70,8 @@
     window.map.renderHouses(filteredPins);
   };
 
-  selectFilterTypes.addEventListener('change', onSelectFilterChange);
-  selectFilterRooms.addEventListener('change', onSelectFilterChange);
-  selectFilterGuets.addEventListener('change', onSelectFilterChange);
-  selectFilterPrices.addEventListener('change', onSelectFilterChange);
+  selectFilterTypes.addEventListener('change', selectFilterChangeHandler);
+  selectFilterRooms.addEventListener('change', selectFilterChangeHandler);
+  selectFilterGuets.addEventListener('change', selectFilterChangeHandler);
+  selectFilterPrices.addEventListener('change', selectFilterChangeHandler);
 })();
