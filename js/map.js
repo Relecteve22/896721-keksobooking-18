@@ -149,6 +149,7 @@
     inputCordenatios: inputCordenatios,
     returnAllAds: returnAllAds,
     renderHouses: renderHouses,
-    showModalError: showModalError
+    showModalError: showModalError,
+    destroyPins: destroyPins
   };
 })();

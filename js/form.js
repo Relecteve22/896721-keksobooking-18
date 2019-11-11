@@ -10,7 +10,7 @@
   var selectRoom = document.querySelector('#room_number');
   var selectGuets = document.querySelector('#capacity');
   var optionGuets = selectGuets.querySelectorAll('option');
-  // var resetButton = document.querySelector('.ad-form__reset');
+  var resetButton = document.querySelector('.ad-form__reset');
   var adForm = document.querySelector('.ad-form');
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var fileChooserAvatar = document.querySelector('.ad-form__field input[type=file]');
@@ -146,6 +146,13 @@
   // var resetMapFIlter = function () {
 
   // };
+
+  resetButton.addEventListener('click', function () {
+    window.filter.mapFilter.reset();
+    adForm.reset();
+    window.map.destroyPins();
+  });
+
   adForm.addEventListener('submit', function (evt) {
     window.backend.save(new FormData(adForm), function () {
       showModalSuccess();
