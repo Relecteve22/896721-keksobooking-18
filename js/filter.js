@@ -32,14 +32,16 @@
     return isAny(currentValue) || value.toString() === currentValue;
   };
 
-  var isCheckbox = function (value) {
-    if (!value) {
-      // console.log('false');
-      return false;
-    } else {
-      // console.log('true');
+  var isCheckbox = function (features) {
+    if (checkboxCount === 0) {
       return true;
     }
+    for (var i = 0; i < features.length; i++) {
+      if (currentFeaturesFilter[features[i]]) {
+        return true;
+      }
+    }
+    return false;
   };
 
   var isPrice = function (value, currentValue) {
@@ -64,39 +66,42 @@
     return false;
   };
 
-  var filterPins = function (evt) {
-    currentFilter[evt.target.name] = evt.target.value;
-    currentFeaturesFilter[evt.target.checked] = evt.target.value;
+  var filterPins = function () {
     var allAds = window.map.returnAllAds();
     var filteredPins = allAds.filter(function (ad) {
       return is(ad.offer.type, currentFilter['housing-type'])
         && is(ad.offer.rooms, currentFilter['housing-rooms'])
         && is(ad.offer.guests, currentFilter['housing-guests'])
         && isPrice(ad.offer.price, currentFilter['housing-price'])
-        && isCheckbox(ad.offer.features, currentFeaturesFilter[true]);
+        && isCheckbox(ad.offer.features);
     });
-    return filteredPins;
+    window.map.renderHouses(filteredPins);
   };
 
-  // var checkboxsFilterChangeHandler = function (evt) {
-  //   currentFeaturesFilter[evt.target.checked] = evt.target.value;
-  //   var allAds = window.map.returnAllAds();
-  //   var filteredPins = allAds.filter(function (ad) {
-  //     return isCheckbox(ad.offer.features, currentFeaturesFilter[true]);
-  //   });
+  var filterPinsDebounced = window.util.debounce(filterPins);
 
-  //   window.map.renderHouses(filteredPins);
-  // };
+  var checkboxCount = 0;
+
+  var checkboxsFilterChangeHandler = function (evt) {
+    currentFeaturesFilter[evt.target.value] = evt.target.checked;
+    if (evt.target.checked) {
+      checkboxCount++;
+    } else {
+      checkboxCount--;
+    }
+    filterPinsDebounced();
+  };
 
   var selectFilterChangeHandler = function (evt) {
-    window.map.renderHouses(filterPins(evt));
+    currentFilter[evt.target.name] = evt.target.value;
+    filterPinsDebounced();
   };
 
   selectFilterTypes.addEventListener('change', selectFilterChangeHandler);
   selectFilterRooms.addEventListener('change', selectFilterChangeHandler);
   selectFilterGuets.addEventListener('change', selectFilterChangeHandler);
   selectFilterPrices.addEventListener('change', selectFilterChangeHandler);
-  featuresFilter.addEventListener('change', selectFilterChangeHandler);
+  featuresFilter.addEventListener('change', checkboxsFilterChangeHandler);
 
   window.filter = {
     mapFilter: mapFilter
