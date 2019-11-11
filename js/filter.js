@@ -43,20 +43,22 @@
   };
 
   var isPrice = function (value, currentValue) {
-    var minPrice = 10000;
-    var maxPrice = 50000;
+    var Price = {
+      min: 10000,
+      max: 50000
+    };
     if (isAny(currentValue)) {
       return true;
     }
     switch (currentValue) {
       case 'middle': {
-        return value >= minPrice && value <= maxPrice;
+        return value >= Price.min && value <= Price.max;
       }
       case 'low': {
-        return value <= minPrice;
+        return value <= Price.min;
       }
       case 'high': {
-        return value >= maxPrice;
+        return value >= Price.max;
       }
     }
     return false;

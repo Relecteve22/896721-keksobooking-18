@@ -84,7 +84,7 @@
     renderHouses(allAds);
     window.form.toogleForm(mapFiltersForm, false);
   };
-  var showModal = function () {
+  var showModalError = function () {
     var errorTempaltePopup = errorTemplate.cloneNode(true);
     var closeButton = errorTempaltePopup.querySelector('.error__button');
 
@@ -114,7 +114,7 @@
   };
 
   var errorHandler = function () {
-    showModal();
+    showModalError();
   };
 
   var activeAndLoad = function () {
@@ -142,11 +142,13 @@
   };
 
   window.map = {
+    main: main,
     element: map,
     mapFiltersForm: mapFiltersForm,
     mapWidth: mapWidth,
     inputCordenatios: inputCordenatios,
     returnAllAds: returnAllAds,
-    renderHouses: renderHouses
+    renderHouses: renderHouses,
+    showModalError: showModalError
   };
 })();
