@@ -160,7 +160,9 @@
     function () {
       window.map.showModalError();
     },
-    window.backend.Url.POST, 'POST', new FormData(adForm));
+    window.backend.Url.POST,
+    'POST',
+    new FormData(adForm));
     evt.preventDefault();
   });
 
