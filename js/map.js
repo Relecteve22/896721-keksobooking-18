@@ -119,7 +119,7 @@
 
   var activeAndLoad = function () {
     activatePage();
-    window.backend.load(successHandler, errorHandler);
+    window.backend.loadAndSave(successHandler, errorHandler, window.backend.Url.GET, 'GET');
     window.pin.myPin.removeEventListener('mousedown', myPinMouseDownHanlder);
     window.pin.myPin.removeEventListener('keydown', myPinKeydownHandler);
   };

@@ -65,10 +65,10 @@
   };
 
   var minPriceHouses = {
-    bungalo: 0,
-    flat: 1000,
-    house: 5000,
-    palace: 10000
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
   };
   var toogleElements = function (elements, type) {
     for (var i = 0; i < elements.length; i++) {
@@ -154,11 +154,13 @@
   });
 
   adForm.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(adForm), function () {
+    window.backend.loadAndSave(function () {
       showModalSuccess();
-    }, function () {
+    },
+    function () {
       window.map.showModalError();
-    });
+    },
+    window.backend.Url.POST, 'POST', new FormData(adForm));
     evt.preventDefault();
   });
 
