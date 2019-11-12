@@ -36,8 +36,8 @@
   var renderHouses = function (ads) {
     destroyPins();
     var adsCopy = ads.slice();
-    if (adsCopy.length > 5) {
-      adsCopy.length = 5;
+    if (adsCopy.length > MAX_NUMBER_PINS) {
+      adsCopy.length = MAX_NUMBER_PINS;
     }
     var fragment = document.createDocumentFragment();
     adsCopy.forEach(function (ad) {
@@ -47,9 +47,6 @@
       pinElement.addEventListener('click', clickHandler);
       fragment.appendChild(pinElement);
     });
-    // if ((ads.length + 1) > MAX_NUMBER_PINS) {
-    //   adsCopy.length = MAX_NUMBER_PINS;
-    // }
     // var fragment = document.createDocumentFragment();
     // for (var i = 0; i < ads.length; i++) {
     //   var ad = ads[i];
