@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
   var submitAdForm = document.querySelector('.ad-form__submit');
   var priceForNigntInput = document.querySelector('#price');
   var timeInSelect = document.querySelector('#timein');
@@ -9,15 +11,64 @@
   var selectGuets = document.querySelector('#capacity');
   var optionGuets = selectGuets.querySelectorAll('option');
   var resetButton = document.querySelector('.ad-form__reset');
-  var mapFilter = document.querySelector('.map__filters');
-  var selectMapFilter = mapFilter.querySelectorAll('select');
   var adForm = document.querySelector('.ad-form');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+  var fileChooserAvatar = document.querySelector('.ad-form__field input[type=file]');
+  var previewAvatar = document.querySelector('.ad-form-header__preview img');
+  // var fileChooserPhoto = document.querySelector('.ad-form__upload input[type=file]');
+  // var previewPhoto = document.querySelector('.ad-form-photo');
+
+  fileChooserAvatar.addEventListener('change', function () {
+    var file = fileChooserAvatar.files[0];
+
+    if (file) {
+      var fileName = file.name.toLowerCase();
+
+      var matches = FILE_TYPES.some(function (it) {
+        return fileName.endsWith(it);
+      });
+
+      if (matches) {
+        var reader = new FileReader();
+
+        reader.addEventListener('load', function () {
+          previewAvatar.src = reader.result;
+        });
+
+        reader.readAsDataURL(file);
+      }
+    }
+  });
+
+  var showModalSuccess = function () {
+    var successTempaltePopup = successTemplate.cloneNode(true);
+
+    var closeModal = function () {
+      window.map.main.removeChild(successTempaltePopup);
+      document.removeEventListener('keydown', onDocumentKeydown);
+    };
+
+    var onDocumentKeydown = function (evt) {
+      if (!window.util.isEsc(evt)) {
+        return;
+      }
+      closeModal();
+    };
+
+    document.addEventListener('keydown', onDocumentKeydown);
+
+    successTempaltePopup.addEventListener('click', function () {
+      closeModal();
+    });
+
+    window.map.main.appendChild(successTempaltePopup);
+  };
 
   var minPriceHouses = {
-    bungalo: 0,
-    flat: 1000,
-    house: 5000,
-    palace: 10000
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
   };
   var toogleElements = function (elements, type) {
     for (var i = 0; i < elements.length; i++) {
@@ -91,19 +142,26 @@
     validitySelectRoom(3, 1, 2, 3);
     validitySelectRoom(100, 0);
   });
-  adForm.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(adForm), function () {
-      // console.log('yy');
-    }, function () {
-      // console.log('error');
-    });
-    evt.preventDefault();
-  });
+
+  // var resetMapFIlter = function () {
+
+  // };
 
   resetButton.addEventListener('click', function () {
-    for (var i = 0; i < selectMapFilter.length; i++) {
-      selectMapFilter[i].value = 'any';
-    }
+    window.filter.mapFilter.reset();
+    adForm.reset();
+    window.map.destroyPins();
+  });
+
+  adForm.addEventListener('submit', function (evt) {
+    window.backend.loadAndSave(function () {
+      showModalSuccess();
+    },
+    function () {
+      window.map.showModalError();
+    },
+    window.backend.Url.POST, 'POST', new FormData(adForm));
+    evt.preventDefault();
   });
 
   window.form = {

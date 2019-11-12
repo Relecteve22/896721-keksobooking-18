@@ -7,7 +7,6 @@
     palace: 'Дворец',
     house: 'Дом'
   };
-
   var FEATURES_CLASS = {
     wifi: 'popup__feature--wifi',
     dishwasher: 'popup__feature--dishwasher',
