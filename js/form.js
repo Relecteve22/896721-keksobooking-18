@@ -162,6 +162,8 @@
   });
 
   adForm.addEventListener('submit', function (evt) {
+    var data = new FormData(adForm);
+    console.log(data.values());
     window.backend.loadAndSave(function () {
       showModalSuccess();
       resetPage();
