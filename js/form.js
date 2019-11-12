@@ -147,15 +147,24 @@
 
   // };
 
-  resetButton.addEventListener('click', function () {
+  var resetPage = function () {
     window.filter.mapFilter.reset();
     adForm.reset();
     window.map.destroyPins();
+    window.card.closePromo();
+    window.pin.resultCoordPin(window.pin.MyPinStartPin.X, window.pin.MyPinStartPin.Y);
+    window.map.inputCordenatios.value = 595 + ', ' + 410;
+  };
+
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    resetPage();
   });
 
   adForm.addEventListener('submit', function (evt) {
     window.backend.loadAndSave(function () {
       showModalSuccess();
+      resetPage();
     },
     function () {
       window.map.showModalError();

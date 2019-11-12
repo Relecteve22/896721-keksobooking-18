@@ -105,6 +105,7 @@
   };
 
   window.card = {
-    createClickPinHandler: createClickPinHandler
+    createClickPinHandler: createClickPinHandler,
+    closePromo: closePromo
   };
 })();

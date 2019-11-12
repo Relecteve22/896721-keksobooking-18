@@ -40,7 +40,7 @@
       adsCopy.length = MAX_NUMBER_PINS;
     }
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < adsCopy.length; i++) {
+    for (var i = 0; i < ads.length; i++) {
       var ad = ads[i];
       var pinElement = renderPinHouse(ad);
       renderedPins.push(pinElement);

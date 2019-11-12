@@ -83,6 +83,7 @@
   var checkboxCount = 0;
 
   var checkboxsFilterChangeHandler = function (evt) {
+    window.card.closePromo();
     currentFeaturesFilter[evt.target.value] = evt.target.checked;
     if (evt.target.checked) {
       checkboxCount++;
@@ -93,6 +94,7 @@
   };
 
   var selectFilterChangeHandler = function (evt) {
+    window.card.closePromo();
     currentFilter[evt.target.name] = evt.target.value;
     filterPinsDebounced();
   };
