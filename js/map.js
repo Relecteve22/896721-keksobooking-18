@@ -33,6 +33,18 @@
     return housePinElement;
   };
 
+  var destroyPins = function () {
+    if (!(renderedPins && renderedPins.length)) {
+      return;
+    }
+
+    renderedPins.forEach(function (element) {
+      map.removeChild(element);
+    });
+
+    renderedPins = [];
+  };
+
   var renderHouses = function (ads) {
     destroyPins();
     var adsCopy = ads.slice();
@@ -47,28 +59,7 @@
       pinElement.addEventListener('click', clickHandler);
       fragment.appendChild(pinElement);
     });
-    // var fragment = document.createDocumentFragment();
-    // for (var i = 0; i < ads.length; i++) {
-    //   var ad = ads[i];
-    //   var pinElement = renderPinHouse(ad);
-    //   renderedPins.push(pinElement);
-    //   var clickHandler = window.card.createClickPinHandler(ad);
-    //   pinElement.addEventListener('click', clickHandler);
-    //   fragment.appendChild(pinElement);
-    // }
     return map.appendChild(fragment);
-  };
-
-  var destroyPins = function () {
-    if (!(renderedPins && renderedPins.length)) {
-      return;
-    }
-
-    renderedPins.forEach(function (element) {
-      map.removeChild(element);
-    });
-
-    renderedPins = [];
   };
   var activatePage = function () {
     map.classList.remove('map--faded');

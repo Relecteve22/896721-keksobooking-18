@@ -19,6 +19,9 @@
   var previewPhoto = document.querySelector('.ad-form__photo');
   var containerPhoto = document.querySelector('.ad-form__photo-container');
 
+  var renderedPhotos = [];
+  var isPhotoAvatar = false;
+
   fileChooserAvatar.addEventListener('change', function () {
     var file = fileChooserAvatar.files[0];
 
@@ -33,6 +36,7 @@
         var reader = new FileReader();
 
         reader.addEventListener('load', function () {
+          isPhotoAvatar = true;
           previewAvatar.src = reader.result;
         });
 
@@ -54,6 +58,7 @@
       element.alt = 'Фото квартиры';
       elementPhoto.appendChild(element);
       elementPhoto.classList.add('ad-form-header__preview');
+      renderedPhotos.push(elementPhoto);
       fragment.appendChild(elementPhoto);
       if (file) {
         var fileName = file.name.toLowerCase();
@@ -179,6 +184,28 @@
     validitySelectRoom(100, 0);
   });
 
+  var destroyPhotos = function () {
+    if (!(renderedPhotos && renderedPhotos.length)) {
+      return;
+    }
+
+    renderedPhotos.forEach(function (element) {
+      containerPhoto.removeChild(element);
+    });
+
+    renderedPhotos = [];
+  };
+
+  var destroyPhotoAvatar = function () {
+    if (!(isPhotoAvatar)) {
+      return;
+    }
+
+    previewAvatar.src = 'img/muffin-grey.svg';
+
+    isPhotoAvatar = false;
+  };
+
   var resetPage = function () {
     window.filter.mapFilter.reset();
     adForm.reset();
@@ -186,6 +213,8 @@
     window.card.closePromo();
     window.pin.resultCoordPin(window.pin.MyPinStartPin.X, window.pin.MyPinStartPin.Y);
     window.map.inputCordenatios.value = 595 + ', ' + 410;
+    destroyPhotos();
+    destroyPhotoAvatar();
   };
 
   resetButton.addEventListener('click', function (evt) {
