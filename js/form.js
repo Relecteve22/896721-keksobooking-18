@@ -2,6 +2,10 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var SizePhoto = {
+    WIDTH: 40,
+    HEIGHT: 44
+  };
 
   var submitAdForm = document.querySelector('.ad-form__submit');
   var priceForNigntInput = document.querySelector('#price');
@@ -22,61 +26,64 @@
   var renderedPhotos = [];
   var isPhotoAvatar = false;
 
-  fileChooserAvatar.addEventListener('change', function () {
-    var file = fileChooserAvatar.files[0];
-
+  var readerFile = function (file, element, isTrueAvatar) {
     if (file) {
       var fileName = file.name.toLowerCase();
-
       var matches = FILE_TYPES.some(function (it) {
         return fileName.endsWith(it);
       });
-
       if (matches) {
         var reader = new FileReader();
 
         reader.addEventListener('load', function () {
-          isPhotoAvatar = true;
-          previewAvatar.src = reader.result;
+          element.src = reader.result;
+          if (isTrueAvatar) {
+            isPhotoAvatar = true;
+          }
         });
 
         reader.readAsDataURL(file);
       }
     }
+  };
+
+  fileChooserAvatar.addEventListener('change', function () {
+    var file = fileChooserAvatar.files[0];
+    readerFile(file, previewAvatar, true);
   });
 
   fileChooserPhoto.addEventListener('change', function () {
     var fragment = document.createDocumentFragment();
-    var fileChooserPhotoFilesLength = fileChooserPhoto.files.length;
-    for (var i = 0; i < fileChooserPhotoFilesLength; i++) {
+
+    // var filesPhoto = fileChooserPhoto.files;
+    // filesPhoto.forEach(function (photo) {
+    //   var elementPhoto = previewPhoto.cloneNode(true);
+    //   elementPhoto.classList.remove('visually-hidden');
+    //   var file = photo;
+    //   var element = document.createElement('img');
+    //   element.width = 40;
+    //   element.height = 44;
+    //   element.alt = 'Фото квартиры';
+    //   elementPhoto.appendChild(element);
+    //   elementPhoto.classList.add('ad-form-header__preview');
+    //   renderedPhotos.push(elementPhoto);
+    //   fufufu(file, element);
+    //   fragment.appendChild(elementPhoto);
+    // });
+
+    for (var i = 0; i < fileChooserPhoto.files.length; i++) {
       var elementPhoto = previewPhoto.cloneNode(true);
       elementPhoto.classList.remove('visually-hidden');
       var file = fileChooserPhoto.files[i];
       var element = document.createElement('img');
-      element.width = 40;
-      element.height = 44;
+      element.width = SizePhoto.WIDTH;
+      element.height = SizePhoto.HEIGHT;
       element.alt = 'Фото квартиры';
       elementPhoto.appendChild(element);
       elementPhoto.classList.add('ad-form-header__preview');
       renderedPhotos.push(elementPhoto);
       fragment.appendChild(elementPhoto);
-      if (file) {
-        var fileName = file.name.toLowerCase();
-
-        var matches = FILE_TYPES.some(function (it) {
-          return fileName.endsWith(it);
-        });
-
-        if (matches) {
-          var reader = new FileReader();
-
-          reader.addEventListener('load', function () {
-            element.src = reader.result;
-          });
-
-          reader.readAsDataURL(file);
-        }
-      }
+      readerFile(file, element);
     }
     containerPhoto.appendChild(fragment);
   });
