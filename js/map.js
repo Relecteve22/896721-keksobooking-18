@@ -74,7 +74,7 @@
     map.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
     window.form.toogleForm(window.form.adForm, false);
-    inputCordenatios.disabled = true;
+    inputCordenatios.disabled = false;
   };
 
   var cordinatesPinInputStart = function () {
