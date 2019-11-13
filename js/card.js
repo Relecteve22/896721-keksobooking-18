@@ -75,10 +75,6 @@
     var popupFeatures = housePromoElement.querySelector('.popup__features');
     var closeButton = housePromoElement.querySelector('.popup__close');
 
-    if (house.offer.features) {
-      alert('Он пустой');
-    }
-
     housePromoElement.querySelector('.popup__title').textContent = house.offer.title;
     housePromoElement.querySelector('.popup__text--address').textContent = house.location.x + ', ' + house.location.y;
     housePromoElement.querySelector('.popup__text--price').textContent = house.offer.price + '₽/ночь.';
