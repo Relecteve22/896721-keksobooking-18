@@ -46,6 +46,7 @@
     var fileChooserPhotoFilesLength = fileChooserPhoto.files.length;
     for (var i = 0; i < fileChooserPhotoFilesLength; i++) {
       var elementPhoto = previewPhoto.cloneNode(true);
+      elementPhoto.classList.remove('visually-hidden');
       var file = fileChooserPhoto.files[i];
       var element = document.createElement('img');
       element.width = 40;
