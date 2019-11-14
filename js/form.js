@@ -13,7 +13,7 @@
     'palace': 10000
   };
   var DisabledOptionRoom = {
-    OHE_ELEMENT: (1, 1),
+    ONE_ELEMENT: (1, 1),
     TWO_ELEMENT: (2, 1, 2),
     THREE_ELEMENT: (3, 1, 2, 3),
     FOUR_ELEMENT: (100, 0)
@@ -155,10 +155,10 @@
       }
     }
   };
-  filterOptionRoom(1, 1);
+  filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENT);
 
   selectRoom.addEventListener('change', function () {
-    filterOptionRoom(1, 1);
+    filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENT);
     filterOptionRoom(2, 1, 2);
     filterOptionRoom(3, 1, 2, 3);
     filterOptionRoom(100, 0);
