@@ -13,10 +13,10 @@
     'palace': 10000
   };
   var DisabledOptionRoom = {
-    ONE_ELEMENT: (1, 1),
-    TWO_ELEMENT: (2, 1, 2),
-    THREE_ELEMENT: (3, 1, 2, 3),
-    FOUR_ELEMENT: (100, 0)
+    ONE_ELEMENT: [1, 1],
+    TWO_ELEMENT: [2, 1, 2],
+    THREE_ELEMENT: [3, 1, 2, 3],
+    FOUR_ELEMENT: [100, 0]
   };
   var StartCoordsMyPin = {
     X: 595,
@@ -159,9 +159,9 @@
 
   selectRoom.addEventListener('change', function () {
     filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENT);
-    filterOptionRoom(2, 1, 2);
-    filterOptionRoom(3, 1, 2, 3);
-    filterOptionRoom(100, 0);
+    filterOptionRoom.apply(null, DisabledOptionRoom.TWO_ELEMENT);
+    filterOptionRoom.apply(null, DisabledOptionRoom.THREE_ELEMENT);
+    filterOptionRoom.apply(null, DisabledOptionRoom.FOUR_ELEMENT);
   });
 
   var validitySelectRoom = function (numberOptionRooms, numberOptionGuestOne, numberOptionGuestTwo, numberOptionGuestThree) {
@@ -175,10 +175,10 @@
   };
 
   submitAdForm.addEventListener('click', function () {
-    validitySelectRoom(1, 1);
-    validitySelectRoom(2, 1, 2);
-    validitySelectRoom(3, 1, 2, 3);
-    validitySelectRoom(100, 0);
+    validitySelectRoom.apply(null, DisabledOptionRoom.ONE_ELEMENT);
+    validitySelectRoom.apply(null, DisabledOptionRoom.TWO_ELEMENT);
+    validitySelectRoom.apply(null, DisabledOptionRoom.THREE_ELEMENT);
+    validitySelectRoom.apply(null, DisabledOptionRoom.FOUR_ELEMENT);
   });
 
   var destroyPhotos = function () {
