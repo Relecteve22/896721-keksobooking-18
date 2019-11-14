@@ -22,9 +22,7 @@
   var fileChooserPhoto = document.querySelector('.ad-form__upload input[type=file]');
   var previewPhoto = document.querySelector('.ad-form__photo');
   var containerPhoto = document.querySelector('.ad-form__photo-container');
-
-  var photosDropZone = document.querySelector('.ad-form__drop-zone');
-
+  
   var renderedPhotos = [];
   var isPhotoAvatar = false;
 
@@ -56,23 +54,6 @@
 
   fileChooserPhoto.addEventListener('change', function () {
     var fragment = document.createDocumentFragment();
-
-    // var filesPhoto = fileChooserPhoto.files;
-    // filesPhoto.forEach(function (photo) {
-    //   var elementPhoto = previewPhoto.cloneNode(true);
-    //   elementPhoto.classList.remove('visually-hidden');
-    //   var file = photo;
-    //   var element = document.createElement('img');
-    //   element.width = 40;
-    //   element.height = 44;
-    //   element.alt = 'Фото квартиры';
-    //   elementPhoto.appendChild(element);
-    //   elementPhoto.classList.add('ad-form-header__preview');
-    //   renderedPhotos.push(elementPhoto);
-    //   fufufu(file, element);
-    //   fragment.appendChild(elementPhoto);
-    // });
-
     for (var i = 0; i < fileChooserPhoto.files.length; i++) {
       var elementPhoto = previewPhoto.cloneNode(true);
       elementPhoto.classList.remove('visually-hidden');
@@ -89,27 +70,6 @@
     }
     containerPhoto.appendChild(fragment);
   });
-
-  var handleDrop = function () {
-    // var fragment = document.createDocumentFragment();
-    // for (var i = 0; i < fileChooserPhoto.files.length; i++) {
-    //   var elementPhoto = previewPhoto.cloneNode(true);
-    //   elementPhoto.classList.remove('visually-hidden');
-    //   var file = fileChooserPhoto.files[i];
-    //   var element = document.createElement('img');
-    //   element.width = SizePhoto.WIDTH;
-    //   element.height = SizePhoto.HEIGHT;
-    //   element.alt = 'Фото квартиры';
-    //   elementPhoto.appendChild(element);
-    //   elementPhoto.classList.add('ad-form-header__preview');
-    //   renderedPhotos.push(elementPhoto);
-    //   fragment.appendChild(elementPhoto);
-    //   readerFile(file, element);
-    // }
-    // containerPhoto.appendChild(fragment);
-  };
-
-  photosDropZone.addEventListener('drop', handleDrop);
 
   var showModalSuccess = function () {
     var successTempaltePopup = successTemplate.cloneNode(true);
