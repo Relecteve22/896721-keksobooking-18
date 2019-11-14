@@ -22,7 +22,7 @@
   var fileChooserPhoto = document.querySelector('.ad-form__upload input[type=file]');
   var previewPhoto = document.querySelector('.ad-form__photo');
   var containerPhoto = document.querySelector('.ad-form__photo-container');
-  
+
   var renderedPhotos = [];
   var isPhotoAvatar = false;
 
@@ -214,15 +214,13 @@
 
   adForm.addEventListener('submit', function (evt) {
     var data = new FormData(adForm);
-    window.backend.loadAndSave(function () {
+    window.backend.save(function () {
       showModalSuccess();
       resetPage();
     },
     function () {
       window.map.showModalError();
     },
-    window.backend.Url.POST,
-    'POST',
     data);
     evt.preventDefault();
   });

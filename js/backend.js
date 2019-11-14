@@ -30,8 +30,15 @@
     xhr.send(data);
   };
 
+  var load = function (successHandler, errorHandler) {
+    loadAndSave(successHandler, errorHandler, Url.GET, 'GET');
+  };
+  var save = function (successHandler, errorHandler, data) {
+    loadAndSave(successHandler, errorHandler, Url.POST, 'POST', data);
+  };
+
   window.backend = {
-    loadAndSave: loadAndSave,
-    Url: Url
+    load: load,
+    save: save
   };
 })();
