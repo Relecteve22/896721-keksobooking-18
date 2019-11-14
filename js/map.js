@@ -89,17 +89,17 @@
 
     var closeModal = function () {
       main.removeChild(errorTempaltePopup);
-      document.removeEventListener('keydown', onDocumentKeydown);
+      document.removeEventListener('keydown', documentKeydownHandler);
     };
 
-    var onDocumentKeydown = function (evt) {
+    var documentKeydownHandler = function (evt) {
       if (!window.util.isEsc(evt)) {
         return;
       }
       closeModal();
     };
 
-    document.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('keydown', documentKeydownHandler);
 
     closeButton.addEventListener('click', function () {
       closeModal();

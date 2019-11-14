@@ -54,10 +54,10 @@
 
   fileChooserPhoto.addEventListener('change', function () {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < fileChooserPhoto.files.length; i++) {
+    Array.from(fileChooserPhoto.files).forEach(function (photo) {
       var elementPhoto = previewPhoto.cloneNode(true);
       elementPhoto.classList.remove('visually-hidden');
-      var file = fileChooserPhoto.files[i];
+      var file = photo;
       var element = document.createElement('img');
       element.width = SizePhoto.WIDTH;
       element.height = SizePhoto.HEIGHT;
@@ -67,32 +67,46 @@
       renderedPhotos.push(elementPhoto);
       fragment.appendChild(elementPhoto);
       readerFile(file, element);
-    }
+    });
+    // for (var i = 0; i < fileChooserPhoto.files.length; i++) {
+    //   var elementPhoto = previewPhoto.cloneNode(true);
+    //   elementPhoto.classList.remove('visually-hidden');
+    //   var file = fileChooserPhoto.files[i];
+    //   var element = document.createElement('img');
+    //   element.width = SizePhoto.WIDTH;
+    //   element.height = SizePhoto.HEIGHT;
+    //   element.alt = 'Фото квартиры';
+    //   elementPhoto.appendChild(element);
+    //   elementPhoto.classList.add('ad-form-header__preview');
+    //   renderedPhotos.push(elementPhoto);
+    //   fragment.appendChild(elementPhoto);
+    //   readerFile(file, element);
+    // }
     containerPhoto.appendChild(fragment);
   });
 
   var showModalSuccess = function () {
-    var successTempaltePopup = successTemplate.cloneNode(true);
+    var successTempalteCopy = successTemplate.cloneNode(true);
 
     var closeModal = function () {
-      window.map.main.removeChild(successTempaltePopup);
-      document.removeEventListener('keydown', onDocumentKeydown);
+      window.map.main.removeChild(successTempalteCopy);
+      document.removeEventListener('keydown', documentKeydownHandler);
     };
 
-    var onDocumentKeydown = function (evt) {
+    var documentKeydownHandler = function (evt) {
       if (!window.util.isEsc(evt)) {
         return;
       }
       closeModal();
     };
 
-    document.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('keydown', documentKeydownHandler);
 
-    successTempaltePopup.addEventListener('click', function () {
+    successTempalteCopy.addEventListener('click', function () {
       closeModal();
     });
 
-    window.map.main.appendChild(successTempaltePopup);
+    window.map.main.appendChild(successTempalteCopy);
   };
 
   var minPriceHouses = {
@@ -102,9 +116,12 @@
     'palace': 10000
   };
   var toogleElements = function (elements, type) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = type;
-    }
+    // for (var i = 0; i < elements.length; i++) {
+    //   elements[i].disabled = type;
+    // }
+    elements.forEach(function (element) {
+      element.disabled = type;
+    });
   };
 
   var toogleForm = function (form, type) {
@@ -114,10 +131,12 @@
       form.querySelectorAll('textarea'),
       form.querySelectorAll('button')
     ];
-
-    for (var i = 0; i < dataToToogle.length; i++) {
-      toogleElements(dataToToogle[i], type);
-    }
+    dataToToogle.forEach(function (dataToToogleElement) {
+      toogleElements(dataToToogleElement, type);
+    });
+    // for (var i = 0; i < dataToToogle.length; i++) {
+    //   toogleElements(dataToToogle[i], type);
+    // }
   };
 
   var houseTypeDoValidity = function (objectHouse) {

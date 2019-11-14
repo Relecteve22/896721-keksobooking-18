@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  var Price = {
+    min: 10000,
+    max: 50000
+  };
+
   var mapFilter = document.querySelector('.map__filters');
   var selectFilterTypes = mapFilter.querySelector('#housing-type');
   var selectFilterPrices = mapFilter.querySelector('#housing-price');
@@ -45,10 +50,6 @@
   };
 
   var isPrice = function (value, currentValue) {
-    var Price = {
-      min: 10000,
-      max: 50000
-    };
     if (isAny(currentValue)) {
       return true;
     }
