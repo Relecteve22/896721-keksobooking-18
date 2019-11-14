@@ -140,6 +140,10 @@
     return allAds;
   };
 
+  var returnRenderedPins = function () {
+    return renderedPins;
+  };
+
   window.map = {
     main: main,
     element: map,
@@ -149,6 +153,9 @@
     returnAllAds: returnAllAds,
     renderHouses: renderHouses,
     showModalError: showModalError,
-    destroyPins: destroyPins
+    destroyPins: destroyPins,
+    myPinMouseDownHanlder: myPinMouseDownHanlder,
+    myPinKeydownHandler: myPinKeydownHandler,
+    returnRenderedPins: returnRenderedPins
   };
 })();

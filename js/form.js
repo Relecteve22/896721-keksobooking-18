@@ -6,6 +6,22 @@
     WIDTH: 40,
     HEIGHT: 44
   };
+  var minPriceHouses = {
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
+  };
+  var DisabledOptionRoom = {
+    OHE_ELEMENT: (1, 1),
+    TWO_ELEMENT: (2, 1, 2),
+    THREE_ELEMENT: (3, 1, 2, 3),
+    FOUR_ELEMENT: (100, 0)
+  };
+  var StartCoordsMyPin = {
+    X: 595,
+    Y: 410
+  };
 
   var submitAdForm = document.querySelector('.ad-form__submit');
   var priceForNigntInput = document.querySelector('#price');
@@ -68,20 +84,6 @@
       fragment.appendChild(elementPhoto);
       readerFile(file, element);
     });
-    // for (var i = 0; i < fileChooserPhoto.files.length; i++) {
-    //   var elementPhoto = previewPhoto.cloneNode(true);
-    //   elementPhoto.classList.remove('visually-hidden');
-    //   var file = fileChooserPhoto.files[i];
-    //   var element = document.createElement('img');
-    //   element.width = SizePhoto.WIDTH;
-    //   element.height = SizePhoto.HEIGHT;
-    //   element.alt = 'Фото квартиры';
-    //   elementPhoto.appendChild(element);
-    //   elementPhoto.classList.add('ad-form-header__preview');
-    //   renderedPhotos.push(elementPhoto);
-    //   fragment.appendChild(elementPhoto);
-    //   readerFile(file, element);
-    // }
     containerPhoto.appendChild(fragment);
   });
 
@@ -108,17 +110,7 @@
 
     window.map.main.appendChild(successTempalteCopy);
   };
-
-  var minPriceHouses = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000
-  };
   var toogleElements = function (elements, type) {
-    // for (var i = 0; i < elements.length; i++) {
-    //   elements[i].disabled = type;
-    // }
     elements.forEach(function (element) {
       element.disabled = type;
     });
@@ -134,9 +126,6 @@
     dataToToogle.forEach(function (dataToToogleElement) {
       toogleElements(dataToToogleElement, type);
     });
-    // for (var i = 0; i < dataToToogle.length; i++) {
-    //   toogleElements(dataToToogle[i], type);
-    // }
   };
 
   var houseTypeDoValidity = function (objectHouse) {
@@ -166,7 +155,6 @@
       }
     }
   };
-
   filterOptionRoom(1, 1);
 
   selectRoom.addEventListener('change', function () {
@@ -221,9 +209,16 @@
     window.map.destroyPins();
     window.card.closePromo();
     window.pin.resultCoordPin(window.pin.MyPinStartPin.X, window.pin.MyPinStartPin.Y);
-    window.map.inputCordenatios.value = 595 + ', ' + 410;
+    window.map.inputCordenatios.value = StartCoordsMyPin.X + ', ' + StartCoordsMyPin.Y;
     destroyPhotos();
     destroyPhotoAvatar();
+    window.map.element.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+    toogleForm(window.form.adForm, true);
+    window.map.inputCordenatios.disabled = true;
+    window.pin.myPin.addEventListener('mousedown', window.map.myPinMouseDownHanlder);
+    window.pin.myPin.addEventListener('keydown', window.map.myPinKeydownHandler);
+    window.map.returnRenderedPins = [];
   };
 
   resetButton.addEventListener('click', function (evt) {
