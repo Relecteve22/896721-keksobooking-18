@@ -229,7 +229,7 @@
   };
 
   var resetPage = function () {
-    window.filter.map.reset();
+    window.filter.formElement.reset();
     adFormElement.reset();
     window.map.destroyPins();
     window.card.closePromo();
@@ -239,7 +239,7 @@
     destroyPhotoAvatar();
     window.map.element.classList.add('map--faded');
     adFormElement.classList.add('ad-form--disabled');
-    toogleForm(window.form.ad, true);
+    toogleForm(window.form.element, true);
     window.map.inputCordenatios.disabled = true;
     window.pin.myElement.addEventListener('mousedown', window.map.myPinMouseDownHanlder);
     window.pin.myElement.addEventListener('keydown', window.map.myPinKeydownHandler);
@@ -266,8 +266,8 @@
 
   window.form = {
     MIN_PRICE_HOUSES: MIN_PRICE_HOUSES,
-    toogleForm: toogleForm,
+    toogle: toogleForm,
     houseTypeDoValidity: houseTypeDoValidity,
-    ad: adFormElement
+    element: adFormElement
   };
 })();

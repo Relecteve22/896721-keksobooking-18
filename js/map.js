@@ -64,8 +64,8 @@
   };
   var activatePage = function () {
     mapElement.classList.remove('map--faded');
-    window.form.ad.classList.remove('ad-form--disabled');
-    window.form.toogleForm(window.form.ad, false);
+    window.form.element.classList.remove('ad-form--disabled');
+    window.form.toogle(window.form.element, false);
     inputCordenatiosElement.disabled = false;
   };
 
@@ -73,8 +73,8 @@
     inputCordenatiosElement.value = (StartPin.LEFT + sharpMarkX) + ', ' + (StartPin.TOP + Pin.HEIGHT / 2);
   };
 
-  window.form.toogleForm(window.form.ad, true);
-  window.form.toogleForm(mapFiltersFormElement, true);
+  window.form.toogle(window.form.element, true);
+  window.form.toogle(mapFiltersFormElement, true);
 
   cordinatesPinInputStart();
   window.form.houseTypeDoValidity(window.form.MIN_PRICE_HOUSES);
@@ -82,7 +82,7 @@
   var successHandler = function (ads) {
     allAds = ads;
     renderHouses(allAds);
-    window.form.toogleForm(mapFiltersFormElement, false);
+    window.form.toogle(mapFiltersFormElement, false);
   };
   var showModalError = function () {
     var errorTempaltePopup = errorTemplateElement.cloneNode(true);

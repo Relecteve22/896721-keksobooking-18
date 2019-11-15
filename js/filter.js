@@ -107,6 +107,6 @@
   featuresFilterElement.addEventListener('change', checkboxsFilterChangeHandler);
 
   window.filter = {
-    map: mapFilterElement
+    formElement: mapFilterElement
   };
 })();
