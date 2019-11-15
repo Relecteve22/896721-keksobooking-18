@@ -63,7 +63,7 @@
 
     var dragged = false;
 
-    var onMouseMove = function (moveEvt) {
+    var MouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       dragged = true;
 
@@ -92,22 +92,22 @@
       updateAddress(left, top);
     };
 
-    var onMouseUp = function (upEvt) {
+    var MouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', MouseMoveHandler);
+      document.removeEventListener('mouseup', MouseUpHandler);
 
       if (dragged) {
-        var onClickPreventDefault = function (defaultEvt) {
+        var ClickPreventDefaultHandler = function (defaultEvt) {
           defaultEvt.preventDefault();
-          myPin.removeEventListener('click', onClickPreventDefault);
+          myPin.removeEventListener('click', ClickPreventDefaultHandler);
         };
-        myPin.addEventListener('click', onClickPreventDefault);
+        myPin.addEventListener('click', ClickPreventDefaultHandler);
       }
     };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', MouseMoveHandler);
+    document.addEventListener('mouseup', MouseUpHandler);
   });
 
   window.pin = {

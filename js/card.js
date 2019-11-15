@@ -78,7 +78,7 @@
     var closeButton = housePromoElement.querySelector('.popup__close');
 
     var removeElementCard = function (object, elementDelete) {
-      if (!object.length) {
+      if (!(object && object.length)) {
         housePromoElement.removeChild(elementDelete);
       }
     };
@@ -93,10 +93,16 @@
     housePromoElement.querySelector('.popup__type').textContent = TYPES[house.offer.type];
     housePromoElement.querySelector('.popup__text--capacity').textContent = house.offer.rooms + ' комнаты для ' + house.offer.guests + ' гостей.';
     housePromoElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + house.offer.checkin + ', выезд до ' + house.offer.checkout;
-    popupDescription.textContent = house.offer.description;
     housePromoElement.querySelector('.popup__avatar').src = house.author.avatar;
-    renderFeatures(house.offer.features, popupFeatures);
-    renderPhotos(house.offer.photos, house.offer.title, popupPhotos);
+    if (house.offer.description) {
+      popupDescription.textContent = house.offer.description;
+    }
+    if (house.offer.features) {
+      renderFeatures(house.offer.features, popupFeatures);
+    }
+    if (house.offer.photos) {
+      renderPhotos(house.offer.photos, house.offer.title, popupPhotos);
+    }
 
     closeButton.addEventListener('click', function () {
       closePromo();
