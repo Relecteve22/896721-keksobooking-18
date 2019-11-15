@@ -6,17 +6,17 @@
     WIDTH: 40,
     HEIGHT: 44
   };
-  var minPriceHouses = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000
+  var MIN_PRICE_HOUSES = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
   };
   var DisabledOptionRoom = {
-    ONE_ELEMENT: [1, 1],
-    TWO_ELEMENT: [2, 1, 2],
-    THREE_ELEMENT: [3, 1, 2, 3],
-    FOUR_ELEMENT: [100, 0]
+    ONE_ELEMENTS: [1, 1],
+    TWO_ELEMENTS: [2, 1, 2],
+    THREE_ELEMENTS: [3, 1, 2, 3],
+    FOUR_ELEMENTS: [100, 0]
   };
   var StartCoordsMyPin = {
     X: 595,
@@ -70,7 +70,7 @@
 
   fileChooserPhoto.addEventListener('change', function () {
     var fragment = document.createDocumentFragment();
-    Array.from(fileChooserPhoto.files).forEach(function (photo) {
+    Array.prototype.forEach.call(fileChooserPhoto.files, function (photo) {
       var elementPhoto = previewPhoto.cloneNode(true);
       elementPhoto.classList.remove('visually-hidden');
       var file = photo;
@@ -84,6 +84,20 @@
       fragment.appendChild(elementPhoto);
       readerFile(file, element);
     });
+    // Array.from(fileChooserPhoto.files).forEach(function (photo) {
+    //   var elementPhoto = previewPhoto.cloneNode(true);
+    //   elementPhoto.classList.remove('visually-hidden');
+    //   var file = photo;
+    //   var element = document.createElement('img');
+    //   element.width = SizePhoto.WIDTH;
+    //   element.height = SizePhoto.HEIGHT;
+    //   element.alt = 'Фото квартиры';
+    //   elementPhoto.appendChild(element);
+    //   elementPhoto.classList.add('ad-form-header__preview');
+    //   renderedPhotos.push(elementPhoto);
+    //   fragment.appendChild(elementPhoto);
+    //   readerFile(file, element);
+    // });
     containerPhoto.appendChild(fragment);
   });
 
@@ -155,13 +169,13 @@
       }
     }
   };
-  filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENT);
+  filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
 
   selectRoom.addEventListener('change', function () {
-    filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENT);
-    filterOptionRoom.apply(null, DisabledOptionRoom.TWO_ELEMENT);
-    filterOptionRoom.apply(null, DisabledOptionRoom.THREE_ELEMENT);
-    filterOptionRoom.apply(null, DisabledOptionRoom.FOUR_ELEMENT);
+    filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
+    filterOptionRoom.apply(null, DisabledOptionRoom.TWO_ELEMENTS);
+    filterOptionRoom.apply(null, DisabledOptionRoom.THREE_ELEMENTS);
+    filterOptionRoom.apply(null, DisabledOptionRoom.FOUR_ELEMENTS);
   });
 
   var validitySelectRoom = function (numberOptionRooms, numberOptionGuestOne, numberOptionGuestTwo, numberOptionGuestThree) {
@@ -175,10 +189,10 @@
   };
 
   submitAdForm.addEventListener('click', function () {
-    validitySelectRoom.apply(null, DisabledOptionRoom.ONE_ELEMENT);
-    validitySelectRoom.apply(null, DisabledOptionRoom.TWO_ELEMENT);
-    validitySelectRoom.apply(null, DisabledOptionRoom.THREE_ELEMENT);
-    validitySelectRoom.apply(null, DisabledOptionRoom.FOUR_ELEMENT);
+    validitySelectRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
+    validitySelectRoom.apply(null, DisabledOptionRoom.TWO_ELEMENTS);
+    validitySelectRoom.apply(null, DisabledOptionRoom.THREE_ELEMENTS);
+    validitySelectRoom.apply(null, DisabledOptionRoom.FOUR_ELEMENTS);
   });
 
   var destroyPhotos = function () {
@@ -208,7 +222,7 @@
     adForm.reset();
     window.map.destroyPins();
     window.card.closePromo();
-    window.pin.resultCoordPin(window.pin.MyPinStartPin.X, window.pin.MyPinStartPin.Y);
+    window.pin.resultCoordPin(window.pin.StartMyPin.X, window.pin.StartMyPin.Y);
     window.map.inputCordenatios.value = StartCoordsMyPin.X + ', ' + StartCoordsMyPin.Y;
     destroyPhotos();
     destroyPhotoAvatar();
@@ -240,7 +254,7 @@
   });
 
   window.form = {
-    minPriceHouses: minPriceHouses,
+    MIN_PRICE_HOUSES: MIN_PRICE_HOUSES,
     toogleForm: toogleForm,
     houseTypeDoValidity: houseTypeDoValidity,
     adForm: adForm

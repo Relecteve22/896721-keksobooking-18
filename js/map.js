@@ -76,7 +76,7 @@
   window.form.toogleForm(mapFiltersForm, true);
 
   cordinatesPinInputStart();
-  window.form.houseTypeDoValidity(window.form.minPriceHouses);
+  window.form.houseTypeDoValidity(window.form.MIN_PRICE_HOUSES);
 
   var successHandler = function (ads) {
     allAds = ads;

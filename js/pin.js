@@ -12,7 +12,7 @@
     HEIGHT: 82
   };
 
-  var MyPinStartPin = {
+  var StartMyPin = {
     Y: 375,
     X: 570
   };
@@ -115,6 +115,6 @@
   window.pin = {
     myPin: myPin,
     resultCoordPin: resultCoordPin,
-    MyPinStartPin: MyPinStartPin
+    StartMyPin: StartMyPin
   };
 })();
