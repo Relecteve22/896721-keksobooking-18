@@ -24,8 +24,8 @@
       return BorderMap.MIN_X - mysharpMarkX;
     }
 
-    if ((left + MyPin.WIDTH) > window.map.mapWidth + mysharpMarkX) {
-      return (window.map.mapWidth + mysharpMarkX) - MyPin.WIDTH;
+    if ((left + MyPin.WIDTH) > window.map.width + mysharpMarkX) {
+      return (window.map.width + mysharpMarkX) - MyPin.WIDTH;
     }
 
     return left;
@@ -111,7 +111,7 @@
   });
 
   window.pin = {
-    myPin: myPin,
+    myElement: myPin,
     resultCoordPin: resultCoordPin,
     StartMyPin: StartMyPin
   };

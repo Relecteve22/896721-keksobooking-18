@@ -229,7 +229,7 @@
   };
 
   var resetPage = function () {
-    window.filter.mapFilter.reset();
+    window.filter.map.reset();
     adForm.reset();
     window.map.destroyPins();
     window.card.closePromo();
@@ -239,10 +239,10 @@
     destroyPhotoAvatar();
     window.map.element.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
-    toogleForm(window.form.adForm, true);
+    toogleForm(window.form.ad, true);
     window.map.inputCordenatios.disabled = true;
-    window.pin.myPin.addEventListener('mousedown', window.map.myPinMouseDownHanlder);
-    window.pin.myPin.addEventListener('keydown', window.map.myPinKeydownHandler);
+    window.pin.myElement.addEventListener('mousedown', window.map.myPinMouseDownHanlder);
+    window.pin.myElement.addEventListener('keydown', window.map.myPinKeydownHandler);
     window.map.returnRenderedPins = [];
   };
 
@@ -268,6 +268,6 @@
     MIN_PRICE_HOUSES: MIN_PRICE_HOUSES,
     toogleForm: toogleForm,
     houseTypeDoValidity: houseTypeDoValidity,
-    adForm: adForm
+    ad: adForm
   };
 })();

@@ -64,8 +64,8 @@
   };
   var activatePage = function () {
     map.classList.remove('map--faded');
-    window.form.adForm.classList.remove('ad-form--disabled');
-    window.form.toogleForm(window.form.adForm, false);
+    window.form.ad.classList.remove('ad-form--disabled');
+    window.form.toogleForm(window.form.ad, false);
     inputCordenatios.disabled = false;
   };
 
@@ -73,7 +73,7 @@
     inputCordenatios.value = (StartPin.LEFT + sharpMarkX) + ', ' + (StartPin.TOP + Pin.HEIGHT / 2);
   };
 
-  window.form.toogleForm(window.form.adForm, true);
+  window.form.toogleForm(window.form.ad, true);
   window.form.toogleForm(mapFiltersForm, true);
 
   cordinatesPinInputStart();
@@ -120,8 +120,8 @@
   var activeAndLoad = function () {
     activatePage();
     window.backend.load(successHandler, errorHandler);
-    window.pin.myPin.removeEventListener('mousedown', myPinMouseDownHanlder);
-    window.pin.myPin.removeEventListener('keydown', myPinKeydownHandler);
+    window.pin.myElement.removeEventListener('mousedown', myPinMouseDownHanlder);
+    window.pin.myElement.removeEventListener('keydown', myPinKeydownHandler);
   };
 
   var myPinMouseDownHanlder = function () {
@@ -134,8 +134,8 @@
     }
   };
 
-  window.pin.myPin.addEventListener('mousedown', myPinMouseDownHanlder);
-  window.pin.myPin.addEventListener('keydown', myPinKeydownHandler);
+  window.pin.myElement.addEventListener('mousedown', myPinMouseDownHanlder);
+  window.pin.myElement.addEventListener('keydown', myPinKeydownHandler);
 
   var returnAllAds = function () {
     return allAds;
@@ -148,8 +148,7 @@
   window.map = {
     main: main,
     element: map,
-    mapFiltersForm: mapFiltersForm,
-    mapWidth: mapWidth,
+    width: mapWidth,
     inputCordenatios: inputCordenatios,
     returnAllAds: returnAllAds,
     renderHouses: renderHouses,
