@@ -14,7 +14,7 @@
 
   var similarPinTemplateElement = document.querySelector('#pin').content.querySelector('.map__pin');
   var errorTemplateElement = document.querySelector('#error').content.querySelector('.error');
-  var inputCordenatios = document.querySelector('#address');
+  var inputCordenatiosElement = document.querySelector('#address');
   var mapElement = document.querySelector('.map');
   var mapFiltersFormElement = document.querySelector('.map__filters');
   var mainElement = document.querySelector('main');
@@ -66,11 +66,11 @@
     mapElement.classList.remove('map--faded');
     window.form.ad.classList.remove('ad-form--disabled');
     window.form.toogleForm(window.form.ad, false);
-    inputCordenatios.disabled = false;
+    inputCordenatiosElement.disabled = false;
   };
 
   var cordinatesPinInputStart = function () {
-    inputCordenatios.value = (StartPin.LEFT + sharpMarkX) + ', ' + (StartPin.TOP + Pin.HEIGHT / 2);
+    inputCordenatiosElement.value = (StartPin.LEFT + sharpMarkX) + ', ' + (StartPin.TOP + Pin.HEIGHT / 2);
   };
 
   window.form.toogleForm(window.form.ad, true);
@@ -149,7 +149,7 @@
     main: mainElement,
     element: mapElement,
     width: mapWidth,
-    inputCordenatios: inputCordenatios,
+    inputCordenatios: inputCordenatiosElement,
     returnAllAds: returnAllAds,
     renderHouses: renderHouses,
     showModalError: showModalError,
