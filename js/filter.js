@@ -2,8 +2,8 @@
 
 (function () {
   var Price = {
-    min: 10000,
-    max: 50000
+    MIN: 10000,
+    MAX: 50000
   };
 
   var mapFilter = document.querySelector('.map__filters');
@@ -55,13 +55,13 @@
     }
     switch (currentValue) {
       case 'middle': {
-        return value >= Price.min && value <= Price.max;
+        return value >= Price.MIN && value <= Price.MAX;
       }
       case 'low': {
-        return value <= Price.min;
+        return value <= Price.MIN;
       }
       case 'high': {
-        return value >= Price.max;
+        return value >= Price.MAX;
       }
     }
     return false;
