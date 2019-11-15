@@ -7,6 +7,7 @@
     palace: 'Дворец',
     house: 'Дом'
   };
+  // это объекты для маппинга, а для не перечисления.
   var FEATURES_CLASS = {
     wifi: 'popup__feature--wifi',
     dishwasher: 'popup__feature--dishwasher',
@@ -34,10 +35,10 @@
     window.map.element.removeChild(currentPromo);
     currentPromo = null;
 
-    document.removeEventListener('keydown', onDocumentKeydown);
+    document.removeEventListener('keydown', documentKeydownHandler);
   };
 
-  var onDocumentKeydown = function (evt) {
+  var documentKeydownHandler = function (evt) {
     if (window.util.isEsc(evt)) {
       closePromo();
     }
@@ -47,25 +48,25 @@
 
   var renderPhotos = function (photos, alt, parent) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
+    photos.forEach(function (photo) {
       var element = document.createElement('img');
       element.alt = alt;
-      element.src = photos[i];
+      element.src = photo;
       element.width = PHOTO_WIDTH + '';
       element.height = PHOTO_HEIGHT + '';
       element.classList.add('popup__photo');
       fragment.appendChild(element);
-    }
+    });
     parent.appendChild(fragment);
   };
 
   var renderFeatures = function (features, parent) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (feature) {
       var element = document.createElement('li');
-      element.classList.add('popup__feature', FEATURES_CLASS[features[i]]);
+      element.classList.add('popup__feature', FEATURES_CLASS[feature]);
       fragment.appendChild(element);
-    }
+    });
     parent.appendChild(fragment);
   };
 
@@ -75,13 +76,23 @@
     var popupFeatures = housePromoElement.querySelector('.popup__features');
     var closeButton = housePromoElement.querySelector('.popup__close');
 
+    var removeElementCard = function (object, elementDelete) {
+      if (!object.length) {
+        housePromoElement.removeChild(elementDelete);
+      }
+    };
+
+    removeElementCard(house.offer.features, popupFeatures);
+    removeElementCard(house.offer.photos, popupPhotos);
+    removeElementCard(house.offer.description, housePromoElement.querySelector('.popup__description'));
+
     housePromoElement.querySelector('.popup__title').textContent = house.offer.title;
     housePromoElement.querySelector('.popup__text--address').textContent = house.location.x + ', ' + house.location.y;
     housePromoElement.querySelector('.popup__text--price').textContent = house.offer.price + '₽/ночь.';
     housePromoElement.querySelector('.popup__type').textContent = TYPES[house.offer.type];
     housePromoElement.querySelector('.popup__text--capacity').textContent = house.offer.rooms + ' комнаты для ' + house.offer.guests + ' гостей.';
     housePromoElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + house.offer.checkin + ', выезд до ' + house.offer.checkout;
-    housePromoElement.querySelector('.popup__description ').textContent = house.offer.description;
+    housePromoElement.querySelector('.popup__description').textContent = house.offer.description;
     housePromoElement.querySelector('.popup__avatar').src = house.author.avatar;
     renderFeatures(house.offer.features, popupFeatures);
     renderPhotos(house.offer.photos, house.offer.title, popupPhotos);
@@ -99,12 +110,13 @@
     var promoElement = renderPromoHouse(ad);
     currentPromo = promoElement;
 
-    document.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('keydown', documentKeydownHandler);
 
     return window.map.element.appendChild(promoElement);
   };
 
   window.card = {
-    createClickPinHandler: createClickPinHandler
+    createClickPinHandler: createClickPinHandler,
+    closePromo: closePromo
   };
 })();

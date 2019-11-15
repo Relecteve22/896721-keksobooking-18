@@ -33,24 +33,6 @@
     return housePinElement;
   };
 
-  var renderHouses = function (ads) {
-    destroyPins();
-    var adsCopy = ads.slice();
-    if ((ads.length + 1) > MAX_NUMBER_PINS) {
-      adsCopy.length = MAX_NUMBER_PINS;
-    }
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < adsCopy.length; i++) {
-      var ad = ads[i];
-      var pinElement = renderPinHouse(ad);
-      renderedPins.push(pinElement);
-      var clickHandler = window.card.createClickPinHandler(ad);
-      pinElement.addEventListener('click', clickHandler);
-      fragment.appendChild(pinElement);
-    }
-    return map.appendChild(fragment);
-  };
-
   var destroyPins = function () {
     if (!(renderedPins && renderedPins.length)) {
       return;
@@ -62,11 +44,28 @@
 
     renderedPins = [];
   };
+
+  var renderHouses = function (ads) {
+    destroyPins();
+    var adsCopy = ads.slice();
+    if (adsCopy.length > MAX_NUMBER_PINS) {
+      adsCopy.length = MAX_NUMBER_PINS;
+    }
+    var fragment = document.createDocumentFragment();
+    adsCopy.forEach(function (ad) {
+      var pinElement = renderPinHouse(ad);
+      renderedPins.push(pinElement);
+      var clickHandler = window.card.createClickPinHandler(ad);
+      pinElement.addEventListener('click', clickHandler);
+      fragment.appendChild(pinElement);
+    });
+    return map.appendChild(fragment);
+  };
   var activatePage = function () {
     map.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
     window.form.toogleForm(window.form.adForm, false);
-    inputCordenatios.disabled = true;
+    inputCordenatios.disabled = false;
   };
 
   var cordinatesPinInputStart = function () {
@@ -77,7 +76,7 @@
   window.form.toogleForm(mapFiltersForm, true);
 
   cordinatesPinInputStart();
-  window.form.houseTypeDoValidity(window.form.minPriceHouses);
+  window.form.houseTypeDoValidity(window.form.MIN_PRICE_HOUSES);
 
   var successHandler = function (ads) {
     allAds = ads;
@@ -90,17 +89,17 @@
 
     var closeModal = function () {
       main.removeChild(errorTempaltePopup);
-      document.removeEventListener('keydown', onDocumentKeydown);
+      document.removeEventListener('keydown', documentKeydownHandler);
     };
 
-    var onDocumentKeydown = function (evt) {
+    var documentKeydownHandler = function (evt) {
       if (!window.util.isEsc(evt)) {
         return;
       }
       closeModal();
     };
 
-    document.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('keydown', documentKeydownHandler);
 
     closeButton.addEventListener('click', function () {
       closeModal();
@@ -119,7 +118,7 @@
 
   var activeAndLoad = function () {
     activatePage();
-    window.backend.loadAndSave(successHandler, errorHandler, window.backend.Url.GET, 'GET');
+    window.backend.load(successHandler, errorHandler);
     window.pin.myPin.removeEventListener('mousedown', myPinMouseDownHanlder);
     window.pin.myPin.removeEventListener('keydown', myPinKeydownHandler);
   };
@@ -141,6 +140,10 @@
     return allAds;
   };
 
+  var returnRenderedPins = function () {
+    return renderedPins;
+  };
+
   window.map = {
     main: main,
     element: map,
@@ -150,6 +153,9 @@
     returnAllAds: returnAllAds,
     renderHouses: renderHouses,
     showModalError: showModalError,
-    destroyPins: destroyPins
+    destroyPins: destroyPins,
+    myPinMouseDownHanlder: myPinMouseDownHanlder,
+    myPinKeydownHandler: myPinKeydownHandler,
+    returnRenderedPins: returnRenderedPins
   };
 })();

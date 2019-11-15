@@ -2,6 +2,26 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var SizePhoto = {
+    WIDTH: 40,
+    HEIGHT: 44
+  };
+  var MIN_PRICE_HOUSES = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+  var DisabledOptionRoom = {
+    ONE_ELEMENTS: [1, 1],
+    TWO_ELEMENTS: [2, 1, 2],
+    THREE_ELEMENTS: [3, 1, 2, 3],
+    FOUR_ELEMENTS: [100, 0]
+  };
+  var StartCoordsMyPin = {
+    X: 595,
+    Y: 410
+  };
 
   var submitAdForm = document.querySelector('.ad-form__submit');
   var priceForNigntInput = document.querySelector('#price');
@@ -15,65 +35,85 @@
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var fileChooserAvatar = document.querySelector('.ad-form__field input[type=file]');
   var previewAvatar = document.querySelector('.ad-form-header__preview img');
-  // var fileChooserPhoto = document.querySelector('.ad-form__upload input[type=file]');
-  // var previewPhoto = document.querySelector('.ad-form-photo');
+  var fileChooserPhoto = document.querySelector('.ad-form__upload input[type=file]');
+  var previewPhoto = document.querySelector('.ad-form__photo');
+  var containerPhoto = document.querySelector('.ad-form__photo-container');
 
-  fileChooserAvatar.addEventListener('change', function () {
-    var file = fileChooserAvatar.files[0];
+  var renderedPhotos = [];
+  var isPhotoAvatar = false;
 
+  var readerFile = function (file, element, isTrueAvatar) {
     if (file) {
       var fileName = file.name.toLowerCase();
-
       var matches = FILE_TYPES.some(function (it) {
         return fileName.endsWith(it);
       });
-
       if (matches) {
         var reader = new FileReader();
 
         reader.addEventListener('load', function () {
-          previewAvatar.src = reader.result;
+          element.src = reader.result;
+          if (isTrueAvatar) {
+            isPhotoAvatar = true;
+          }
         });
 
         reader.readAsDataURL(file);
       }
     }
+  };
+
+  fileChooserAvatar.addEventListener('change', function () {
+    var file = fileChooserAvatar.files[0];
+    readerFile(file, previewAvatar, true);
+  });
+
+  fileChooserPhoto.addEventListener('change', function () {
+    var fragment = document.createDocumentFragment();
+    Array.prototype.forEach.call(fileChooserPhoto.files, function (photo) {
+      var elementPhoto = previewPhoto.cloneNode(true);
+      elementPhoto.classList.remove('visually-hidden');
+      var file = photo;
+      var element = document.createElement('img');
+      element.width = SizePhoto.WIDTH;
+      element.height = SizePhoto.HEIGHT;
+      element.alt = 'Фото квартиры';
+      elementPhoto.appendChild(element);
+      elementPhoto.classList.add('ad-form-header__preview');
+      renderedPhotos.push(elementPhoto);
+      fragment.appendChild(elementPhoto);
+      readerFile(file, element);
+    });
+    containerPhoto.appendChild(fragment);
   });
 
   var showModalSuccess = function () {
-    var successTempaltePopup = successTemplate.cloneNode(true);
+    var successTempalteCopy = successTemplate.cloneNode(true);
 
     var closeModal = function () {
-      window.map.main.removeChild(successTempaltePopup);
-      document.removeEventListener('keydown', onDocumentKeydown);
+      window.map.main.removeChild(successTempalteCopy);
+      document.removeEventListener('keydown', documentKeydownHandler);
     };
 
-    var onDocumentKeydown = function (evt) {
+    var documentKeydownHandler = function (evt) {
       if (!window.util.isEsc(evt)) {
         return;
       }
       closeModal();
     };
 
-    document.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('keydown', documentKeydownHandler);
 
-    successTempaltePopup.addEventListener('click', function () {
+    successTempalteCopy.addEventListener('click', function () {
       closeModal();
     });
 
-    window.map.main.appendChild(successTempaltePopup);
-  };
-
-  var minPriceHouses = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000
+    window.map.main.appendChild(successTempalteCopy);
   };
   var toogleElements = function (elements, type) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = type;
-    }
+    elements.forEach(function (element) {
+      element.disabled = type;
+    });
   };
 
   var toogleForm = function (form, type) {
@@ -83,10 +123,9 @@
       form.querySelectorAll('textarea'),
       form.querySelectorAll('button')
     ];
-
-    for (var i = 0; i < dataToToogle.length; i++) {
-      toogleElements(dataToToogle[i], type);
-    }
+    dataToToogle.forEach(function (dataToToogleElement) {
+      toogleElements(dataToToogleElement, type);
+    });
   };
 
   var houseTypeDoValidity = function (objectHouse) {
@@ -116,14 +155,13 @@
       }
     }
   };
-
-  filterOptionRoom(1, 1);
+  filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
 
   selectRoom.addEventListener('change', function () {
-    filterOptionRoom(1, 1);
-    filterOptionRoom(2, 1, 2);
-    filterOptionRoom(3, 1, 2, 3);
-    filterOptionRoom(100, 0);
+    filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
+    filterOptionRoom.apply(null, DisabledOptionRoom.TWO_ELEMENTS);
+    filterOptionRoom.apply(null, DisabledOptionRoom.THREE_ELEMENTS);
+    filterOptionRoom.apply(null, DisabledOptionRoom.FOUR_ELEMENTS);
   });
 
   var validitySelectRoom = function (numberOptionRooms, numberOptionGuestOne, numberOptionGuestTwo, numberOptionGuestThree) {
@@ -137,35 +175,72 @@
   };
 
   submitAdForm.addEventListener('click', function () {
-    validitySelectRoom(1, 1);
-    validitySelectRoom(2, 1, 2);
-    validitySelectRoom(3, 1, 2, 3);
-    validitySelectRoom(100, 0);
+    validitySelectRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
+    validitySelectRoom.apply(null, DisabledOptionRoom.TWO_ELEMENTS);
+    validitySelectRoom.apply(null, DisabledOptionRoom.THREE_ELEMENTS);
+    validitySelectRoom.apply(null, DisabledOptionRoom.FOUR_ELEMENTS);
   });
 
-  // var resetMapFIlter = function () {
+  var destroyPhotos = function () {
+    if (!(renderedPhotos && renderedPhotos.length)) {
+      return;
+    }
 
-  // };
+    renderedPhotos.forEach(function (element) {
+      containerPhoto.removeChild(element);
+    });
 
-  resetButton.addEventListener('click', function () {
+    renderedPhotos = [];
+  };
+
+  var destroyPhotoAvatar = function () {
+    if (!(isPhotoAvatar)) {
+      return;
+    }
+
+    previewAvatar.src = 'img/muffin-grey.svg';
+
+    isPhotoAvatar = false;
+  };
+
+  var resetPage = function () {
     window.filter.mapFilter.reset();
     adForm.reset();
     window.map.destroyPins();
+    window.card.closePromo();
+    window.pin.resultCoordPin(window.pin.StartMyPin.X, window.pin.StartMyPin.Y);
+    window.map.inputCordenatios.value = StartCoordsMyPin.X + ', ' + StartCoordsMyPin.Y;
+    destroyPhotos();
+    destroyPhotoAvatar();
+    window.map.element.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+    toogleForm(window.form.adForm, true);
+    window.map.inputCordenatios.disabled = true;
+    window.pin.myPin.addEventListener('mousedown', window.map.myPinMouseDownHanlder);
+    window.pin.myPin.addEventListener('keydown', window.map.myPinKeydownHandler);
+    window.map.returnRenderedPins = [];
+  };
+
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    resetPage();
   });
 
   adForm.addEventListener('submit', function (evt) {
-    window.backend.loadAndSave(function () {
+    var data = new FormData(adForm);
+    window.backend.save(function () {
       showModalSuccess();
+      resetPage();
     },
     function () {
       window.map.showModalError();
     },
-    window.backend.Url.POST, 'POST', new FormData(adForm));
+    data);
     evt.preventDefault();
   });
 
   window.form = {
-    minPriceHouses: minPriceHouses,
+    MIN_PRICE_HOUSES: MIN_PRICE_HOUSES,
     toogleForm: toogleForm,
     houseTypeDoValidity: houseTypeDoValidity,
     adForm: adForm

@@ -12,6 +12,11 @@
     HEIGHT: 82
   };
 
+  var StartMyPin = {
+    Y: 375,
+    X: 570
+  };
+
   var myPin = document.querySelector('.map__pin--main');
 
   var mysharpMarkX = MyPin.WIDTH / 2;
@@ -41,6 +46,11 @@
   };
 
   var movePin = function (left, top) {
+    myPin.style.top = top + 'px';
+    myPin.style.left = left + 'px';
+  };
+
+  var resultCoordPin = function (left, top) {
     myPin.style.top = top + 'px';
     myPin.style.left = left + 'px';
   };
@@ -103,6 +113,8 @@
   });
 
   window.pin = {
-    myPin: myPin
+    myPin: myPin,
+    resultCoordPin: resultCoordPin,
+    StartMyPin: StartMyPin
   };
 })();

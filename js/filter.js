@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  var Price = {
+    MIN: 10000,
+    MAX: 50000
+  };
+
   var mapFilter = document.querySelector('.map__filters');
   var selectFilterTypes = mapFilter.querySelector('#housing-type');
   var selectFilterPrices = mapFilter.querySelector('#housing-price');
@@ -45,22 +50,18 @@
   };
 
   var isPrice = function (value, currentValue) {
-    var Price = {
-      min: 10000,
-      max: 50000
-    };
     if (isAny(currentValue)) {
       return true;
     }
     switch (currentValue) {
       case 'middle': {
-        return value >= Price.min && value <= Price.max;
+        return value >= Price.MIN && value <= Price.MAX;
       }
       case 'low': {
-        return value <= Price.min;
+        return value <= Price.MIN;
       }
       case 'high': {
-        return value >= Price.max;
+        return value >= Price.MAX;
       }
     }
     return false;
@@ -83,6 +84,7 @@
   var checkboxCount = 0;
 
   var checkboxsFilterChangeHandler = function (evt) {
+    window.card.closePromo();
     currentFeaturesFilter[evt.target.value] = evt.target.checked;
     if (evt.target.checked) {
       checkboxCount++;
@@ -93,6 +95,7 @@
   };
 
   var selectFilterChangeHandler = function (evt) {
+    window.card.closePromo();
     currentFilter[evt.target.name] = evt.target.value;
     filterPinsDebounced();
   };
