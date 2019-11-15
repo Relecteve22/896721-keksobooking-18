@@ -6,12 +6,12 @@
     MAX: 50000
   };
 
-  var mapFilter = document.querySelector('.map__filters');
-  var selectFilterTypes = mapFilter.querySelector('#housing-type');
-  var selectFilterPrices = mapFilter.querySelector('#housing-price');
-  var selectFilterRooms = mapFilter.querySelector('#housing-rooms');
-  var selectFilterGuets = mapFilter.querySelector('#housing-guests');
-  var featuresFilter = mapFilter.querySelector('#housing-features');
+  var mapFilterElement = document.querySelector('.map__filters');
+  var selectFilterTypesElement = mapFilterElement.querySelector('#housing-type');
+  var selectFilterPricesElement = mapFilterElement.querySelector('#housing-price');
+  var selectFilterRoomsElement = mapFilterElement.querySelector('#housing-rooms');
+  var selectFilterGuetsElement = mapFilterElement.querySelector('#housing-guests');
+  var featuresFilterElement = mapFilterElement.querySelector('#housing-features');
 
   var currentFilter = {
     'housing-type': 'any',
@@ -100,13 +100,13 @@
     filterPinsDebounced();
   };
 
-  selectFilterTypes.addEventListener('change', selectFilterChangeHandler);
-  selectFilterRooms.addEventListener('change', selectFilterChangeHandler);
-  selectFilterGuets.addEventListener('change', selectFilterChangeHandler);
-  selectFilterPrices.addEventListener('change', selectFilterChangeHandler);
-  featuresFilter.addEventListener('change', checkboxsFilterChangeHandler);
+  selectFilterTypesElement.addEventListener('change', selectFilterChangeHandler);
+  selectFilterRoomsElement.addEventListener('change', selectFilterChangeHandler);
+  selectFilterGuetsElement.addEventListener('change', selectFilterChangeHandler);
+  selectFilterPricesElement.addEventListener('change', selectFilterChangeHandler);
+  featuresFilterElement.addEventListener('change', checkboxsFilterChangeHandler);
 
   window.filter = {
-    map: mapFilter
+    map: mapFilterElement
   };
 })();

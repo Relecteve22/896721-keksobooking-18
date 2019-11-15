@@ -72,10 +72,10 @@
 
   var renderPromoHouse = function (house) {
     var housePromoElement = similarHouseTemplateElement.cloneNode(true);
-    var popupPhotos = housePromoElement.querySelector('.popup__photos');
-    var popupFeatures = housePromoElement.querySelector('.popup__features');
-    var popupDescription = housePromoElement.querySelector('.popup__description');
-    var closeButton = housePromoElement.querySelector('.popup__close');
+    var popupPhotosElement = housePromoElement.querySelector('.popup__photos');
+    var popupFeaturesElement = housePromoElement.querySelector('.popup__features');
+    var popupDescriptionElement = housePromoElement.querySelector('.popup__description');
+    var closeButtonElement = housePromoElement.querySelector('.popup__close');
 
     var removeElementCard = function (object, elementDelete) {
       if (!(object && object.length)) {
@@ -83,9 +83,9 @@
       }
     };
 
-    removeElementCard(house.offer.features, popupFeatures);
-    removeElementCard(house.offer.photos, popupPhotos);
-    removeElementCard(house.offer.description, popupDescription);
+    removeElementCard(house.offer.features, popupFeaturesElement);
+    removeElementCard(house.offer.photos, popupPhotosElement);
+    removeElementCard(house.offer.description, popupDescriptionElement);
 
     housePromoElement.querySelector('.popup__title').textContent = house.offer.title;
     housePromoElement.querySelector('.popup__text--address').textContent = house.location.x + ', ' + house.location.y;
@@ -95,16 +95,16 @@
     housePromoElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + house.offer.checkin + ', выезд до ' + house.offer.checkout;
     housePromoElement.querySelector('.popup__avatar').src = house.author.avatar;
     if (house.offer.description) {
-      popupDescription.textContent = house.offer.description;
+      popupDescriptionElement.textContent = house.offer.description;
     }
     if (house.offer.features) {
-      renderFeatures(house.offer.features, popupFeatures);
+      renderFeatures(house.offer.features, popupFeaturesElement);
     }
     if (house.offer.photos) {
-      renderPhotos(house.offer.photos, house.offer.title, popupPhotos);
+      renderPhotos(house.offer.photos, house.offer.title, popupPhotosElement);
     }
 
-    closeButton.addEventListener('click', function () {
+    closeButtonElement.addEventListener('click', function () {
       closePromo();
     });
 
