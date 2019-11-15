@@ -84,20 +84,6 @@
       fragment.appendChild(elementPhoto);
       readerFile(file, element);
     });
-    // Array.from(fileChooserPhoto.files).forEach(function (photo) {
-    //   var elementPhoto = previewPhoto.cloneNode(true);
-    //   elementPhoto.classList.remove('visually-hidden');
-    //   var file = photo;
-    //   var element = document.createElement('img');
-    //   element.width = SizePhoto.WIDTH;
-    //   element.height = SizePhoto.HEIGHT;
-    //   element.alt = 'Фото квартиры';
-    //   elementPhoto.appendChild(element);
-    //   elementPhoto.classList.add('ad-form-header__preview');
-    //   renderedPhotos.push(elementPhoto);
-    //   fragment.appendChild(elementPhoto);
-    //   readerFile(file, element);
-    // });
     containerPhoto.appendChild(fragment);
   });
 
