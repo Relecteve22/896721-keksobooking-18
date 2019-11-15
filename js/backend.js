@@ -1,17 +1,19 @@
 'use strict';
 
 (function () {
+  var SUCCESS_ANSWER = 200;
   var Url = {
     GET: 'https://js.dump.academy/keksobooking/data',
     POST: 'https://js.dump.academy/keksobooking'
   };
+  var TIMEOUT = 10000; // 10s
 
   var loadAndSave = function (onLoad, onError, url, method, data) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_ANSWER) {
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -24,7 +26,7 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 10000; // 10s
+    xhr.timeout = TIMEOUT;
 
     xhr.open(method, url);
     xhr.send(data);

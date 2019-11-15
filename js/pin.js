@@ -6,12 +6,10 @@
     MAX_Y: 630,
     MIN_X: 0
   };
-
   var MyPin = {
     WIDTH: 62,
     HEIGHT: 82
   };
-
   var StartMyPin = {
     Y: 375,
     X: 570

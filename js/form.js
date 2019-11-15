@@ -2,15 +2,15 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-  var SizePhoto = {
-    WIDTH: 40,
-    HEIGHT: 44
-  };
   var MIN_PRICE_HOUSES = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
     palace: 10000
+  };
+  var SizePhoto = {
+    WIDTH: 40,
+    HEIGHT: 44
   };
   var DisabledOptionRoom = {
     ONE_ELEMENTS: [1, 1],
@@ -22,22 +22,29 @@
     X: 595,
     Y: 410
   };
+  var TypeHouse = {
+    ONE_ELEMENT: 'bungalo',
+    TWO_ELEMENT: 'flat',
+    THREE_ELEMENT: 'house',
+    FOUR_ELEMENT: 'palace'
+  };
 
-  var submitAdForm = document.querySelector('.ad-form__submit');
   var priceForNigntInput = document.querySelector('#price');
   var timeInSelect = document.querySelector('#timein');
   var timeOutSelect = document.querySelector('#timeout');
   var selectRoom = document.querySelector('#room_number');
   var selectGuets = document.querySelector('#capacity');
+  var houseTypeSelect = document.querySelector('#type');
   var optionGuets = selectGuets.querySelectorAll('option');
+  var submitAdForm = document.querySelector('.ad-form__submit');
   var resetButton = document.querySelector('.ad-form__reset');
   var adForm = document.querySelector('.ad-form');
-  var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var fileChooserAvatar = document.querySelector('.ad-form__field input[type=file]');
   var previewAvatar = document.querySelector('.ad-form-header__preview img');
   var fileChooserPhoto = document.querySelector('.ad-form__upload input[type=file]');
   var previewPhoto = document.querySelector('.ad-form__photo');
   var containerPhoto = document.querySelector('.ad-form__photo-container');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
 
   var renderedPhotos = [];
   var isPhotoAvatar = false;
@@ -129,8 +136,8 @@
   };
 
   var houseTypeDoValidity = function (objectHouse) {
-    var houseTypeSelect = document.querySelector('#type');
-    priceForNigntInput.min = objectHouse[houseTypeSelect.value];
+    priceForNigntInput.min = objectHouse[houseTypeSelect.value + ''];
+    priceForNigntInput.placeholder = objectHouse[houseTypeSelect.value + ''];
   };
 
   var syncTime = function (to, from) {
@@ -146,13 +153,12 @@
 
   var filterOptionRoom = function (numberOptionRooms, numberOptionGuestOne, numberOptionGuestTwo, numberOptionGuestThree) {
     if (selectRoom.value === (numberOptionRooms + '')) {
-      for (var i = 0; i < optionGuets.length; i++) {
-        var option = optionGuets[i];
+      optionGuets.forEach(function (option) {
         option.disabled = false;
         if (option.value !== (numberOptionGuestOne + '') && option.value !== (numberOptionGuestTwo + '') && option.value !== (numberOptionGuestThree + '')) {
           option.disabled = true;
         }
-      }
+      });
     }
   };
   filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
@@ -168,8 +174,23 @@
     if (selectRoom.value === numberOptionRooms + '') {
       if (selectGuets.value === (numberOptionGuestOne + '') || selectGuets.value === (numberOptionGuestTwo + '') || selectGuets.value === (numberOptionGuestThree + '')) {
         selectGuets.setCustomValidity('');
+        houseTypeDoValidity(MIN_PRICE_HOUSES);
       } else {
         selectGuets.setCustomValidity('Неверно');
+      }
+    }
+  };
+
+  houseTypeSelect.addEventListener('change', function () {
+    houseTypeDoValidity(MIN_PRICE_HOUSES);
+  });
+
+  var validityInputTypeHouses = function (numberOptionType, minPriceTypeHouse) {
+    if (houseTypeSelect.value === numberOptionType + '') {
+      if (priceForNigntInput.value >= minPriceTypeHouse) {
+        priceForNigntInput.setCustomValidity('');
+      } else {
+        priceForNigntInput.setCustomValidity('Слишком маленькая цена');
       }
     }
   };
@@ -179,6 +200,10 @@
     validitySelectRoom.apply(null, DisabledOptionRoom.TWO_ELEMENTS);
     validitySelectRoom.apply(null, DisabledOptionRoom.THREE_ELEMENTS);
     validitySelectRoom.apply(null, DisabledOptionRoom.FOUR_ELEMENTS);
+    validityInputTypeHouses(TypeHouse.ONE_ELEMENT, MIN_PRICE_HOUSES.bungalo);
+    validityInputTypeHouses(TypeHouse.TWO_ELEMENT, MIN_PRICE_HOUSES.flat);
+    validityInputTypeHouses(TypeHouse.THREE_ELEMENT, MIN_PRICE_HOUSES.house);
+    validityInputTypeHouses(TypeHouse.FOUR_ELEMENT, MIN_PRICE_HOUSES.palace);
   });
 
   var destroyPhotos = function () {

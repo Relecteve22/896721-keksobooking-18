@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var PHOTO_WIDTH = 45;
+  var PHOTO_HEIGHT = 40;
   var TYPES = {
     flat: 'Квартира',
     bungalo: 'Бунгало',
@@ -16,8 +18,6 @@
     elevator: 'popup__feature--elevator',
     conditioner: 'popup__feature--conditioner'
   };
-  var PHOTO_WIDTH = 45;
-  var PHOTO_HEIGHT = 40;
 
   var currentPromo = null;
 

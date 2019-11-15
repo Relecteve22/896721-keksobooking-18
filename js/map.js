@@ -1,21 +1,22 @@
 'use strict';
 
 (function () {
+  var MAX_NUMBER_PINS = 5;
   var StartPin = {
     LEFT: 570,
     TOP: 375
   };
+
   var Pin = {
     WIDTH: 50,
     HEIGHT: 70
   };
-  var MAX_NUMBER_PINS = 5;
 
-  var map = document.querySelector('.map');
-  var mapFiltersForm = document.querySelector('.map__filters');
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var inputCordenatios = document.querySelector('#address');
+  var map = document.querySelector('.map');
+  var mapFiltersForm = document.querySelector('.map__filters');
   var main = document.querySelector('main');
 
   var mapWidth = map.offsetWidth;
