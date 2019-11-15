@@ -29,22 +29,22 @@
     FOUR_ELEMENT: 'palace'
   };
 
-  var priceForNigntInput = document.querySelector('#price');
-  var timeInSelect = document.querySelector('#timein');
-  var timeOutSelect = document.querySelector('#timeout');
-  var selectRoom = document.querySelector('#room_number');
-  var selectGuets = document.querySelector('#capacity');
-  var houseTypeSelect = document.querySelector('#type');
-  var optionGuets = selectGuets.querySelectorAll('option');
-  var submitAdForm = document.querySelector('.ad-form__submit');
-  var resetButton = document.querySelector('.ad-form__reset');
-  var adForm = document.querySelector('.ad-form');
-  var fileChooserAvatar = document.querySelector('.ad-form__field input[type=file]');
-  var previewAvatar = document.querySelector('.ad-form-header__preview img');
-  var fileChooserPhoto = document.querySelector('.ad-form__upload input[type=file]');
-  var previewPhoto = document.querySelector('.ad-form__photo');
-  var containerPhoto = document.querySelector('.ad-form__photo-container');
-  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+  var priceForNigntInputElement = document.querySelector('#price');
+  var timeInSelectElement = document.querySelector('#timein');
+  var timeOutSelectElement = document.querySelector('#timeout');
+  var selectRoomElement = document.querySelector('#room_number');
+  var selectGuetsElement = document.querySelector('#capacity');
+  var houseTypeSelectElement = document.querySelector('#type');
+  var optionGuetsElement = selectGuetsElement.querySelectorAll('option');
+  var submitAdFormElement = document.querySelector('.ad-form__submit');
+  var resetButtonElement = document.querySelector('.ad-form__reset');
+  var adFormElement = document.querySelector('.ad-form');
+  var fileChooserAvatarElement = document.querySelector('.ad-form__field input[type=file]');
+  var previewAvatarElement = document.querySelector('.ad-form-header__preview img');
+  var fileChooserPhotoElement = document.querySelector('.ad-form__upload input[type=file]');
+  var previewPhotoElement = document.querySelector('.ad-form__photo');
+  var containerPhotoElement = document.querySelector('.ad-form__photo-container');
+  var successTemplateElement = document.querySelector('#success').content.querySelector('.success');
 
   var renderedPhotos = [];
   var isPhotoAvatar = false;
@@ -70,15 +70,15 @@
     }
   };
 
-  fileChooserAvatar.addEventListener('change', function () {
-    var file = fileChooserAvatar.files[0];
-    readerFile(file, previewAvatar, true);
+  fileChooserAvatarElement.addEventListener('change', function () {
+    var file = fileChooserAvatarElement.files[0];
+    readerFile(file, previewAvatarElement, true);
   });
 
-  fileChooserPhoto.addEventListener('change', function () {
+  fileChooserPhotoElement.addEventListener('change', function () {
     var fragment = document.createDocumentFragment();
-    Array.prototype.forEach.call(fileChooserPhoto.files, function (photo) {
-      var elementPhoto = previewPhoto.cloneNode(true);
+    Array.prototype.forEach.call(fileChooserPhotoElement.files, function (photo) {
+      var elementPhoto = previewPhotoElement.cloneNode(true);
       elementPhoto.classList.remove('visually-hidden');
       var file = photo;
       var element = document.createElement('img');
@@ -91,11 +91,11 @@
       fragment.appendChild(elementPhoto);
       readerFile(file, element);
     });
-    containerPhoto.appendChild(fragment);
+    containerPhotoElement.appendChild(fragment);
   });
 
   var showModalSuccess = function () {
-    var successTempalteCopy = successTemplate.cloneNode(true);
+    var successTempalteCopy = successTemplateElement.cloneNode(true);
 
     var closeModal = function () {
       window.map.main.removeChild(successTempalteCopy);
@@ -136,24 +136,24 @@
   };
 
   var houseTypeDoValidity = function (objectHouse) {
-    priceForNigntInput.min = objectHouse[houseTypeSelect.value + ''];
-    priceForNigntInput.placeholder = objectHouse[houseTypeSelect.value + ''];
+    priceForNigntInputElement.min = objectHouse[houseTypeSelectElement.value + ''];
+    priceForNigntInputElement.placeholder = objectHouse[houseTypeSelectElement.value + ''];
   };
 
   var syncTime = function (to, from) {
     to.value = from.value;
   };
 
-  timeInSelect.addEventListener('change', function () {
-    syncTime(timeOutSelect, timeInSelect);
+  timeInSelectElement.addEventListener('change', function () {
+    syncTime(timeOutSelectElement, timeInSelectElement);
   });
-  timeOutSelect.addEventListener('change', function () {
-    syncTime(timeInSelect, timeOutSelect);
+  timeOutSelectElement.addEventListener('change', function () {
+    syncTime(timeInSelectElement, timeOutSelectElement);
   });
 
   var filterOptionRoom = function (numberOptionRooms, numberOptionGuestOne, numberOptionGuestTwo, numberOptionGuestThree) {
-    if (selectRoom.value === (numberOptionRooms + '')) {
-      optionGuets.forEach(function (option) {
+    if (selectRoomElement.value === (numberOptionRooms + '')) {
+      optionGuetsElement.forEach(function (option) {
         option.disabled = false;
         if (option.value !== (numberOptionGuestOne + '') && option.value !== (numberOptionGuestTwo + '') && option.value !== (numberOptionGuestThree + '')) {
           option.disabled = true;
@@ -163,7 +163,7 @@
   };
   filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
 
-  selectRoom.addEventListener('change', function () {
+  selectRoomElement.addEventListener('change', function () {
     filterOptionRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
     filterOptionRoom.apply(null, DisabledOptionRoom.TWO_ELEMENTS);
     filterOptionRoom.apply(null, DisabledOptionRoom.THREE_ELEMENTS);
@@ -171,31 +171,31 @@
   });
 
   var validitySelectRoom = function (numberOptionRooms, numberOptionGuestOne, numberOptionGuestTwo, numberOptionGuestThree) {
-    if (selectRoom.value === numberOptionRooms + '') {
-      if (selectGuets.value === (numberOptionGuestOne + '') || selectGuets.value === (numberOptionGuestTwo + '') || selectGuets.value === (numberOptionGuestThree + '')) {
-        selectGuets.setCustomValidity('');
+    if (selectRoomElement.value === numberOptionRooms + '') {
+      if (selectGuetsElement.value === (numberOptionGuestOne + '') || selectGuetsElement.value === (numberOptionGuestTwo + '') || selectGuetsElement.value === (numberOptionGuestThree + '')) {
+        selectGuetsElement.setCustomValidity('');
         houseTypeDoValidity(MIN_PRICE_HOUSES);
       } else {
-        selectGuets.setCustomValidity('Неверно');
+        selectGuetsElement.setCustomValidity('Неверно');
       }
     }
   };
 
-  houseTypeSelect.addEventListener('change', function () {
+  houseTypeSelectElement.addEventListener('change', function () {
     houseTypeDoValidity(MIN_PRICE_HOUSES);
   });
 
   var validityInputTypeHouses = function (numberOptionType, minPriceTypeHouse) {
-    if (houseTypeSelect.value === numberOptionType + '') {
-      if (priceForNigntInput.value >= minPriceTypeHouse) {
-        priceForNigntInput.setCustomValidity('');
+    if (houseTypeSelectElement.value === numberOptionType + '') {
+      if (priceForNigntInputElement.value >= minPriceTypeHouse) {
+        priceForNigntInputElement.setCustomValidity('');
       } else {
-        priceForNigntInput.setCustomValidity('Слишком маленькая цена');
+        priceForNigntInputElement.setCustomValidity('Слишком маленькая цена');
       }
     }
   };
 
-  submitAdForm.addEventListener('click', function () {
+  submitAdFormElement.addEventListener('click', function () {
     validitySelectRoom.apply(null, DisabledOptionRoom.ONE_ELEMENTS);
     validitySelectRoom.apply(null, DisabledOptionRoom.TWO_ELEMENTS);
     validitySelectRoom.apply(null, DisabledOptionRoom.THREE_ELEMENTS);
@@ -212,7 +212,7 @@
     }
 
     renderedPhotos.forEach(function (element) {
-      containerPhoto.removeChild(element);
+      containerPhotoElement.removeChild(element);
     });
 
     renderedPhotos = [];
@@ -223,14 +223,14 @@
       return;
     }
 
-    previewAvatar.src = 'img/muffin-grey.svg';
+    previewAvatarElement.src = 'img/muffin-grey.svg';
 
     isPhotoAvatar = false;
   };
 
   var resetPage = function () {
     window.filter.map.reset();
-    adForm.reset();
+    adFormElement.reset();
     window.map.destroyPins();
     window.card.closePromo();
     window.pin.resultCoordPin(window.pin.StartMyPin.X, window.pin.StartMyPin.Y);
@@ -238,7 +238,7 @@
     destroyPhotos();
     destroyPhotoAvatar();
     window.map.element.classList.add('map--faded');
-    adForm.classList.add('ad-form--disabled');
+    adFormElement.classList.add('ad-form--disabled');
     toogleForm(window.form.ad, true);
     window.map.inputCordenatios.disabled = true;
     window.pin.myElement.addEventListener('mousedown', window.map.myPinMouseDownHanlder);
@@ -246,13 +246,13 @@
     window.map.returnRenderedPins = [];
   };
 
-  resetButton.addEventListener('click', function (evt) {
+  resetButtonElement.addEventListener('click', function (evt) {
     evt.preventDefault();
     resetPage();
   });
 
-  adForm.addEventListener('submit', function (evt) {
-    var data = new FormData(adForm);
+  adFormElement.addEventListener('submit', function (evt) {
+    var data = new FormData(adFormElement);
     window.backend.save(function () {
       showModalSuccess();
       resetPage();
@@ -268,6 +268,6 @@
     MIN_PRICE_HOUSES: MIN_PRICE_HOUSES,
     toogleForm: toogleForm,
     houseTypeDoValidity: houseTypeDoValidity,
-    ad: adForm
+    ad: adFormElement
   };
 })();

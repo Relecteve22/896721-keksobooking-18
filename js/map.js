@@ -12,20 +12,20 @@
     HEIGHT: 70
   };
 
-  var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var similarPinTemplateElement = document.querySelector('#pin').content.querySelector('.map__pin');
+  var errorTemplateElement = document.querySelector('#error').content.querySelector('.error');
   var inputCordenatios = document.querySelector('#address');
-  var map = document.querySelector('.map');
-  var mapFiltersForm = document.querySelector('.map__filters');
-  var main = document.querySelector('main');
+  var mapElement = document.querySelector('.map');
+  var mapFiltersFormElement = document.querySelector('.map__filters');
+  var mainElement = document.querySelector('main');
 
-  var mapWidth = map.offsetWidth;
+  var mapWidth = mapElement.offsetWidth;
   var allAds = [];
   var sharpMarkX = Pin.WIDTH / 2;
   var renderedPins = [];
 
   var renderPinHouse = function (house) {
-    var housePinElement = similarPinTemplate.cloneNode(true);
+    var housePinElement = similarPinTemplateElement.cloneNode(true);
 
     housePinElement.querySelector('img').src = house.author.avatar;
     housePinElement.querySelector('img').alt = house.offer.title;
@@ -40,7 +40,7 @@
     }
 
     renderedPins.forEach(function (element) {
-      map.removeChild(element);
+      mapElement.removeChild(element);
     });
 
     renderedPins = [];
@@ -60,10 +60,10 @@
       pinElement.addEventListener('click', clickHandler);
       fragment.appendChild(pinElement);
     });
-    return map.appendChild(fragment);
+    return mapElement.appendChild(fragment);
   };
   var activatePage = function () {
-    map.classList.remove('map--faded');
+    mapElement.classList.remove('map--faded');
     window.form.ad.classList.remove('ad-form--disabled');
     window.form.toogleForm(window.form.ad, false);
     inputCordenatios.disabled = false;
@@ -74,7 +74,7 @@
   };
 
   window.form.toogleForm(window.form.ad, true);
-  window.form.toogleForm(mapFiltersForm, true);
+  window.form.toogleForm(mapFiltersFormElement, true);
 
   cordinatesPinInputStart();
   window.form.houseTypeDoValidity(window.form.MIN_PRICE_HOUSES);
@@ -82,14 +82,14 @@
   var successHandler = function (ads) {
     allAds = ads;
     renderHouses(allAds);
-    window.form.toogleForm(mapFiltersForm, false);
+    window.form.toogleForm(mapFiltersFormElement, false);
   };
   var showModalError = function () {
-    var errorTempaltePopup = errorTemplate.cloneNode(true);
+    var errorTempaltePopup = errorTemplateElement.cloneNode(true);
     var closeButton = errorTempaltePopup.querySelector('.error__button');
 
     var closeModal = function () {
-      main.removeChild(errorTempaltePopup);
+      mainElement.removeChild(errorTempaltePopup);
       document.removeEventListener('keydown', documentKeydownHandler);
     };
 
@@ -110,7 +110,7 @@
       closeModal();
     });
 
-    main.appendChild(errorTempaltePopup);
+    mainElement.appendChild(errorTempaltePopup);
   };
 
   var errorHandler = function () {
@@ -146,8 +146,8 @@
   };
 
   window.map = {
-    main: main,
-    element: map,
+    main: mainElement,
+    element: mapElement,
     width: mapWidth,
     inputCordenatios: inputCordenatios,
     returnAllAds: returnAllAds,

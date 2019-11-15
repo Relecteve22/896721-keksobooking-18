@@ -15,7 +15,7 @@
     X: 570
   };
 
-  var myPin = document.querySelector('.map__pin--main');
+  var myPinElement = document.querySelector('.map__pin--main');
 
   var mysharpMarkX = MyPin.WIDTH / 2;
 
@@ -44,16 +44,16 @@
   };
 
   var movePin = function (left, top) {
-    myPin.style.top = top + 'px';
-    myPin.style.left = left + 'px';
+    myPinElement.style.top = top + 'px';
+    myPinElement.style.left = left + 'px';
   };
 
   var resultCoordPin = function (left, top) {
-    myPin.style.top = top + 'px';
-    myPin.style.left = left + 'px';
+    myPinElement.style.top = top + 'px';
+    myPinElement.style.left = left + 'px';
   };
 
-  myPin.addEventListener('mousedown', function (evt) {
+  myPinElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     var startCoords = {
@@ -77,8 +77,8 @@
         y: moveEvt.clientY
       };
 
-      var coodXLeftMyPin = myPin.offsetLeft - shift.x;
-      var coodYTopMyPin = myPin.offsetTop - shift.y;
+      var coodXLeftMyPin = myPinElement.offsetLeft - shift.x;
+      var coodYTopMyPin = myPinElement.offsetTop - shift.y;
 
       var updateAddress = function (left, top) {
         window.map.inputCordenatios.value = (left + Math.floor(mysharpMarkX)) + ', ' + (top + MyPin.HEIGHT);
@@ -101,9 +101,9 @@
       if (dragged) {
         var ClickPreventDefaultHandler = function (defaultEvt) {
           defaultEvt.preventDefault();
-          myPin.removeEventListener('click', ClickPreventDefaultHandler);
+          myPinElement.removeEventListener('click', ClickPreventDefaultHandler);
         };
-        myPin.addEventListener('click', ClickPreventDefaultHandler);
+        myPinElement.addEventListener('click', ClickPreventDefaultHandler);
       }
     };
     document.addEventListener('mousemove', MouseMoveHandler);
@@ -111,7 +111,7 @@
   });
 
   window.pin = {
-    myElement: myPin,
+    myElement: myPinElement,
     resultCoordPin: resultCoordPin,
     StartMyPin: StartMyPin
   };

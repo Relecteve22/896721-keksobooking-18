@@ -44,7 +44,7 @@
     }
   };
 
-  var similarHouseTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var similarHouseTemplateElement = document.querySelector('#card').content.querySelector('.map__card');
 
   var renderPhotos = function (photos, alt, parent) {
     var fragment = document.createDocumentFragment();
@@ -71,7 +71,7 @@
   };
 
   var renderPromoHouse = function (house) {
-    var housePromoElement = similarHouseTemplate.cloneNode(true);
+    var housePromoElement = similarHouseTemplateElement.cloneNode(true);
     var popupPhotos = housePromoElement.querySelector('.popup__photos');
     var popupFeatures = housePromoElement.querySelector('.popup__features');
     var popupDescription = housePromoElement.querySelector('.popup__description');
