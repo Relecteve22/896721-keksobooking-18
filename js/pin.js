@@ -112,7 +112,7 @@
 
   window.pin = {
     myElement: myPinElement,
-    resultCoordPin: resultCoordPin,
-    StartMyPin: StartMyPin
+    resultCoord: resultCoordPin,
+    StartMyElement: StartMyPin
   };
 })();

@@ -233,7 +233,7 @@
     adFormElement.reset();
     window.map.destroyPins();
     window.card.closePromo();
-    window.pin.resultCoordPin(window.pin.StartMyPin.X, window.pin.StartMyPin.Y);
+    window.pin.resultCoord(window.pin.StartMyElement.X, window.pin.StartMyElement.Y);
     window.map.inputCordenatios.value = StartCoordsMyPin.X + ', ' + StartCoordsMyPin.Y;
     destroyPhotos();
     destroyPhotoAvatar();

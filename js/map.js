@@ -69,14 +69,14 @@
     inputCordenatiosElement.disabled = false;
   };
 
-  var cordinatesPinInputStart = function () {
+  var cordinatesPinInputStartToCount = function () {
     inputCordenatiosElement.value = (StartPin.LEFT + sharpMarkX) + ', ' + (StartPin.TOP + Pin.HEIGHT / 2);
   };
 
   window.form.toogle(window.form.element, true);
   window.form.toogle(mapFiltersFormElement, true);
 
-  cordinatesPinInputStart();
+  cordinatesPinInputStartToCount();
   window.form.houseTypeDoValidity(window.form.MIN_PRICE_HOUSES);
 
   var successHandler = function (ads) {

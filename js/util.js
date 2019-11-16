@@ -3,7 +3,7 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
-  var DEBOUNCE_INTERVAL = 500; // милисекунды
+  var DEBOUNCE_INTERVAL = 500; // ms
 
   var debounce = function (cb, interval) {
     var lastTimeout = null;
